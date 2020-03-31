@@ -19,9 +19,9 @@ Con este trabajo se reforzarán los conocimientos sobre procesos, threads, concu
 ## Table of contents
 En este proyecto se utilizan:
 
-- ⚛ **Google Protobuf** — Protocolo de serializacion de mensajes
+- :milky_way: **Google Protobuf** — Protocolo de serializacion de mensajes
 - 🛠 **Sockets** — Para comunicacion en la red
-- 💅 **Pthreads** — Para manejo de concurrencia y comunicacion entre procesos
+- :balloon: **Pthreads** — Para manejo de concurrencia y comunicacion entre procesos
 
 ## Compilacion
 1. Clonar el repo usando `https://github.com/sev17238/ProyectoChat.git`
