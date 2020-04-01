@@ -23,11 +23,12 @@ En este proyecto se utilizan:
 - 🛠 **Sockets** — Para comunicacion en la red
 - :balloon: **Pthreads** — Para manejo de concurrencia y comunicacion entre procesos
 
-## Compilacion
+## Compilacion y ejecucion
 1. Clonar el repo usando `https://github.com/sev17238/ProyectoChat.git`
 2. Ir al directorio deseado: `cd ProyectoChat`.<br />
 3. Correr `protoc -I=. --cpp_out=. mensaje.proto` para compilar el .proto y generar: mensaje.pb.cc y mensaje.pb.h
 4. Y para compilar: `g++ protobuftest.cpp mensaje.pb.cc -lprotobuf -o protobuftest`
+5. Correr `./protobuftest`
 
 ## References
 

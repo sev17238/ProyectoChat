@@ -10,7 +10,7 @@
 
 
 //Strings
-#include <stdio>
+#include <stdio.h>
 #include <unistd.h>
 #include <strings.h>
 #include <string>
@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+//#include <windows.h> //para delay()
 //red
 #include <netinet/in.h>
 #include <netdb.h>
@@ -66,14 +67,13 @@ int main(){
 
     //Se chequea que el nombre de host local este correcto.
     if((he = gethostbyname(HOSTNAME)) == NULL){
-        err("get host by name")
-    }else
-    {
+        err("get host by name");
+    }else{
         cout << "Todo bien con el localhost...\n" << endl;
     }
     
     //Usuario chequea que el puerto donde el servidor recibira conexiones este disponible.
-    if((fd = socket(AD_INET,SOCK_STREAM,0)) == -1){
+    if((fd = socket(AF_INET,SOCK_STREAM,0)) == -1){
         err("socket");
     }else{
         cout << "El puerto del servidor esta activo...\n" << endl;
@@ -99,18 +99,55 @@ int main(){
 
     if(connection == 1){
 
-        MyInfoSynchronize * miInfo(new MyInfoSynchronize);
+        //////-------------------------------------------3 WAY HAND SHAKE------------------------------------------------//////
+        
+        // Se crea instacia tipo MyInfoSynchronize y se setean los valores deseados
+        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
         cout << "\nIngrese su nombre de cliente: " << endl;
         string username;
         miInfo->set_username(username);
         miInfo->set_ip("127.0.0.1");
 
-        //3 hand shake protocol
+        // Se crea instancia de Mensaje, se setea los valores deseados
+        ClientMessage * message(new ClientMessage);
+        message->set_option("1");
+        message->set_userid("2");
+        message->set_allocated_synchronize(miInfo);
+ 
+        // Se serializa el message a string
+        string binary;
+        message->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+        send(fd , cstr , strlen(cstr) , 0 );                       //Se manda el nuevo usuario con su respectivo id.
+
+        //delay(4000);
+        //________________________________________________
+        //Se recibe la respuesta del servidor
+        read( fd , buffer, PORT);
+	    string ret(buffer, PORT);
+
+        MyInfoResponse * response(new MyInfoResponse);
+        response->ParseFromString(ret);
+        cout << "response userid: " << response->userid() << endl;
+
+        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+        ack->set_userid(response->userid());
+
+        string binary2;
+        ack->SerializeToString(&binary2);
+
+        char cstr2[binary2.size() + 1];
+        strcpy(cstr2, binary2.c_str());
+        send(fd , cstr2 , strlen(cstr2) , 0 );                    //Se manda el acknoledge al servidor.
+
         
 
 
 
-        //--------------------
+
+        //-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -164,5 +201,6 @@ int main(){
 
     }*/
     close(fd);
+    google::protobuf::ShutdownProtobufLibrary();
     return 0;
 }
