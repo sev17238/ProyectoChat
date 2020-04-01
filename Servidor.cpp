@@ -8,22 +8,30 @@
     Programa para el manejo del servidor y gestion de usuarios
 */
 
-
+//Strings
 #include <stdio.h>
-#include <stdlib.h>
-#include <strings.h>
 #include <unistd.h>
-#include <sys/types.h>
+#include <strings.h>
+#include <string>
+#include <sstream>
+#include <iostream>
+//sistema
+#include <stdlib.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <string>
-#include <iostream>
+//#include <windows.h> //para delay()
+//red
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+//protobuf
+#include "mensaje.pb.h"
+
+
 //#include <dos.h> //para delay()
 
-#include "mensaje.pb.h"
 
 using namespace std;
 using namespace chat;
@@ -62,6 +70,14 @@ int main(int argc, char** argv) {
     socklen_t sin_size;
     struct sigaction sa;
 
+    char hostbuf[256];
+    struct hostent *he;
+    /*char *IPbuf;
+
+    he = gethostbyname(hostbuf);
+    IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list[0]));
+    cout << "ip :" << IPbuf << "\n"<< endl;*/
+
     //Se chequea que el puerto donde se recibira las conexiones este disponible.
     if ((listenfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         err("socket");
@@ -69,7 +85,7 @@ int main(int argc, char** argv) {
     {
         cout << "Todo bien con el socket... \n" << endl;
     }
-    
+    //cout << "ip " << AF_INET << endl;
 
     int opt = SO_REUSEADDR;
     if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
@@ -78,12 +94,12 @@ int main(int argc, char** argv) {
     {
         cout << "Todo bien con el puerto del socket... \n" << endl;
     }
-
+    
     bzero(&servidor, sizeof(servidor));
     servidor.sin_family = AF_INET;                // orden de bytes del host
     servidor.sin_port = htons(PORT);              // orden de vytes de la red
     servidor.sin_addr.s_addr = htonl(INADDR_ANY); // se llena con la IP
-
+    
     //Se emplea la llamada a sistema bind() para hacerle bind al socket a la ip del puerto del servidor
     if (bind(listenfd, (struct sockaddr *)&servidor, sizeof(struct sockaddr)) == -1) {
         err("bind");
@@ -99,15 +115,14 @@ int main(int argc, char** argv) {
         cout << "Escuchando... \n" << endl;
     }
 
-    sa.sa_handler = sigchld_handler;  // se eliminan calquier proceso existente
+    /*sa.sa_handler = sigchld_handler;  // se eliminan calquier proceso existente
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
         err("sigaction");
-    }
+    }*/
 
 
-    
     //while(1){
     sin_size = sizeof(struct sockaddr_in);
     connectfd = accept(listenfd, (struct sockaddr *)&cliente, &sin_size);
@@ -127,7 +142,7 @@ int main(int argc, char** argv) {
 
     // Se crea instancia de respuesta para el cliente.
     MyInfoResponse * response(new MyInfoResponse);
-    response->set_userid("1");
+    response->set_userid('1');
 
     // Se serializa la respuesta a string
     string binary;

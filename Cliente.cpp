@@ -110,8 +110,8 @@ int main(){
 
         // Se crea instancia de Mensaje, se setea los valores deseados
         ClientMessage * message(new ClientMessage);
-        message->set_option("1");
-        message->set_userid("2");
+        message->set_option('1');
+        message->set_userid('2');
         message->set_allocated_synchronize(miInfo);
  
         // Se serializa el message a string

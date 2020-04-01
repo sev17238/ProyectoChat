@@ -8,7 +8,7 @@
 Proyecto de Chat
 </h1>
 
-<p align="center">Chat basico con implementacion de modelo cliente-servidor</p>
+<p align="center">Chat basico con implementacion de modelo cliente-servidor</p> 
 
 
 <hr />
@@ -27,8 +27,8 @@ En este proyecto se utilizan:
 1. Clonar el repo usando `https://github.com/sev17238/ProyectoChat.git`
 2. Ir al directorio deseado: `cd ProyectoChat`.<br />
 3. Correr `protoc -I=. --cpp_out=. mensaje.proto` para compilar el .proto y generar: mensaje.pb.cc y mensaje.pb.h
-4. Y para compilar: `g++ protobuftest.cpp mensaje.pb.cc -lprotobuf -o protobuftest`
-5. Correr `./protobuftest`
+4. Y para compilar: `g++ Servidor.cpp mensaje.pb.cc -lprotobuf -o servertest`
+5. Correr `./servertest`
 
 ## References
 
@@ -39,6 +39,7 @@ En este proyecto se utilizan:
 
 ### Client Server Model
  - https://github.com/lytsing/protobuf-demo 
+ - https://www.bogotobogo.com/cplusplus/sockets_server_client.php 
 
 ### Sockets Tutorial
  - http://www.linuxhowtos.org/C_C++/socket.htm 
