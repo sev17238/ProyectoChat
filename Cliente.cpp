@@ -24,6 +24,7 @@
 //red
 #include <netinet/in.h>
 #include <netdb.h>
+#include <arpa/inet.h>
 //protobuf
 #include "mensaje.pb.h"
 
@@ -49,6 +50,53 @@ static void err(const char* s){
     exit(EXIT_FAILURE);
 }
 
+void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
+        
+        string username;
+        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
+        cout << "\nIngrese su nombre de cliente: " << endl;
+        cin >> username;
+        miInfo->set_username(username);        
+        miInfo->set_ip(IPbuf);
+        cout << "\nip: " << IPbuf << endl;
+        
+
+        // Se crea instancia de Mensaje, se setea los valores deseados
+        ClientMessage * message(new ClientMessage);
+        message->set_option('1');
+        message->set_userid('2');
+        message->set_allocated_synchronize(miInfo);
+ 
+        // Se serializa el message a string
+        string binary;
+        message->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+        send(fd , cstr , strlen(cstr) , 0 );                       //Se manda el nuevo usuario con su respectivo id.
+
+        //delay(4000);
+        //________________________________________________
+        //Se recibe la respuesta del servidor
+        read( fd , buffer, PORT);
+	    string ret(buffer, PORT);
+
+        MyInfoResponse * response(new MyInfoResponse);
+        response->ParseFromString(ret);
+        cout << "response userid: " << response->userid() << endl;
+
+        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+        ack->set_userid(response->userid());
+
+        string binary2;
+        ack->SerializeToString(&binary2);
+
+        char cstr2[binary2.size() + 1];
+        strcpy(cstr2, binary2.c_str());
+        send(fd , cstr2 , strlen(cstr2) , 0 );                    //Se manda el acknoledge al servidor.
+}
+
+
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -56,6 +104,7 @@ int main(){
     int fd;
     int numbytes;
     char buffer[MAXDATASIZE];
+    char *IPbuf;
     struct hostent *he;
     struct sockaddr_in servidor;
     /* {
@@ -98,54 +147,10 @@ int main(){
 
 
     if(connection == 1){
-
-        //////-------------------------------------------3 WAY HAND SHAKE------------------------------------------------//////
-        
+        IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list[0]));
         // Se crea instacia tipo MyInfoSynchronize y se setean los valores deseados
-        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
-        cout << "\nIngrese su nombre de cliente: " << endl;
-        string username;
-        miInfo->set_username(username);
-        miInfo->set_ip("127.0.0.1");
-
-        // Se crea instancia de Mensaje, se setea los valores deseados
-        ClientMessage * message(new ClientMessage);
-        message->set_option('1');
-        message->set_userid('2');
-        message->set_allocated_synchronize(miInfo);
- 
-        // Se serializa el message a string
-        string binary;
-        message->SerializeToString(&binary);
-
-        char cstr[binary.size() + 1];
-        strcpy(cstr, binary.c_str());
-        send(fd , cstr , strlen(cstr) , 0 );                       //Se manda el nuevo usuario con su respectivo id.
-
-        //delay(4000);
-        //________________________________________________
-        //Se recibe la respuesta del servidor
-        read( fd , buffer, PORT);
-	    string ret(buffer, PORT);
-
-        MyInfoResponse * response(new MyInfoResponse);
-        response->ParseFromString(ret);
-        cout << "response userid: " << response->userid() << endl;
-
-        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
-        ack->set_userid(response->userid());
-
-        string binary2;
-        ack->SerializeToString(&binary2);
-
-        char cstr2[binary2.size() + 1];
-        strcpy(cstr2, binary2.c_str());
-        send(fd , cstr2 , strlen(cstr2) , 0 );                    //Se manda el acknoledge al servidor.
-
-        
-
-
-
+        //////-------------------------------------------3 WAY HAND SHAKE------------------------------------------------//////
+        ThreeWayHandShake(IPbuf,fd,buffer);
 
         //-------------------------------------------------------------------------------------------------------------------------
 

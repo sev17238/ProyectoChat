@@ -29,7 +29,6 @@
 //protobuf
 #include "mensaje.pb.h"
 
-
 //#include <dos.h> //para delay()
 
 
@@ -39,6 +38,7 @@ using namespace chat;
 #define PORT 8000           // el puerto a donde los usuarios se van a conectar
 #define MAXDATASIZE 4096    // el maximo numero de bites que se pueden mandar a la vez
 #define BACKLOG 10          // how many pending connections queue will hold
+
 
 using std::cout;
 using std::cin;
@@ -56,6 +56,40 @@ static void err(const char* s) {
     exit(EXIT_FAILURE);
 }
 
+void ThreeWayHandShake(int connectfd,char *buf){
+     /// REQUEST DE USUARIOS -----------------------------------------------
+    //Se recibe el MyInfoSynchronize del cliente
+    read( connectfd , buf, PORT);
+    string ret1(buf, PORT); //se convierte el char a string
+
+    ClientMessage * message(new ClientMessage);
+    message->ParseFromString(ret1);
+    cout << "ClientMessage id: " << message->userid() << endl;
+
+    // Se crea instancia de respuesta para el cliente.
+    MyInfoResponse * response(new MyInfoResponse);
+    response->set_userid('1');
+
+    // Se serializa la respuesta a string
+    string binary;
+    response->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+    send(connectfd , cstr , strlen(cstr) , 0 );                               //Se manda el id devuelta al usuario o cliente
+
+    //delay(5000);
+    //_________________________________________________________
+    //Se recive el acknowledge del cliente para comenzar con la comunicacion
+    read( connectfd , buf, PORT);
+    string ret2(buf, PORT); //se convierte el char a string
+
+    MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+    ack->ParseFromString(ret2);
+
+    cout << "Acknowledge userid: " << ack->userid() << endl;
+}
+
 
 int main(int argc, char** argv) {
     //Cequeo de las versiones de la libreria con los headers compilados
@@ -67,6 +101,7 @@ int main(int argc, char** argv) {
     char buf[MAXDATASIZE];
     struct sockaddr_in servidor;
     struct sockaddr_in cliente;
+    int clients_count = 0;
     socklen_t sin_size;
     struct sigaction sa;
 
@@ -115,54 +150,27 @@ int main(int argc, char** argv) {
         cout << "Escuchando... \n" << endl;
     }
 
-    /*sa.sa_handler = sigchld_handler;  // se eliminan calquier proceso existente
+    sa.sa_handler = sigchld_handler;  // se eliminan calquier proceso existente
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_RESTART;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
         err("sigaction");
-    }*/
-
-
-    //while(1){
-    sin_size = sizeof(struct sockaddr_in);
-    connectfd = accept(listenfd, (struct sockaddr *)&cliente, &sin_size);
-
-    if (connectfd < 0){
-        err("ERROR on accept");
     }
 
-    /// REQUEST DE USUARIOS -----------------------------------------------
-    //Se recibe el MyInfoSynchronize del cliente
-    read( connectfd , buf, PORT);
-    string ret1(buf, PORT); //se convierte el char a string
 
-    ClientMessage * message(new ClientMessage);
-    message->ParseFromString(ret1);
-    cout << "ClientMessage userid: " << message->userid() << endl;
+    while(1){
+        sin_size = sizeof(struct sockaddr_in);
+        connectfd = accept(listenfd, (struct sockaddr *)&cliente, &sin_size);
 
-    // Se crea instancia de respuesta para el cliente.
-    MyInfoResponse * response(new MyInfoResponse);
-    response->set_userid('1');
+        if (connectfd < 0){
+            err("ERROR on accept");
+            
+        }
 
-    // Se serializa la respuesta a string
-    string binary;
-    response->SerializeToString(&binary);
 
-    char cstr[binary.size() + 1];
-    strcpy(cstr, binary.c_str());
-    send(listenfd , cstr , strlen(cstr) , 0 );                               //Se manda el id devuelta al usuario o cliente
 
-    //delay(5000);
-    //_________________________________________________________
-    //Se recive el acknowledge del cliente para comenzar con la comunicacion
-    read( connectfd , buf, PORT);
-    string ret2(buf, PORT); //se convierte el char a string
-
-    MyInfoAcknowledge * ack(new MyInfoAcknowledge);
-    ack->ParseFromString(ret2);
-
-    cout << "Acknowledge userid: " << ack->userid() << endl;
-    
+        /// REQUEST DE USUARIOS -----------------------------------------------
+        ThreeWayHandShake(connectfd,buf);    
 
         ////--------------------------------------------------------------------
 
@@ -172,7 +180,7 @@ int main(int argc, char** argv) {
 
 
 
-    //}
+    }
 
     close(listenfd);
     google::protobuf::ShutdownProtobufLibrary();
