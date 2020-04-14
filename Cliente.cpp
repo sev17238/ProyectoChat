@@ -8,7 +8,6 @@
     Programa para el manejo de un cliente y su conexion al servidor
 */
 
-
 //Strings
 #include <stdio.h>
 #include <unistd.h>
@@ -30,19 +29,32 @@
 
 using namespace std;
 using namespace chat;
-
-
-//Definicion de puerto y nombre de host
-#define HOSTNAME "localhost"
-#define PORT 8000
-#define MAXDATASIZE 4096
-
-
 //utiles
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+
+//Definicion de puerto y nombre de host
+#define HOSTNAME "localhost"
+#define PORT 8080
+#define MAXDATASIZE 4096
+
+int fd;
+int numbytes;
+char buffer[MAXDATASIZE];
+struct hostent *he;
+struct sockaddr_in servidor;
+/* {
+    short   sin_family; must be AF_INET 
+    u_short sin_port;
+    struct  in_addr sin_addr;
+    char    sin_zero[8]; Not used, must be zero 
+};*/
+
+string username;
+string IPbuf;
+int id;
 
 //Funcion para errores y salida inmediata
 static void err(const char* s){
@@ -52,67 +64,106 @@ static void err(const char* s){
 
 void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
         
-        string username;
         MyInfoSynchronize *miInfo(new MyInfoSynchronize);
         cout << "\nIngrese su nombre de cliente: " << endl;
         cin >> username;
         miInfo->set_username(username);        
         miInfo->set_ip(IPbuf);
-        cout << "\nip: " << IPbuf << endl;
-        
+        //cout << "\nip: " << IPbuf << endl;
+        cout << "\n3wayprueba1\n" << endl;
 
         // Se crea instancia de Mensaje, se setea los valores deseados
         ClientMessage * message(new ClientMessage);
-        message->set_option('1');
-        message->set_userid('2');
+        message->set_option(1);
+        //message->set_userid('2');
         message->set_allocated_synchronize(miInfo);
- 
+        
         // Se serializa el message a string
         string binary;
         message->SerializeToString(&binary);
 
         char cstr[binary.size() + 1];
         strcpy(cstr, binary.c_str());
-        send(fd , cstr , strlen(cstr) , 0 );                       //Se manda el nuevo usuario con su respectivo id.
-
+        cout << "\n3waynprueba2\n" << endl;
+        send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+        cout << "\n3wayprueba3\n" << endl;
         //delay(4000);
         //________________________________________________
         //Se recibe la respuesta del servidor
         read( fd , buffer, PORT);
-	    string ret(buffer, PORT);
+	    //string ret(buffer, PORT); //se convierte el char a string
 
-        MyInfoResponse * response(new MyInfoResponse);
-        response->ParseFromString(ret);
-        cout << "response userid: " << response->userid() << endl;
+        ServerMessage * server_res(new ServerMessage);
+        //server_res->ParseFromString(ret);
+        server_res->ParseFromString(buffer);
+        cout << "response userid: " << server_res->myinforesponse().userid() << endl;
+        id = server_res->myinforesponse().userid(); //id que el servidor asigno al cliente
 
         MyInfoAcknowledge * ack(new MyInfoAcknowledge);
-        ack->set_userid(response->userid());
+        ack->set_userid(server_res->myinforesponse().userid());
+        cout << "ack userid: " << ack->userid() << endl;
+
+        ClientMessage * message2(new ClientMessage);
+        message2->set_option('7');
+        message->set_userid(id);                //id que el servidor asigno al cliente
+        message2->set_allocated_acknowledge(ack);
 
         string binary2;
-        ack->SerializeToString(&binary2);
+        message2->SerializeToString(&binary2);
 
         char cstr2[binary2.size() + 1];
         strcpy(cstr2, binary2.c_str());
-        send(fd , cstr2 , strlen(cstr2) , 0 );                    //Se manda el acknoledge al servidor.
+        send(fd , cstr2 , strlen(cstr2) , 0 );     //Se manda el acknoledge al servidor.
 }
+
+
+
+void BroadCasting(char* message,int fd,char *buffer){
+
+}
+
+void sendDirectMessage(char* receiver,char* message,int fd,char *buffer){
+    
+}
+
+void changeStatus(int id,string status,int fd,char *buffer){
+    // Se hace el request para mabiar el status.
+    cout << "\nstatusprueba1\n" << endl;
+    ChangeStatusRequest * changereq(new ChangeStatusRequest);
+    changereq->set_status(status);
+    cout << "\nstatusprueba2\n" << endl;
+    // Se crea instancia de Mensaje, se setea los valores deseados
+    ClientMessage * message(new ClientMessage);
+    message->set_option('3');
+    message->set_userid(id);
+    message->set_allocated_changestatus(changereq);
+    cout << "\nstatusprueba3\n" << endl;
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+    send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
+    cout << "\nstatusprueba4\n" << endl;
+    //delay()
+    //Se recibe la respuesta del servidor
+    read( fd , buffer, PORT);
+    //string ret(buffer, PORT);
+
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
+
+    cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
+
+}
+
 
 
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-    int fd;
-    int numbytes;
-    char buffer[MAXDATASIZE];
-    char *IPbuf;
-    struct hostent *he;
-    struct sockaddr_in servidor;
-    /* {
-        short   sin_family; must be AF_INET 
-        u_short sin_port;
-        struct  in_addr sin_addr;
-        char    sin_zero[8]; Not used, must be zero 
-    };*/
 
     //Se chequea que el nombre de host local este correcto.
     if((he = gethostbyname(HOSTNAME)) == NULL){
@@ -137,8 +188,8 @@ int main(){
     int connection;
     //Se chequea la conexion con el servidor
     if(connect(fd, (struct sockaddr *)&servidor,sizeof(struct sockaddr)) == -1){
-        err("connect");
-        cout << "SERVER NOT FOUND 404. Intente de nuevo mas tarde.\n" << endl;
+        //cout << "SERVER NOT FOUND 404.\n" << endl;
+        err("connect.");
         connection = 0;
     }else {
         cout << "CONEXION CON SERVIDOR COMPLETADA EXITOSAMENTE.\n" << endl;
@@ -147,7 +198,7 @@ int main(){
 
 
     if(connection == 1){
-        IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list[0]));
+        IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list));
         // Se crea instacia tipo MyInfoSynchronize y se setean los valores deseados
         //////-------------------------------------------3 WAY HAND SHAKE------------------------------------------------//////
         ThreeWayHandShake(IPbuf,fd,buffer);
@@ -174,14 +225,45 @@ int main(){
                 i = std::stoi(choice);
                 switch(i){
                     case 1:
-                        cout << "1!!\n";
+                        char *newbroadcast_message;
+                        cout << "Escriba el mensaje que desea enviar al chat: ";
+                        cin >> newbroadcast_message;
+                        BroadCasting(newbroadcast_message,fd,buffer);
                         break;
                     case 2:
-                        cout << "2!!\n";
+                        char *receiver;
+                        cout << "Escriba el nombre del usurio a quien desea enviarle el mensaje: ";
+                        cin >> receiver;
+                        char *direct_message;
+                        cout << "Escriba el mensaje que desea enviarle: ";
+                        cin >> direct_message;                        
+                        BroadCasting(direct_message,fd,buffer);
                         break;
                     case 3:
-                        cout << "3!!\n";
+                    {   
+                        string statuschoice;
+
+                        cout << "Cambio de status.\n";
+                        cout << "1. ACTIVO" << endl;
+                        cout << "2. OCUPADO" << endl;
+                        cout << "3. INACTIVO" << endl;
+                        cin >> statuschoice;
+                        string newstatus;
+                        if(statuschoice == "1"){
+                            newstatus = "ACTIVO";
+                            changeStatus(id,newstatus,fd,buffer);
+                        }else if(statuschoice == "2"){
+                            newstatus = "OCUPADO";
+                            changeStatus(id,newstatus,fd,buffer);
+                        }else if(statuschoice == "3"){
+                            newstatus = "INACTIVO";
+                            changeStatus(id,newstatus,fd,buffer);
+                        }else{
+                            cout << "Ingrese una opcion de estado valida.\n";
+                        }
+                        
                         break;
+                    }
                     case 4:
                         cout << "4!! \n";
                         break;

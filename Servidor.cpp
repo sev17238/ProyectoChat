@@ -30,22 +30,47 @@
 #include "mensaje.pb.h"
 
 //#include <dos.h> //para delay()
-
-
 using namespace std;
 using namespace chat;
-
-#define PORT 8000           // el puerto a donde los usuarios se van a conectar
-#define MAXDATASIZE 4096    // el maximo numero de bites que se pueden mandar a la vez
-#define BACKLOG 10          // how many pending connections queue will hold
-
-
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
 
+class Cliente
+{
+    public:
+    struct sockaddr_in socket; //socket del cliente
+    int fd; //file descriptor del socket
+    int fdconn; //file descriptor generado por la connexion
+    string username; //nombre de usuario
+    int id; //identificacion
+    string ip; //direccion ip
+    string status; //estado
 
+};
+
+#define PORT 8080          // el puerto a donde los usuarios se van a conectar
+#define MAXDATASIZE 4096    // el maximo numero de bites que se pueden mandar a la vez
+#define BACKLOG 5          // how many pending connections queue will hold
+
+Cliente clientes_connectados[BACKLOG]; //almacenamiento de los clientes
+
+
+int listenfd; //file descriptor para escuchar clientes
+int connectfd; // file descriptor para conexion
+int numbytes;
+char buf[MAXDATASIZE];
+struct sockaddr_in servidor;
+struct sockaddr_in cliente;
+int clients_count = 0;
+socklen_t sin_size;
+struct sigaction sa;
+
+char hostbuf[256];
+struct hostent *he;
+
+//esta funcion estaba en un ejemplo, talvez la quitamos sino sirve.
 void sigchld_handler(int s) {
     while (waitpid(-1, NULL, WNOHANG) > 0);
 }
@@ -56,59 +81,157 @@ static void err(const char* s) {
     exit(EXIT_FAILURE);
 }
 
-void ThreeWayHandShake(int connectfd,char *buf){
-     /// REQUEST DE USUARIOS -----------------------------------------------
+void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente){
+     /// REQUEST PARA NUEVOS USUARIOS -----------------------------------------------
     //Se recibe el MyInfoSynchronize del cliente
     read( connectfd , buf, PORT);
-    string ret1(buf, PORT); //se convierte el char a string
-
+    cout << "\n3wayprueba4\n" << endl;
+    //string ret1(buf, PORT); //se convierte el char a string
+    cout << "\n3wayprueba5\n" << endl;
     ClientMessage * message(new ClientMessage);
-    message->ParseFromString(ret1);
-    cout << "ClientMessage id: " << message->userid() << endl;
+    //message->ParseFromString(ret1);
+    message->ParseFromString(buf);
+    
+    cout << "Client IP: " << message->synchronize().ip() << endl;
+    //cout << "ClientMessage id: " << message->userid() << endl;
 
-    // Se crea instancia de respuesta para el cliente.
-    MyInfoResponse * response(new MyInfoResponse);
-    response->set_userid('1');
+    int currentid;
+    int success = 0;
+    int i = 0;
+
+    for (i = 0; i < BACKLOG; i++)
+    {
+        Cliente c = clientes_connectados[i];
+        if(c.id == NULL || (message->userid() != c.id && message->synchronize().username() != c.username)){
+            c.socket = socketcliente;
+            c.fdconn = connectfd;
+            c.id = i;
+            currentid = i;
+            c.status = "Activo";
+            c.username = message->synchronize().username();
+            c.ip = message->synchronize().ip();
+            clientes_connectados[i] = c;
+            i=10;
+
+            cout << "El cliente con ip: " << message->synchronize().ip() << endl;
+            cout << "y nombre: " << message->synchronize().username() << " Ha sido agregado al chat."<< endl;
+            success = 1;
+        }else{
+            cout << "EL registro de un usuario fallo. Debido a: "<< endl;
+            cout << "1. Id o nombre ya existente o 2. Numero de clientes conectados ha sobrepasado 10."<< endl;
+            success = 0;
+        }
+    }
+   
+    if(success == 1){
+        // Se crea instancia de respuesta para el cliente.
+        MyInfoResponse * response(new MyInfoResponse);
+        response->set_userid(currentid);
+        cout << "Userid: " << currentid << endl;
+        ServerMessage * server_res(new ServerMessage);
+        server_res->set_option('4');
+        server_res->set_allocated_myinforesponse(response);
+        cout << "\n3wayprueba6\n" << endl;
+        // Se serializa la respuesta a string
+        string binary;
+        server_res->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+        send(connectfd , cstr , strlen(cstr) , 0 );                               //Se manda el inforesponse devuelta al usuario o cliente
+        cout << "\n3wayprueba7\n" << endl;
+        //delay(5000);
+        //_________________________________________________________
+        //Se recive el acknowledge del cliente para comenzar con la comunicacion
+        read( connectfd , buf, PORT);
+        //string ret2(buf, PORT); //se convierte el char a string
+
+        ClientMessage * message2(new ClientMessage);
+        //message2->ParseFromString(ret2);
+        message2->ParseFromString(buf);
+
+        //cout << "Acknowledge userid: " << message2->acknowledge().userid() << endl; //por alguna razon no jala el id correcto
+        cout << "Acknowledge userid: " << message2->userid() << endl;
+
+    }else{
+        ErrorResponse * errr(new ErrorResponse);
+        errr->set_errormessage("Error culero!!");
+    }
+   
+
+
+    
+    
+    
+    
+    
+}
+
+void clientsBroadCasting(){
+    
+}
+
+void sendClientDirectMessage(){
+    
+}
+
+void changeClientStatus(int connectfd,char *buf){
+    cout << "\nstatusprueba5\n" << endl;
+    read( connectfd , buf, PORT);
+    //string ret1(buf, PORT); //se convierte el char a string
+    cout << "\nstatusprueba5\n" << endl;
+    ClientMessage * message(new ClientMessage);
+    //message->ParseFromString(ret1);
+    message->ParseFromString(buf);
+    cout << "Change status request from Client id: " << message->userid() << endl;
+    cout << "\nstatusprueba6\n" << endl;
+    int i;
+    for (i = 0; i < BACKLOG; i++){
+        Cliente c = clientes_connectados[i];
+        if(c.id == message->userid()){
+            c.status = message->changestatus().status();
+            
+        }
+    }
+
+    //ChangeStatusResponse * status_res(new ChangeStatusResponse);
+    ChangeStatusResponse * status_res(new ChangeStatusResponse);
+    status_res->set_status(message->changestatus().status());
+
+    ServerMessage * server_res(new ServerMessage);
+    server_res->set_option('6');
+    server_res->set_allocated_changestatusresponse(status_res);
 
     // Se serializa la respuesta a string
     string binary;
-    response->SerializeToString(&binary);
+    server_res->SerializeToString(&binary);
 
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
-    send(connectfd , cstr , strlen(cstr) , 0 );                               //Se manda el id devuelta al usuario o cliente
+    send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
 
-    //delay(5000);
-    //_________________________________________________________
-    //Se recive el acknowledge del cliente para comenzar con la comunicacion
-    read( connectfd , buf, PORT);
-    string ret2(buf, PORT); //se convierte el char a string
 
-    MyInfoAcknowledge * ack(new MyInfoAcknowledge);
-    ack->ParseFromString(ret2);
 
-    cout << "Acknowledge userid: " << ack->userid() << endl;
+}
+
+void clientList(){
+
+}
+
+void clientInfo(){
+
+}
+
+void helpSection(){
+
 }
 
 
 int main(int argc, char** argv) {
+    
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-    int listenfd; //socket para escuchar
-    int connectfd; // socket para conexion
-    int numbytes;
-    char buf[MAXDATASIZE];
-    struct sockaddr_in servidor;
-    struct sockaddr_in cliente;
-    int clients_count = 0;
-    socklen_t sin_size;
-    struct sigaction sa;
-
-    char hostbuf[256];
-    struct hostent *he;
     /*char *IPbuf;
-
     he = gethostbyname(hostbuf);
     IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list[0]));
     cout << "ip :" << IPbuf << "\n"<< endl;*/
@@ -120,7 +243,7 @@ int main(int argc, char** argv) {
     {
         cout << "Todo bien con el socket... \n" << endl;
     }
-    //cout << "ip " << AF_INET << endl;
+    //cout << "listenfd " << listenfd << endl;
 
     int opt = SO_REUSEADDR;
     if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
@@ -132,7 +255,7 @@ int main(int argc, char** argv) {
     
     bzero(&servidor, sizeof(servidor));
     servidor.sin_family = AF_INET;                // orden de bytes del host
-    servidor.sin_port = htons(PORT);              // orden de vytes de la red
+    servidor.sin_port = htons(PORT);              // orden de ytes de la red
     servidor.sin_addr.s_addr = htonl(INADDR_ANY); // se llena con la IP
     
     //Se emplea la llamada a sistema bind() para hacerle bind al socket a la ip del puerto del servidor
@@ -167,17 +290,35 @@ int main(int argc, char** argv) {
             
         }
 
-
+        
 
         /// REQUEST DE USUARIOS -----------------------------------------------
-        ThreeWayHandShake(connectfd,buf);    
-
+        ThreeWayHandShake(connectfd,buf,cliente);    
+        
         ////--------------------------------------------------------------------
+        
+        //PROBAR IMPRIMIR LOS CLIENTES EN LA LISTA. 
+        //EL CHQUEO DE SI ES NULL NUNCA SE CUMPLE, A C++ NO LE GUSTA ESTA MIERDA.
+        //ENTONCES AL AGREGAR UN NUEVO CLIENTE REEMPLAZA EL QUE YA EXISTE.
+        int e = 0;
+        for (e = 0; e < BACKLOG; e++)
+        {
+            Cliente c = clientes_connectados[e];
+            //if(c != NULL){
+            cout << "cliente: " << c.username << "\n" <<endl;
+            //}
+        }
+        
+       
+        //test que que no me acuerdo para que era xD.
+        /*cout << " mensaje de \n" << inet_ntoa(cliente.sin_addr)<< endl;
+        numbytes =recv(connectfd,buf,MAXDATASIZE,0);
+        buf[numbytes] = '\0';
+        string a = buf;
+        cout << " mensaje de \n" << inet_ntoa(cliente.sin_addr)<< endl;
 
 
-
-
-
+        changeClientStatus(connectfd,buf); //prueba que no sirve ahorita :( basura asquerosa*/
 
 
     }
