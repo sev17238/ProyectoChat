@@ -265,13 +265,20 @@ int main(){
                         break;
                     }
                     case 4:
-                        cout << "4!! \n";
+                        cout << "¿Sobre que usuario quieres saber informaciòn? 				\n";
+						cin >> nombreUsuario;
+                        cout << "Nombre del usuario: \n";
+						cout << "Informaciòn del usuario: \n";
                         break;
                     case 5:
-                        cout << "5!! \n";
+                        cout << "Actualmente su estado es: ACTIVO \n";
+						cout << "¿A que estado desea pasar?.\n";
+                        cout << "1. ACTIVO" << endl;
+                        cout << "2. OCUPADO" << endl;
+                        cout << "3. INACTIVO" << endl;
                         break;
                     case 6:
-                        cout << "6!! \n";
+                        cout << "Escribi aquì: \n";
                         break;
                     case 7:
                         cout << "Gracias por usar el chat! Adios!!\n\n";    
