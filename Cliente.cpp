@@ -213,8 +213,8 @@ int main(){
             cout << "\n1. Chatear con todos los usuarios" << endl;
             cout << "2. Enviar mensaje privado." << endl;
             cout << "3. Cambiar de Status" << endl;
-            cout << "4. Listar usuarios conectados" << endl;
-            cout << "5. Desplegar informacion de un usuario en particular" << endl;
+            cout << "4. Desplegar informacion de un usuario en particular" << endl;			
+            cout << "5. Listar usuarios conectados" << endl;
             cout << "6. Ayuda" << endl;
             cout << "7. Exit" << endl;
             cin >> choice;
@@ -265,11 +265,16 @@ int main(){
                         break;
                     }
                     case 4:
-                        cout << "¿Sobre que usuario quieres saber informaciòn? 				\n";
-						cin >> nombreUsuario;
+					{
+						string User;
+                        cout << "¿Sobre que usuario quieres saber informaciòn?\n";
+						cin >> User;
+						cout << "\nInformaciòn del usuario: \n";
                         cout << "Nombre del usuario: \n";
-						cout << "Informaciòn del usuario: \n";
+						cout << User; 
+						cout << "\nid del usuario: ";
                         break;
+					}
                     case 5:
                         cout << "Actualmente su estado es: ACTIVO \n";
 						cout << "¿A que estado desea pasar?.\n";
