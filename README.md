@@ -8,15 +8,19 @@
 Proyecto de Chat
 </h1>
 
-<p align="center">Chat basico con implementacion de modelo cliente-servidor</p> 
+<p align="center">Chat basico con implementacion de modelo cliente-servidor</p>
 
 
 <hr />
 
-## Description
+## Descripción
 Con este trabajo se reforzarán los conocimientos sobre procesos, threads, concurrencia y comunicación entre procesos. El objetivo es desarrollar una aplicación de chat en C/C++.
 
-## Table of contents
+## Documentación
+Documentación detallada sobre la esctrructura completa del proyecto.
+- :point_right: [LINK](https://chchew.github.io/DOC-ProyectoChat/index.html)
+
+## Tabla de contenido
 En este proyecto se utilizan:
 
 - :milky_way: **Google Protobuf** — Protocolo de serializacion de mensajes
@@ -38,11 +42,11 @@ En este proyecto se utilizan:
  - https://developers.google.com/protocol-buffers/docs/downloads?hl=es-419
 
 ### Client Server Model
- - https://github.com/lytsing/protobuf-demo 
- - https://www.bogotobogo.com/cplusplus/sockets_server_client.php 
+ - https://github.com/lytsing/protobuf-demo
+ - https://www.bogotobogo.com/cplusplus/sockets_server_client.php
 
 ### Sockets Tutorial
- - http://www.linuxhowtos.org/C_C++/socket.htm 
+ - http://www.linuxhowtos.org/C_C++/socket.htm
 
 
 ## License
