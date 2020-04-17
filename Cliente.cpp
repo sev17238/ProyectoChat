@@ -26,6 +26,7 @@
 #include <arpa/inet.h>
 //protobuf
 #include "mensaje.pb.h"
+#include "a.h"
 
 using namespace std;
 using namespace chat;
@@ -56,18 +57,21 @@ string username;
 string IPbuf;
 int id;
 
+
 //Funcion para errores y salida inmediata
 static void err(const char* s){
     perror(s);
     exit(EXIT_FAILURE);
 }
 
+string *INFOusername;
+
 void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
-        
+
         MyInfoSynchronize *miInfo(new MyInfoSynchronize);
         cout << "\nIngrese su nombre de cliente: " << endl;
         cin >> username;
-        miInfo->set_username(username);        
+        miInfo->set_username(username); 
         miInfo->set_ip(IPbuf);
         //cout << "\nip: " << IPbuf << endl;
         cout << "\n3wayprueba1\n" << endl;
@@ -115,7 +119,6 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
         strcpy(cstr2, binary2.c_str());
         send(fd , cstr2 , strlen(cstr2) , 0 );     //Se manda el acknoledge al servidor.
 }
-
 
 
 void BroadCasting(char* message,int fd,char *buffer){
@@ -182,6 +185,7 @@ void exitChat(){
 
 }
 
+
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -241,6 +245,7 @@ int main(){
             cin >> choice;
 
             int i;
+	    int INFONE;
 
             if(sscanf(choice.c_str(), "%d", &i) == 1){ //Revision de entrada
                 i = std::stoi(choice);
@@ -286,16 +291,19 @@ int main(){
                         break;
                     }
                     case 4:
-					{
-						string User;
-                        cout << "¿Sobre que usuario quieres saber informaciòn?\n";
-						cin >> User;
-						cout << "\nInformaciòn del usuario: \n";
-                        cout << "Nombre del usuario: \n";
-						cout << User; 
-						cout << "\nid del usuario: ";
+		    {
+			string User;
+                        cout << "¿Sobre que usuario quieres saber informaciòn 				\n";
+			cin >> User;
+			if (User == username){
+				cout << "\nInformaciòn del usuario: \n";
+				cout << "Este usuario eres tù, hola " + User + 					"\n";
+			}else{
+				cout << "\nInformaciòn del usuario: \n";
+		                cout << "id del usuario: " << INFONE;
+			}
                         break;
-					}
+		    }
                     case 5:
                         cout << "Actualmente su estado es: ACTIVO \n";
 						cout << "¿A que estado desea pasar?.\n";

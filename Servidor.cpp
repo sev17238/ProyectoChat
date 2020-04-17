@@ -28,6 +28,7 @@
 #include <netdb.h>
 //protobuf
 #include "mensaje.pb.h"
+#include "a.h"
 
 //#include <dos.h> //para delay()
 using namespace std;
@@ -36,6 +37,8 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+
+int INFONE;
 
 class Cliente
 {
@@ -111,6 +114,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
             c.socket = socketcliente;
             c.fdconn = connectfd;
             c.id = i;
+	    INFONE = i;
             currentid = i;
             c.status = "Activo";
             c.username = message->synchronize().username();
