@@ -1,0 +1,559 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Proyecto Chat: Referencia de la Clase chat::ServerMessage</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Proyecto Chat
+   &#160;<span id="projectnumber">Integrantes: Diego Sevilla, Alexander Trujillo y Carlos Chew</span>
+   </div>
+   <div id="projectbrief">Este es el proyecto número uno del curso de Sistemas Operativos.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>chat</b></li><li class="navelem"><a class="el" href="classchat_1_1_server_message.html">ServerMessage</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Clases</a> &#124;
+<a href="#pub-types">Tipos públicos</a> &#124;
+<a href="#pub-methods">Métodos públicos</a> &#124;
+<a href="#pub-static-methods">Métodos públicos estáticos</a> &#124;
+<a href="#pub-static-attribs">Atributos públicos estáticos</a> &#124;
+<a href="#pri-methods">Métodos privados</a> &#124;
+<a href="#pri-static-methods">Métodos privados estáticos</a> &#124;
+<a href="#pri-attribs">Atributos privados</a> &#124;
+<a href="#friends">Amigas</a> &#124;
+<a href="classchat_1_1_server_message-members.html">Lista de todos los miembros</a>  </div>
+  <div class="headertitle">
+<div class="title">Referencia de la Clase chat::ServerMessage</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="dynheader">
+Diagrama de herencias de chat::ServerMessage</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classchat_1_1_server_message.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Clases</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchat_1_1_server_message_1_1___internal.html">_Internal</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Tipos públicos</h2></td></tr>
+<tr class="memitem:a50a4b86ff50f01377bc9f36b2b99e447"><td class="memItemLeft" align="right" valign="top"><a id="a50a4b86ff50f01377bc9f36b2b99e447"></a>enum &#160;</td><td class="memItemRight" valign="bottom">: int { <br />
+&#160;&#160;<b>kBroadcastFieldNumber</b> = 2, 
+<b>kMessageFieldNumber</b> = 3, 
+<b>kErrorFieldNumber</b> = 4, 
+<b>kMyInfoResponseFieldNumber</b> = 5, 
+<br />
+&#160;&#160;<b>kConnectedUserResponseFieldNumber</b> = 6, 
+<b>kChangeStatusResponseFieldNumber</b> = 7, 
+<b>kBroadcastResponseFieldNumber</b> = 8, 
+<b>kDirectMessageResponseFieldNumber</b> = 9, 
+<br />
+&#160;&#160;<b>kOptionFieldNumber</b> = 1
+<br />
+ }</td></tr>
+<tr class="separator:a50a4b86ff50f01377bc9f36b2b99e447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Métodos públicos</h2></td></tr>
+<tr class="memitem:ac31a1515dc97c6862771324c37394adc"><td class="memItemLeft" align="right" valign="top"><a id="ac31a1515dc97c6862771324c37394adc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ServerMessage</b> (const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;from)</td></tr>
+<tr class="separator:ac31a1515dc97c6862771324c37394adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28baf3abc63a26a4154fe221c181cdce"><td class="memItemLeft" align="right" valign="top"><a id="a28baf3abc63a26a4154fe221c181cdce"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ServerMessage</b> (<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;&amp;from) noexcept</td></tr>
+<tr class="separator:a28baf3abc63a26a4154fe221c181cdce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a735746892817902f4515f3bd02e0cd4a"><td class="memItemLeft" align="right" valign="top"><a id="a735746892817902f4515f3bd02e0cd4a"></a>
+<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;from)</td></tr>
+<tr class="separator:a735746892817902f4515f3bd02e0cd4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af555d678ff3f322bd0da0acbb3855ee4"><td class="memItemLeft" align="right" valign="top"><a id="af555d678ff3f322bd0da0acbb3855ee4"></a>
+<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;&amp;from) noexcept</td></tr>
+<tr class="separator:af555d678ff3f322bd0da0acbb3855ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a418945fda3ed2a5ce16f3a5dbca931d7"><td class="memItemLeft" align="right" valign="top"><a id="a418945fda3ed2a5ce16f3a5dbca931d7"></a>
+const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>unknown_fields</b> () const</td></tr>
+<tr class="separator:a418945fda3ed2a5ce16f3a5dbca931d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a047dc9e7f96ab3f40a23517687137543"><td class="memItemLeft" align="right" valign="top"><a id="a047dc9e7f96ab3f40a23517687137543"></a>
+inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_unknown_fields</b> ()</td></tr>
+<tr class="separator:a047dc9e7f96ab3f40a23517687137543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27202378978c9e6836efae2ac62c4b53"><td class="memItemLeft" align="right" valign="top"><a id="a27202378978c9e6836efae2ac62c4b53"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Swap</b> (<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> *other)</td></tr>
+<tr class="separator:a27202378978c9e6836efae2ac62c4b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5951c9059f9ca67f1672c785fb4e129f"><td class="memItemLeft" align="right" valign="top"><a id="a5951c9059f9ca67f1672c785fb4e129f"></a>
+<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>New</b> () const final</td></tr>
+<tr class="separator:a5951c9059f9ca67f1672c785fb4e129f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fb6c3f8c8b278bd55cff175673fe9d4"><td class="memItemLeft" align="right" valign="top"><a id="a7fb6c3f8c8b278bd55cff175673fe9d4"></a>
+<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>New</b> (::PROTOBUF_NAMESPACE_ID::Arena *arena) const final</td></tr>
+<tr class="separator:a7fb6c3f8c8b278bd55cff175673fe9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a355d2b02653caeb544ca289bd3251de7"><td class="memItemLeft" align="right" valign="top"><a id="a355d2b02653caeb544ca289bd3251de7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>CopyFrom</b> (const ::PROTOBUF_NAMESPACE_ID::Message &amp;from) final</td></tr>
+<tr class="separator:a355d2b02653caeb544ca289bd3251de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad804ecbec7f19177f450b59fd4a810d"><td class="memItemLeft" align="right" valign="top"><a id="aad804ecbec7f19177f450b59fd4a810d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MergeFrom</b> (const ::PROTOBUF_NAMESPACE_ID::Message &amp;from) final</td></tr>
+<tr class="separator:aad804ecbec7f19177f450b59fd4a810d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a408eee6fda68b6d04d967306b1345f41"><td class="memItemLeft" align="right" valign="top"><a id="a408eee6fda68b6d04d967306b1345f41"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>CopyFrom</b> (const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;from)</td></tr>
+<tr class="separator:a408eee6fda68b6d04d967306b1345f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28b9002617c5ae8621b6d7736ab6997f"><td class="memItemLeft" align="right" valign="top"><a id="a28b9002617c5ae8621b6d7736ab6997f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>MergeFrom</b> (const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;from)</td></tr>
+<tr class="separator:a28b9002617c5ae8621b6d7736ab6997f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa25e88d624162e3c054979dea8c40d41"><td class="memItemLeft" align="right" valign="top"><a id="aa25e88d624162e3c054979dea8c40d41"></a>
+PROTOBUF_ATTRIBUTE_REINITIALIZES void&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> () final</td></tr>
+<tr class="separator:aa25e88d624162e3c054979dea8c40d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c3633ae6ee04619eb2c65213ff431c3"><td class="memItemLeft" align="right" valign="top"><a id="a5c3633ae6ee04619eb2c65213ff431c3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsInitialized</b> () const final</td></tr>
+<tr class="separator:a5c3633ae6ee04619eb2c65213ff431c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad03676fc81c4fa6c3d49cd8d7a7170d5"><td class="memItemLeft" align="right" valign="top"><a id="ad03676fc81c4fa6c3d49cd8d7a7170d5"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>ByteSizeLong</b> () const final</td></tr>
+<tr class="separator:ad03676fc81c4fa6c3d49cd8d7a7170d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39e7402d17c1782a427e046679e0693e"><td class="memItemLeft" align="right" valign="top"><a id="a39e7402d17c1782a427e046679e0693e"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><b>_InternalParse</b> (const char *ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext *ctx) final</td></tr>
+<tr class="separator:a39e7402d17c1782a427e046679e0693e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a730ff5c699d96189ed748f6076bdf244"><td class="memItemLeft" align="right" valign="top"><a id="a730ff5c699d96189ed748f6076bdf244"></a>
+::PROTOBUF_NAMESPACE_ID::uint8 *&#160;</td><td class="memItemRight" valign="bottom"><b>_InternalSerialize</b> (::PROTOBUF_NAMESPACE_ID::uint8 *target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream *stream) const final</td></tr>
+<tr class="separator:a730ff5c699d96189ed748f6076bdf244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84be3c49e81f7cbdcdf498cbc4d70d36"><td class="memItemLeft" align="right" valign="top"><a id="a84be3c49e81f7cbdcdf498cbc4d70d36"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetCachedSize</b> () const final</td></tr>
+<tr class="separator:a84be3c49e81f7cbdcdf498cbc4d70d36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc1f1259a2f860f9772fc229d93dae3"><td class="memItemLeft" align="right" valign="top"><a id="a7bc1f1259a2f860f9772fc229d93dae3"></a>
+::PROTOBUF_NAMESPACE_ID::Metadata&#160;</td><td class="memItemRight" valign="bottom"><b>GetMetadata</b> () const final</td></tr>
+<tr class="separator:a7bc1f1259a2f860f9772fc229d93dae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45f7a606b4dd25adbd72bfc228f5a137"><td class="memItemLeft" align="right" valign="top"><a id="a45f7a606b4dd25adbd72bfc228f5a137"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_broadcast</b> () const</td></tr>
+<tr class="separator:a45f7a606b4dd25adbd72bfc228f5a137"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d12abed97e536d89561dcf644d88080"><td class="memItemLeft" align="right" valign="top"><a id="a3d12abed97e536d89561dcf644d88080"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_broadcast</b> ()</td></tr>
+<tr class="separator:a3d12abed97e536d89561dcf644d88080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adce32a9cf69b0f4bb73ff782759b3ff6"><td class="memItemLeft" align="right" valign="top"><a id="adce32a9cf69b0f4bb73ff782759b3ff6"></a>
+const ::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>broadcast</b> () const</td></tr>
+<tr class="separator:adce32a9cf69b0f4bb73ff782759b3ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a224c3aee0ff80411d62279c6fa6e61ce"><td class="memItemLeft" align="right" valign="top"><a id="a224c3aee0ff80411d62279c6fa6e61ce"></a>
+::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_broadcast</b> ()</td></tr>
+<tr class="separator:a224c3aee0ff80411d62279c6fa6e61ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e098a79dd841cd0360228b54330964e"><td class="memItemLeft" align="right" valign="top"><a id="a6e098a79dd841cd0360228b54330964e"></a>
+::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_broadcast</b> ()</td></tr>
+<tr class="separator:a6e098a79dd841cd0360228b54330964e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad712e1c0862b09a90b1b9b726e2e9354"><td class="memItemLeft" align="right" valign="top"><a id="ad712e1c0862b09a90b1b9b726e2e9354"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_broadcast</b> (::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> *broadcast)</td></tr>
+<tr class="separator:ad712e1c0862b09a90b1b9b726e2e9354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1104ff47f425e20c715d611c10c19eeb"><td class="memItemLeft" align="right" valign="top"><a id="a1104ff47f425e20c715d611c10c19eeb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_message</b> () const</td></tr>
+<tr class="separator:a1104ff47f425e20c715d611c10c19eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc7d2ab20bdced8747ebb8a006682976"><td class="memItemLeft" align="right" valign="top"><a id="afc7d2ab20bdced8747ebb8a006682976"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_message</b> ()</td></tr>
+<tr class="separator:afc7d2ab20bdced8747ebb8a006682976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a819ee6dfd39b9de9ef5b64219d762c"><td class="memItemLeft" align="right" valign="top"><a id="a4a819ee6dfd39b9de9ef5b64219d762c"></a>
+const ::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>message</b> () const</td></tr>
+<tr class="separator:a4a819ee6dfd39b9de9ef5b64219d762c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7fb3562516ffd25ee52bf2dcd5125d2"><td class="memItemLeft" align="right" valign="top"><a id="af7fb3562516ffd25ee52bf2dcd5125d2"></a>
+::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_message</b> ()</td></tr>
+<tr class="separator:af7fb3562516ffd25ee52bf2dcd5125d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a99b75cfee07af5382a042e1eb4e483"><td class="memItemLeft" align="right" valign="top"><a id="a4a99b75cfee07af5382a042e1eb4e483"></a>
+::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_message</b> ()</td></tr>
+<tr class="separator:a4a99b75cfee07af5382a042e1eb4e483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc8559dd0dcfde169c135f0e899c355"><td class="memItemLeft" align="right" valign="top"><a id="a2cc8559dd0dcfde169c135f0e899c355"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_message</b> (::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> *message)</td></tr>
+<tr class="separator:a2cc8559dd0dcfde169c135f0e899c355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1337b29d9ba20dd712b52aff7f2694cb"><td class="memItemLeft" align="right" valign="top"><a id="a1337b29d9ba20dd712b52aff7f2694cb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_error</b> () const</td></tr>
+<tr class="separator:a1337b29d9ba20dd712b52aff7f2694cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefcbf842dd325f059c0b2788bd89acba"><td class="memItemLeft" align="right" valign="top"><a id="aefcbf842dd325f059c0b2788bd89acba"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_error</b> ()</td></tr>
+<tr class="separator:aefcbf842dd325f059c0b2788bd89acba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a163ae9752d3c4b081569e2dc8251ac48"><td class="memItemLeft" align="right" valign="top"><a id="a163ae9752d3c4b081569e2dc8251ac48"></a>
+const ::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>error</b> () const</td></tr>
+<tr class="separator:a163ae9752d3c4b081569e2dc8251ac48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc4ae8b22dc2868ea254d443595f16d4"><td class="memItemLeft" align="right" valign="top"><a id="abc4ae8b22dc2868ea254d443595f16d4"></a>
+::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_error</b> ()</td></tr>
+<tr class="separator:abc4ae8b22dc2868ea254d443595f16d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae953d56f51fdb6e9caf6454169c49c51"><td class="memItemLeft" align="right" valign="top"><a id="ae953d56f51fdb6e9caf6454169c49c51"></a>
+::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_error</b> ()</td></tr>
+<tr class="separator:ae953d56f51fdb6e9caf6454169c49c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb5cc115b5792a057616a1fb9338e45c"><td class="memItemLeft" align="right" valign="top"><a id="aeb5cc115b5792a057616a1fb9338e45c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_error</b> (::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> *error)</td></tr>
+<tr class="separator:aeb5cc115b5792a057616a1fb9338e45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5622f42584d8f8d7a162d6dae95aa79"><td class="memItemLeft" align="right" valign="top"><a id="ae5622f42584d8f8d7a162d6dae95aa79"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_myinforesponse</b> () const</td></tr>
+<tr class="separator:ae5622f42584d8f8d7a162d6dae95aa79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee5bbec4c5463b43460cc08ab2f2d8d9"><td class="memItemLeft" align="right" valign="top"><a id="aee5bbec4c5463b43460cc08ab2f2d8d9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_myinforesponse</b> ()</td></tr>
+<tr class="separator:aee5bbec4c5463b43460cc08ab2f2d8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718c0cb3eed89d0b57e121ad36b3fef4"><td class="memItemLeft" align="right" valign="top"><a id="a718c0cb3eed89d0b57e121ad36b3fef4"></a>
+const ::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>myinforesponse</b> () const</td></tr>
+<tr class="separator:a718c0cb3eed89d0b57e121ad36b3fef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e02c13ce55cae72d509590715d0d8e"><td class="memItemLeft" align="right" valign="top"><a id="a05e02c13ce55cae72d509590715d0d8e"></a>
+::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_myinforesponse</b> ()</td></tr>
+<tr class="separator:a05e02c13ce55cae72d509590715d0d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a663d58978511b7fac8cbacbdd2f5502b"><td class="memItemLeft" align="right" valign="top"><a id="a663d58978511b7fac8cbacbdd2f5502b"></a>
+::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_myinforesponse</b> ()</td></tr>
+<tr class="separator:a663d58978511b7fac8cbacbdd2f5502b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff291ee574407bad98a19f4516c8ae42"><td class="memItemLeft" align="right" valign="top"><a id="aff291ee574407bad98a19f4516c8ae42"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_myinforesponse</b> (::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> *myinforesponse)</td></tr>
+<tr class="separator:aff291ee574407bad98a19f4516c8ae42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3675a2fb88e641d6676f344bfca5bef8"><td class="memItemLeft" align="right" valign="top"><a id="a3675a2fb88e641d6676f344bfca5bef8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_connecteduserresponse</b> () const</td></tr>
+<tr class="separator:a3675a2fb88e641d6676f344bfca5bef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56789eb5937548f436a37cd8e4fa141e"><td class="memItemLeft" align="right" valign="top"><a id="a56789eb5937548f436a37cd8e4fa141e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_connecteduserresponse</b> ()</td></tr>
+<tr class="separator:a56789eb5937548f436a37cd8e4fa141e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a8cc46d91e508d071be6bbeec42f7fb"><td class="memItemLeft" align="right" valign="top"><a id="a1a8cc46d91e508d071be6bbeec42f7fb"></a>
+const ::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>connecteduserresponse</b> () const</td></tr>
+<tr class="separator:a1a8cc46d91e508d071be6bbeec42f7fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad04c09c08496c48ddb1d19281658bb6a"><td class="memItemLeft" align="right" valign="top"><a id="ad04c09c08496c48ddb1d19281658bb6a"></a>
+::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_connecteduserresponse</b> ()</td></tr>
+<tr class="separator:ad04c09c08496c48ddb1d19281658bb6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc58bd218f17209fe9f51d2ee00fcbe4"><td class="memItemLeft" align="right" valign="top"><a id="afc58bd218f17209fe9f51d2ee00fcbe4"></a>
+::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_connecteduserresponse</b> ()</td></tr>
+<tr class="separator:afc58bd218f17209fe9f51d2ee00fcbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4c6be2b3a1187286cae6b51d2e85e0"><td class="memItemLeft" align="right" valign="top"><a id="afd4c6be2b3a1187286cae6b51d2e85e0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_connecteduserresponse</b> (::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> *connecteduserresponse)</td></tr>
+<tr class="separator:afd4c6be2b3a1187286cae6b51d2e85e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87ff4c1937782e4ff8ca856cdec47ec"><td class="memItemLeft" align="right" valign="top"><a id="ac87ff4c1937782e4ff8ca856cdec47ec"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_changestatusresponse</b> () const</td></tr>
+<tr class="separator:ac87ff4c1937782e4ff8ca856cdec47ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6093c38d70667b6d587725cb7c195d0"><td class="memItemLeft" align="right" valign="top"><a id="ab6093c38d70667b6d587725cb7c195d0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_changestatusresponse</b> ()</td></tr>
+<tr class="separator:ab6093c38d70667b6d587725cb7c195d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fabc600649aee8ed109ed0f9f990006"><td class="memItemLeft" align="right" valign="top"><a id="a4fabc600649aee8ed109ed0f9f990006"></a>
+const ::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>changestatusresponse</b> () const</td></tr>
+<tr class="separator:a4fabc600649aee8ed109ed0f9f990006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a579966f124d6cbb075cef09c7db01af2"><td class="memItemLeft" align="right" valign="top"><a id="a579966f124d6cbb075cef09c7db01af2"></a>
+::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_changestatusresponse</b> ()</td></tr>
+<tr class="separator:a579966f124d6cbb075cef09c7db01af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05f32e7c33b78d17897cdbcd154a2221"><td class="memItemLeft" align="right" valign="top"><a id="a05f32e7c33b78d17897cdbcd154a2221"></a>
+::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_changestatusresponse</b> ()</td></tr>
+<tr class="separator:a05f32e7c33b78d17897cdbcd154a2221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20a1d17ac980f9e6c53da0194b7c12c0"><td class="memItemLeft" align="right" valign="top"><a id="a20a1d17ac980f9e6c53da0194b7c12c0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_changestatusresponse</b> (::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> *changestatusresponse)</td></tr>
+<tr class="separator:a20a1d17ac980f9e6c53da0194b7c12c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af816ad7815128d10bb6068a27bc3b48b"><td class="memItemLeft" align="right" valign="top"><a id="af816ad7815128d10bb6068a27bc3b48b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_broadcastresponse</b> () const</td></tr>
+<tr class="separator:af816ad7815128d10bb6068a27bc3b48b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99757f61f9e6635268fc49c3ed93cc5a"><td class="memItemLeft" align="right" valign="top"><a id="a99757f61f9e6635268fc49c3ed93cc5a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_broadcastresponse</b> ()</td></tr>
+<tr class="separator:a99757f61f9e6635268fc49c3ed93cc5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5e406975614d0581c29e48e26c43534"><td class="memItemLeft" align="right" valign="top"><a id="aa5e406975614d0581c29e48e26c43534"></a>
+const ::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>broadcastresponse</b> () const</td></tr>
+<tr class="separator:aa5e406975614d0581c29e48e26c43534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac70ebb19c409e3c46fa0c4bd3034c25a"><td class="memItemLeft" align="right" valign="top"><a id="ac70ebb19c409e3c46fa0c4bd3034c25a"></a>
+::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_broadcastresponse</b> ()</td></tr>
+<tr class="separator:ac70ebb19c409e3c46fa0c4bd3034c25a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a87e5c7ab1740e8c93f896e2986c87c"><td class="memItemLeft" align="right" valign="top"><a id="a9a87e5c7ab1740e8c93f896e2986c87c"></a>
+::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_broadcastresponse</b> ()</td></tr>
+<tr class="separator:a9a87e5c7ab1740e8c93f896e2986c87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0423f4d61f2f9b274493d2c304e2d8a"><td class="memItemLeft" align="right" valign="top"><a id="aa0423f4d61f2f9b274493d2c304e2d8a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_broadcastresponse</b> (::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> *broadcastresponse)</td></tr>
+<tr class="separator:aa0423f4d61f2f9b274493d2c304e2d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a9754fec88ae419cbf644d5c306711e"><td class="memItemLeft" align="right" valign="top"><a id="a8a9754fec88ae419cbf644d5c306711e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_directmessageresponse</b> () const</td></tr>
+<tr class="separator:a8a9754fec88ae419cbf644d5c306711e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90a4c82857d42729d71776a95ce567d7"><td class="memItemLeft" align="right" valign="top"><a id="a90a4c82857d42729d71776a95ce567d7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_directmessageresponse</b> ()</td></tr>
+<tr class="separator:a90a4c82857d42729d71776a95ce567d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b13d340219bd296dfc0eb09f48a491b"><td class="memItemLeft" align="right" valign="top"><a id="a2b13d340219bd296dfc0eb09f48a491b"></a>
+const ::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>directmessageresponse</b> () const</td></tr>
+<tr class="separator:a2b13d340219bd296dfc0eb09f48a491b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1c13a01d8ccc63fec938274311ddd6"><td class="memItemLeft" align="right" valign="top"><a id="aab1c13a01d8ccc63fec938274311ddd6"></a>
+::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>release_directmessageresponse</b> ()</td></tr>
+<tr class="separator:aab1c13a01d8ccc63fec938274311ddd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d3e1bb7e4efa75a9302255c4ab882ac"><td class="memItemLeft" align="right" valign="top"><a id="a1d3e1bb7e4efa75a9302255c4ab882ac"></a>
+::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>mutable_directmessageresponse</b> ()</td></tr>
+<tr class="separator:a1d3e1bb7e4efa75a9302255c4ab882ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a684d50654f83c8e5661ab381f43c307b"><td class="memItemLeft" align="right" valign="top"><a id="a684d50654f83c8e5661ab381f43c307b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_allocated_directmessageresponse</b> (::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> *directmessageresponse)</td></tr>
+<tr class="separator:a684d50654f83c8e5661ab381f43c307b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeeefc0c8183653b8fdacbb3db9c307a"><td class="memItemLeft" align="right" valign="top"><a id="abeeefc0c8183653b8fdacbb3db9c307a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_option</b> () const</td></tr>
+<tr class="separator:abeeefc0c8183653b8fdacbb3db9c307a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7320f186aa25049ab1b2f26fd9356a6d"><td class="memItemLeft" align="right" valign="top"><a id="a7320f186aa25049ab1b2f26fd9356a6d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>clear_option</b> ()</td></tr>
+<tr class="separator:a7320f186aa25049ab1b2f26fd9356a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f6a39e7ccd8fad245643f7dcc7ac013"><td class="memItemLeft" align="right" valign="top"><a id="a9f6a39e7ccd8fad245643f7dcc7ac013"></a>
+::PROTOBUF_NAMESPACE_ID::int32&#160;</td><td class="memItemRight" valign="bottom"><b>option</b> () const</td></tr>
+<tr class="separator:a9f6a39e7ccd8fad245643f7dcc7ac013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ca1e7d0e88af9e00a4ed42ec350239d"><td class="memItemLeft" align="right" valign="top"><a id="a4ca1e7d0e88af9e00a4ed42ec350239d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_option</b> (::PROTOBUF_NAMESPACE_ID::int32 value)</td></tr>
+<tr class="separator:a4ca1e7d0e88af9e00a4ed42ec350239d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Métodos públicos estáticos</h2></td></tr>
+<tr class="memitem:a746d9fe3db285a0801d90e7f22b79809"><td class="memItemLeft" align="right" valign="top"><a id="a746d9fe3db285a0801d90e7f22b79809"></a>
+static const ::PROTOBUF_NAMESPACE_ID::Descriptor *&#160;</td><td class="memItemRight" valign="bottom"><b>descriptor</b> ()</td></tr>
+<tr class="separator:a746d9fe3db285a0801d90e7f22b79809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45184014055aecebe2b855567b4f0d82"><td class="memItemLeft" align="right" valign="top"><a id="a45184014055aecebe2b855567b4f0d82"></a>
+static const ::PROTOBUF_NAMESPACE_ID::Descriptor *&#160;</td><td class="memItemRight" valign="bottom"><b>GetDescriptor</b> ()</td></tr>
+<tr class="separator:a45184014055aecebe2b855567b4f0d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b4ba72e43392e7e49179beb21841ed1"><td class="memItemLeft" align="right" valign="top"><a id="a4b4ba72e43392e7e49179beb21841ed1"></a>
+static const ::PROTOBUF_NAMESPACE_ID::Reflection *&#160;</td><td class="memItemRight" valign="bottom"><b>GetReflection</b> ()</td></tr>
+<tr class="separator:a4b4ba72e43392e7e49179beb21841ed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a037f6fdac73c06f303f797accf410de1"><td class="memItemLeft" align="right" valign="top"><a id="a037f6fdac73c06f303f797accf410de1"></a>
+static const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>default_instance</b> ()</td></tr>
+<tr class="separator:a037f6fdac73c06f303f797accf410de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab22ec0bac4c924c5b112f5562ebd6ffd"><td class="memItemLeft" align="right" valign="top"><a id="ab22ec0bac4c924c5b112f5562ebd6ffd"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>InitAsDefaultInstance</b> ()</td></tr>
+<tr class="separator:ab22ec0bac4c924c5b112f5562ebd6ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add0fb2cc1338cb7c5889d987d05267c1"><td class="memItemLeft" align="right" valign="top"><a id="add0fb2cc1338cb7c5889d987d05267c1"></a>
+static const <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>internal_default_instance</b> ()</td></tr>
+<tr class="separator:add0fb2cc1338cb7c5889d987d05267c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Atributos públicos estáticos</h2></td></tr>
+<tr class="memitem:a03f878588e707f7a2e354232de387bb0"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><b>kIndexInFileMessages</b></td></tr>
+<tr class="separator:a03f878588e707f7a2e354232de387bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Métodos privados</h2></td></tr>
+<tr class="memitem:a145ea961578658f07d504b936d01139d"><td class="memItemLeft" align="right" valign="top"><a id="a145ea961578658f07d504b936d01139d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SharedCtor</b> ()</td></tr>
+<tr class="separator:a145ea961578658f07d504b936d01139d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fb763e429d7a0562470ebc525d99c36"><td class="memItemLeft" align="right" valign="top"><a id="a2fb763e429d7a0562470ebc525d99c36"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SharedDtor</b> ()</td></tr>
+<tr class="separator:a2fb763e429d7a0562470ebc525d99c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d9c031b1d1c57d49e7209ebe90fc176"><td class="memItemLeft" align="right" valign="top"><a id="a4d9c031b1d1c57d49e7209ebe90fc176"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetCachedSize</b> (int size) const final</td></tr>
+<tr class="separator:a4d9c031b1d1c57d49e7209ebe90fc176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae00de89e5a6ca61a6a1d7bcd8882ab5"><td class="memItemLeft" align="right" valign="top"><a id="aae00de89e5a6ca61a6a1d7bcd8882ab5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>InternalSwap</b> (<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> *other)</td></tr>
+<tr class="separator:aae00de89e5a6ca61a6a1d7bcd8882ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4606856be1ffc0b53c9331913745adf"><td class="memItemLeft" align="right" valign="top"><a id="ab4606856be1ffc0b53c9331913745adf"></a>
+inline ::PROTOBUF_NAMESPACE_ID::Arena *&#160;</td><td class="memItemRight" valign="bottom"><b>GetArenaNoVirtual</b> () const</td></tr>
+<tr class="separator:ab4606856be1ffc0b53c9331913745adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af42a994eb560848016c49d41ebe1897d"><td class="memItemLeft" align="right" valign="top"><a id="af42a994eb560848016c49d41ebe1897d"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>MaybeArenaPtr</b> () const</td></tr>
+<tr class="separator:af42a994eb560848016c49d41ebe1897d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d30a56062e1987cd68e6c30c897e823"><td class="memItemLeft" align="right" valign="top"><a id="a0d30a56062e1987cd68e6c30c897e823"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_broadcast</b> () const</td></tr>
+<tr class="separator:a0d30a56062e1987cd68e6c30c897e823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b4d2fabe79d4f6be96e626129b4c296"><td class="memItemLeft" align="right" valign="top"><a id="a1b4d2fabe79d4f6be96e626129b4c296"></a>
+const ::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_broadcast</b> () const</td></tr>
+<tr class="separator:a1b4d2fabe79d4f6be96e626129b4c296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a267f5385473f8baad4762f922764eb69"><td class="memItemLeft" align="right" valign="top"><a id="a267f5385473f8baad4762f922764eb69"></a>
+::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_broadcast</b> ()</td></tr>
+<tr class="separator:a267f5385473f8baad4762f922764eb69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa247ff3a928acddd12a7a0b6dd23ed4d"><td class="memItemLeft" align="right" valign="top"><a id="aa247ff3a928acddd12a7a0b6dd23ed4d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_message</b> () const</td></tr>
+<tr class="separator:aa247ff3a928acddd12a7a0b6dd23ed4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7ff7d28658ee824eb3c09b43c19aeb2"><td class="memItemLeft" align="right" valign="top"><a id="ae7ff7d28658ee824eb3c09b43c19aeb2"></a>
+const ::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_message</b> () const</td></tr>
+<tr class="separator:ae7ff7d28658ee824eb3c09b43c19aeb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a234addd76d0b129095485127c5d70731"><td class="memItemLeft" align="right" valign="top"><a id="a234addd76d0b129095485127c5d70731"></a>
+::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_message</b> ()</td></tr>
+<tr class="separator:a234addd76d0b129095485127c5d70731"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e4da71c7e7d46cf303427d0e22105fd"><td class="memItemLeft" align="right" valign="top"><a id="a6e4da71c7e7d46cf303427d0e22105fd"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_error</b> () const</td></tr>
+<tr class="separator:a6e4da71c7e7d46cf303427d0e22105fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12ab70d85a6ee242b0d0e480d3a997f0"><td class="memItemLeft" align="right" valign="top"><a id="a12ab70d85a6ee242b0d0e480d3a997f0"></a>
+const ::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_error</b> () const</td></tr>
+<tr class="separator:a12ab70d85a6ee242b0d0e480d3a997f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d97a0ee2d454940081bb58c611bf2a"><td class="memItemLeft" align="right" valign="top"><a id="a98d97a0ee2d454940081bb58c611bf2a"></a>
+::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_error</b> ()</td></tr>
+<tr class="separator:a98d97a0ee2d454940081bb58c611bf2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93987330885e2e91a5e14b2c50c2788a"><td class="memItemLeft" align="right" valign="top"><a id="a93987330885e2e91a5e14b2c50c2788a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_myinforesponse</b> () const</td></tr>
+<tr class="separator:a93987330885e2e91a5e14b2c50c2788a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90a5961c5569eadefbd7ca410ff57583"><td class="memItemLeft" align="right" valign="top"><a id="a90a5961c5569eadefbd7ca410ff57583"></a>
+const ::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_myinforesponse</b> () const</td></tr>
+<tr class="separator:a90a5961c5569eadefbd7ca410ff57583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3414bbd2d368aa772543f816cee2487"><td class="memItemLeft" align="right" valign="top"><a id="aa3414bbd2d368aa772543f816cee2487"></a>
+::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_myinforesponse</b> ()</td></tr>
+<tr class="separator:aa3414bbd2d368aa772543f816cee2487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a247eeb6aebcab1c9490f0e107cb26f50"><td class="memItemLeft" align="right" valign="top"><a id="a247eeb6aebcab1c9490f0e107cb26f50"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_connecteduserresponse</b> () const</td></tr>
+<tr class="separator:a247eeb6aebcab1c9490f0e107cb26f50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8d830263dffb195ed62fae45e70bd6"><td class="memItemLeft" align="right" valign="top"><a id="a2f8d830263dffb195ed62fae45e70bd6"></a>
+const ::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_connecteduserresponse</b> () const</td></tr>
+<tr class="separator:a2f8d830263dffb195ed62fae45e70bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a284d8ff8999e97688f6e2f57391b40e0"><td class="memItemLeft" align="right" valign="top"><a id="a284d8ff8999e97688f6e2f57391b40e0"></a>
+::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_connecteduserresponse</b> ()</td></tr>
+<tr class="separator:a284d8ff8999e97688f6e2f57391b40e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3f5764e004a0891168ab8c2439a40b"><td class="memItemLeft" align="right" valign="top"><a id="a3d3f5764e004a0891168ab8c2439a40b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_changestatusresponse</b> () const</td></tr>
+<tr class="separator:a3d3f5764e004a0891168ab8c2439a40b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86f889363a358272a82623db7f363dd"><td class="memItemLeft" align="right" valign="top"><a id="ac86f889363a358272a82623db7f363dd"></a>
+const ::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_changestatusresponse</b> () const</td></tr>
+<tr class="separator:ac86f889363a358272a82623db7f363dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a578369ad5468ce2ebbdeb79ebf7af8c3"><td class="memItemLeft" align="right" valign="top"><a id="a578369ad5468ce2ebbdeb79ebf7af8c3"></a>
+::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_changestatusresponse</b> ()</td></tr>
+<tr class="separator:a578369ad5468ce2ebbdeb79ebf7af8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29f5886785aee89ef2027417706e0429"><td class="memItemLeft" align="right" valign="top"><a id="a29f5886785aee89ef2027417706e0429"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_broadcastresponse</b> () const</td></tr>
+<tr class="separator:a29f5886785aee89ef2027417706e0429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46e51eb09027248117c71b93ce96d306"><td class="memItemLeft" align="right" valign="top"><a id="a46e51eb09027248117c71b93ce96d306"></a>
+const ::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_broadcastresponse</b> () const</td></tr>
+<tr class="separator:a46e51eb09027248117c71b93ce96d306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4bd37981b84f58cea6e4a64b035cdd4"><td class="memItemLeft" align="right" valign="top"><a id="ae4bd37981b84f58cea6e4a64b035cdd4"></a>
+::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_broadcastresponse</b> ()</td></tr>
+<tr class="separator:ae4bd37981b84f58cea6e4a64b035cdd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a077bd8c3292579249960dd18c36c7687"><td class="memItemLeft" align="right" valign="top"><a id="a077bd8c3292579249960dd18c36c7687"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_directmessageresponse</b> () const</td></tr>
+<tr class="separator:a077bd8c3292579249960dd18c36c7687"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab555c51650a4db3e7acfa3461845b352"><td class="memItemLeft" align="right" valign="top"><a id="ab555c51650a4db3e7acfa3461845b352"></a>
+const ::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_directmessageresponse</b> () const</td></tr>
+<tr class="separator:ab555c51650a4db3e7acfa3461845b352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0b508fa50f26f1a664abc8cb9550895"><td class="memItemLeft" align="right" valign="top"><a id="ab0b508fa50f26f1a664abc8cb9550895"></a>
+::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_mutable_directmessageresponse</b> ()</td></tr>
+<tr class="separator:ab0b508fa50f26f1a664abc8cb9550895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5692c9d51f76603b2683bcdb1405750c"><td class="memItemLeft" align="right" valign="top"><a id="a5692c9d51f76603b2683bcdb1405750c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_has_option</b> () const</td></tr>
+<tr class="separator:a5692c9d51f76603b2683bcdb1405750c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82bba7035203167507898d52e107c2b7"><td class="memItemLeft" align="right" valign="top"><a id="a82bba7035203167507898d52e107c2b7"></a>
+::PROTOBUF_NAMESPACE_ID::int32&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_option</b> () const</td></tr>
+<tr class="separator:a82bba7035203167507898d52e107c2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8606aeeda58837ef0e39e7a6c04e95e9"><td class="memItemLeft" align="right" valign="top"><a id="a8606aeeda58837ef0e39e7a6c04e95e9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_set_option</b> (::PROTOBUF_NAMESPACE_ID::int32 value)</td></tr>
+<tr class="separator:a8606aeeda58837ef0e39e7a6c04e95e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Métodos privados estáticos</h2></td></tr>
+<tr class="memitem:a07e12fbca0290bc12a9b5498811125a1"><td class="memItemLeft" align="right" valign="top"><a id="a07e12fbca0290bc12a9b5498811125a1"></a>
+::PROTOBUF_NAMESPACE_ID::StringPiece&#160;</td><td class="memItemRight" valign="bottom"><b>FullMessageName</b> ()</td></tr>
+<tr class="separator:a07e12fbca0290bc12a9b5498811125a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc79309d4e7daaa36836eedeb4026f3a"><td class="memItemLeft" align="right" valign="top"><a id="afc79309d4e7daaa36836eedeb4026f3a"></a>
+::PROTOBUF_NAMESPACE_ID::Metadata&#160;</td><td class="memItemRight" valign="bottom"><b>GetMetadataStatic</b> ()</td></tr>
+<tr class="separator:afc79309d4e7daaa36836eedeb4026f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Atributos privados</h2></td></tr>
+<tr class="memitem:a68d3df45c51186911b65907f22455238"><td class="memItemLeft" align="right" valign="top"><a id="a68d3df45c51186911b65907f22455238"></a>
+::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena&#160;</td><td class="memItemRight" valign="bottom"><b>_internal_metadata_</b></td></tr>
+<tr class="separator:a68d3df45c51186911b65907f22455238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f3c58be6677be2e82dad0ac37c1d038"><td class="memItemLeft" align="right" valign="top"><a id="a1f3c58be6677be2e82dad0ac37c1d038"></a>
+::PROTOBUF_NAMESPACE_ID::internal::HasBits&lt; 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_has_bits_</b></td></tr>
+<tr class="separator:a1f3c58be6677be2e82dad0ac37c1d038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb9b3885be9c1149aceec04feb5859fb"><td class="memItemLeft" align="right" valign="top"><a id="aeb9b3885be9c1149aceec04feb5859fb"></a>
+mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize&#160;</td><td class="memItemRight" valign="bottom"><b>_cached_size_</b></td></tr>
+<tr class="separator:aeb9b3885be9c1149aceec04feb5859fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad03eaf606b1c97eec0995f8933d820c7"><td class="memItemLeft" align="right" valign="top"><a id="ad03eaf606b1c97eec0995f8933d820c7"></a>
+::<a class="el" href="classchat_1_1_broadcast_message.html">chat::BroadcastMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>broadcast_</b></td></tr>
+<tr class="separator:ad03eaf606b1c97eec0995f8933d820c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79eb19030ccad8a93d8a42bd7e503cd2"><td class="memItemLeft" align="right" valign="top"><a id="a79eb19030ccad8a93d8a42bd7e503cd2"></a>
+::<a class="el" href="classchat_1_1_direct_message.html">chat::DirectMessage</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>message_</b></td></tr>
+<tr class="separator:a79eb19030ccad8a93d8a42bd7e503cd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb89579246b63c066f84dd59bd8de79"><td class="memItemLeft" align="right" valign="top"><a id="a7cb89579246b63c066f84dd59bd8de79"></a>
+::<a class="el" href="classchat_1_1_error_response.html">chat::ErrorResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>error_</b></td></tr>
+<tr class="separator:a7cb89579246b63c066f84dd59bd8de79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accb282685341908f9ae2e4719081730b"><td class="memItemLeft" align="right" valign="top"><a id="accb282685341908f9ae2e4719081730b"></a>
+::<a class="el" href="classchat_1_1_my_info_response.html">chat::MyInfoResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>myinforesponse_</b></td></tr>
+<tr class="separator:accb282685341908f9ae2e4719081730b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a537ac9d6ac6decf6df76621b779acfdd"><td class="memItemLeft" align="right" valign="top"><a id="a537ac9d6ac6decf6df76621b779acfdd"></a>
+::<a class="el" href="classchat_1_1_connected_user_response.html">chat::ConnectedUserResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>connecteduserresponse_</b></td></tr>
+<tr class="separator:a537ac9d6ac6decf6df76621b779acfdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a513f33cfe36a05ba5515456a30ff1c0f"><td class="memItemLeft" align="right" valign="top"><a id="a513f33cfe36a05ba5515456a30ff1c0f"></a>
+::<a class="el" href="classchat_1_1_change_status_response.html">chat::ChangeStatusResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>changestatusresponse_</b></td></tr>
+<tr class="separator:a513f33cfe36a05ba5515456a30ff1c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb67e3d1ef2e94c24942a5072c9dc6dc"><td class="memItemLeft" align="right" valign="top"><a id="afb67e3d1ef2e94c24942a5072c9dc6dc"></a>
+::<a class="el" href="classchat_1_1_broadcast_response.html">chat::BroadcastResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>broadcastresponse_</b></td></tr>
+<tr class="separator:afb67e3d1ef2e94c24942a5072c9dc6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9a1bc595f4f834e329d729443284e10"><td class="memItemLeft" align="right" valign="top"><a id="ab9a1bc595f4f834e329d729443284e10"></a>
+::<a class="el" href="classchat_1_1_direct_message_response.html">chat::DirectMessageResponse</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>directmessageresponse_</b></td></tr>
+<tr class="separator:ab9a1bc595f4f834e329d729443284e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4fd7534564d76854e9518b7ed65cd7e"><td class="memItemLeft" align="right" valign="top"><a id="ac4fd7534564d76854e9518b7ed65cd7e"></a>
+::PROTOBUF_NAMESPACE_ID::int32&#160;</td><td class="memItemRight" valign="bottom"><b>option_</b></td></tr>
+<tr class="separator:ac4fd7534564d76854e9518b7ed65cd7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Amigas</h2></td></tr>
+<tr class="memitem:a9b35d94da3444084fc3673b7717b6cfe"><td class="memItemLeft" align="right" valign="top"><a id="a9b35d94da3444084fc3673b7717b6cfe"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata</b></td></tr>
+<tr class="separator:a9b35d94da3444084fc3673b7717b6cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae43206d635cd0f32ec7398730405dd24"><td class="memItemLeft" align="right" valign="top"><a id="ae43206d635cd0f32ec7398730405dd24"></a>
+struct&#160;</td><td class="memItemRight" valign="bottom"><b>::TableStruct_mensaje_2eproto</b></td></tr>
+<tr class="separator:ae43206d635cd0f32ec7398730405dd24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a213ee618323ff7111a47c0e3fa434570"><td class="memItemLeft" align="right" valign="top"><a id="a213ee618323ff7111a47c0e3fa434570"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>swap</b> (<a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;a, <a class="el" href="classchat_1_1_server_message.html">ServerMessage</a> &amp;b)</td></tr>
+<tr class="separator:a213ee618323ff7111a47c0e3fa434570"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentación de los datos miembro</h2>
+<a id="a03f878588e707f7a2e354232de387bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03f878588e707f7a2e354232de387bb0">&#9670;&nbsp;</a></span>kIndexInFileMessages</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int chat::ServerMessage::kIndexInFileMessages</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Valor inicial:</b><div class="fragment"><div class="line">=</div>
+<div class="line">    16</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>La documentación para esta clase fue generada a partir de los siguientes ficheros:<ul>
+<li>D:/One Drive/OneDrive - Universidad del Valle de Guatemala/7MO SEMESTRE/OS/ProyectoChat/<a class="el" href="mensaje_8pb_8h_source.html">mensaje.pb.h</a></li>
+<li>D:/One Drive/OneDrive - Universidad del Valle de Guatemala/7MO SEMESTRE/OS/ProyectoChat/mensaje.pb.cc</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>
