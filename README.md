@@ -18,7 +18,7 @@ Con este trabajo se reforzarán los conocimientos sobre procesos, threads, concu
 
 ## Documentación
 Documentación detallada sobre la esctrructura completa del proyecto.
-- :point_right: [LINK](https://chchew.github.io/DOC-ProyectoChat/index.html)
+:point_right: [LINK](https://chchew.github.io/DOC-ProyectoChat/index.html)
 
 ## Tabla de contenido
 En este proyecto se utilizan:
@@ -27,16 +27,16 @@ En este proyecto se utilizan:
 - 🛠 **Sockets** — Para comunicacion en la red
 - :balloon: **Pthreads** — Para manejo de concurrencia y comunicacion entre procesos
 
-## Compilacion y ejecucion
+## Compilación y ejecución
 1. Clonar el repo usando `https://github.com/sev17238/ProyectoChat.git`
 2. Ir al directorio deseado: `cd ProyectoChat`.<br />
 3. Correr `protoc -I=. --cpp_out=. mensaje.proto` para compilar el .proto y generar: mensaje.pb.cc y mensaje.pb.h
 4. Y para compilar: `g++ Servidor.cpp mensaje.pb.cc -lprotobuf -o servertest`
 5. Correr `./servertest`
 
-## References
+## Referencias
 
-### Protobuf Implementation
+### Implementación PROTOBUF
  - https://vorbrodt.blog/2019/03/10/protocol-buffers-or-how-to-serialize-data/
  - https://developers.google.com/protocol-buffers/docs/cpptutorial
  - https://developers.google.com/protocol-buffers/docs/downloads?hl=es-419
