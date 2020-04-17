@@ -18,7 +18,7 @@ Con este trabajo se reforzarán los conocimientos sobre procesos, threads, concu
 
 ## Documentación
 Documentación detallada sobre la esctrructura completa del proyecto.
-:point_right: [LINK](https://chchew.github.io/DOC-ProyectoChat/index.html)
+- :point_right: [LINK](https://chchew.github.io/DOC-ProyectoChat/index.html)
 
 ## Tabla de contenido
 En este proyecto se utilizan:
