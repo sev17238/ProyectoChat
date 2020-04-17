@@ -47,7 +47,7 @@ struct TableStruct_mensaje_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[17]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[18]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -91,6 +91,9 @@ extern DirectMessageResponseDefaultTypeInternal _DirectMessageResponse_default_i
 class ErrorResponse;
 class ErrorResponseDefaultTypeInternal;
 extern ErrorResponseDefaultTypeInternal _ErrorResponse_default_instance_;
+class ExitChat;
+class ExitChatDefaultTypeInternal;
+extern ExitChatDefaultTypeInternal _ExitChat_default_instance_;
 class MyInfoAcknowledge;
 class MyInfoAcknowledgeDefaultTypeInternal;
 extern MyInfoAcknowledgeDefaultTypeInternal _MyInfoAcknowledge_default_instance_;
@@ -120,6 +123,7 @@ template<> ::chat::DirectMessage* Arena::CreateMaybeMessage<::chat::DirectMessag
 template<> ::chat::DirectMessageRequest* Arena::CreateMaybeMessage<::chat::DirectMessageRequest>(Arena*);
 template<> ::chat::DirectMessageResponse* Arena::CreateMaybeMessage<::chat::DirectMessageResponse>(Arena*);
 template<> ::chat::ErrorResponse* Arena::CreateMaybeMessage<::chat::ErrorResponse>(Arena*);
+template<> ::chat::ExitChat* Arena::CreateMaybeMessage<::chat::ExitChat>(Arena*);
 template<> ::chat::MyInfoAcknowledge* Arena::CreateMaybeMessage<::chat::MyInfoAcknowledge>(Arena*);
 template<> ::chat::MyInfoResponse* Arena::CreateMaybeMessage<::chat::MyInfoResponse>(Arena*);
 template<> ::chat::MyInfoSynchronize* Arena::CreateMaybeMessage<::chat::MyInfoSynchronize>(Arena*);
@@ -2506,6 +2510,146 @@ class ErrorResponse :
 };
 // -------------------------------------------------------------------
 
+class ExitChat :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chat.ExitChat) */ {
+ public:
+  ExitChat();
+  virtual ~ExitChat();
+
+  ExitChat(const ExitChat& from);
+  ExitChat(ExitChat&& from) noexcept
+    : ExitChat() {
+    *this = ::std::move(from);
+  }
+
+  inline ExitChat& operator=(const ExitChat& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ExitChat& operator=(ExitChat&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ExitChat& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ExitChat* internal_default_instance() {
+    return reinterpret_cast<const ExitChat*>(
+               &_ExitChat_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(ExitChat& a, ExitChat& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ExitChat* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ExitChat* New() const final {
+    return CreateMaybeMessage<ExitChat>(nullptr);
+  }
+
+  ExitChat* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ExitChat>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ExitChat& from);
+  void MergeFrom(const ExitChat& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ExitChat* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "chat.ExitChat";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_mensaje_2eproto);
+    return ::descriptor_table_mensaje_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserIdFieldNumber = 1,
+  };
+  // required int32 userId = 1;
+  bool has_userid() const;
+  private:
+  bool _internal_has_userid() const;
+  public:
+  void clear_userid();
+  ::PROTOBUF_NAMESPACE_ID::int32 userid() const;
+  void set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_userid() const;
+  void _internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:chat.ExitChat)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::int32 userid_;
+  friend struct ::TableStruct_mensaje_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ClientMessage :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:chat.ClientMessage) */ {
  public:
@@ -2555,7 +2699,7 @@ class ClientMessage :
                &_ClientMessage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    16;
 
   friend void swap(ClientMessage& a, ClientMessage& b) {
     a.Swap(&b);
@@ -2625,6 +2769,7 @@ class ClientMessage :
     kBroadcastFieldNumber = 6,
     kDirectMessageFieldNumber = 7,
     kAcknowledgeFieldNumber = 8,
+    kExitchatFieldNumber = 9,
     kOptionFieldNumber = 1,
     kUserIdFieldNumber = 2,
   };
@@ -2718,6 +2863,21 @@ class ClientMessage :
   ::chat::MyInfoAcknowledge* _internal_mutable_acknowledge();
   public:
 
+  // optional .chat.ExitChat exitchat = 9;
+  bool has_exitchat() const;
+  private:
+  bool _internal_has_exitchat() const;
+  public:
+  void clear_exitchat();
+  const ::chat::ExitChat& exitchat() const;
+  ::chat::ExitChat* release_exitchat();
+  ::chat::ExitChat* mutable_exitchat();
+  void set_allocated_exitchat(::chat::ExitChat* exitchat);
+  private:
+  const ::chat::ExitChat& _internal_exitchat() const;
+  ::chat::ExitChat* _internal_mutable_exitchat();
+  public:
+
   // required int32 option = 1;
   bool has_option() const;
   private:
@@ -2757,6 +2917,7 @@ class ClientMessage :
   ::chat::BroadcastRequest* broadcast_;
   ::chat::DirectMessageRequest* directmessage_;
   ::chat::MyInfoAcknowledge* acknowledge_;
+  ::chat::ExitChat* exitchat_;
   ::PROTOBUF_NAMESPACE_ID::int32 option_;
   ::PROTOBUF_NAMESPACE_ID::int32 userid_;
   friend struct ::TableStruct_mensaje_2eproto;
@@ -2812,7 +2973,7 @@ class ServerMessage :
                &_ServerMessage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    17;
 
   friend void swap(ServerMessage& a, ServerMessage& b) {
     a.Swap(&b);
@@ -4505,11 +4666,43 @@ inline void ErrorResponse::set_allocated_errormessage(std::string* errormessage)
 
 // -------------------------------------------------------------------
 
+// ExitChat
+
+// required int32 userId = 1;
+inline bool ExitChat::_internal_has_userid() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ExitChat::has_userid() const {
+  return _internal_has_userid();
+}
+inline void ExitChat::clear_userid() {
+  userid_ = 0;
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 ExitChat::_internal_userid() const {
+  return userid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 ExitChat::userid() const {
+  // @@protoc_insertion_point(field_get:chat.ExitChat.userId)
+  return _internal_userid();
+}
+inline void ExitChat::_internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000001u;
+  userid_ = value;
+}
+inline void ExitChat::set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_userid(value);
+  // @@protoc_insertion_point(field_set:chat.ExitChat.userId)
+}
+
+// -------------------------------------------------------------------
+
 // ClientMessage
 
 // required int32 option = 1;
 inline bool ClientMessage::_internal_has_option() const {
-  bool value = (_has_bits_[0] & 0x00000040u) != 0;
+  bool value = (_has_bits_[0] & 0x00000080u) != 0;
   return value;
 }
 inline bool ClientMessage::has_option() const {
@@ -4517,7 +4710,7 @@ inline bool ClientMessage::has_option() const {
 }
 inline void ClientMessage::clear_option() {
   option_ = 0;
-  _has_bits_[0] &= ~0x00000040u;
+  _has_bits_[0] &= ~0x00000080u;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int32 ClientMessage::_internal_option() const {
   return option_;
@@ -4527,7 +4720,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int32 ClientMessage::option() const {
   return _internal_option();
 }
 inline void ClientMessage::_internal_set_option(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000040u;
+  _has_bits_[0] |= 0x00000080u;
   option_ = value;
 }
 inline void ClientMessage::set_option(::PROTOBUF_NAMESPACE_ID::int32 value) {
@@ -4537,7 +4730,7 @@ inline void ClientMessage::set_option(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // optional int32 userId = 2;
 inline bool ClientMessage::_internal_has_userid() const {
-  bool value = (_has_bits_[0] & 0x00000080u) != 0;
+  bool value = (_has_bits_[0] & 0x00000100u) != 0;
   return value;
 }
 inline bool ClientMessage::has_userid() const {
@@ -4545,7 +4738,7 @@ inline bool ClientMessage::has_userid() const {
 }
 inline void ClientMessage::clear_userid() {
   userid_ = 0;
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000100u;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int32 ClientMessage::_internal_userid() const {
   return userid_;
@@ -4555,7 +4748,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int32 ClientMessage::userid() const {
   return _internal_userid();
 }
 inline void ClientMessage::_internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000100u;
   userid_ = value;
 }
 inline void ClientMessage::set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
@@ -4921,6 +5114,66 @@ inline void ClientMessage::set_allocated_acknowledge(::chat::MyInfoAcknowledge* 
   }
   acknowledge_ = acknowledge;
   // @@protoc_insertion_point(field_set_allocated:chat.ClientMessage.acknowledge)
+}
+
+// optional .chat.ExitChat exitchat = 9;
+inline bool ClientMessage::_internal_has_exitchat() const {
+  bool value = (_has_bits_[0] & 0x00000040u) != 0;
+  PROTOBUF_ASSUME(!value || exitchat_ != nullptr);
+  return value;
+}
+inline bool ClientMessage::has_exitchat() const {
+  return _internal_has_exitchat();
+}
+inline void ClientMessage::clear_exitchat() {
+  if (exitchat_ != nullptr) exitchat_->Clear();
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline const ::chat::ExitChat& ClientMessage::_internal_exitchat() const {
+  const ::chat::ExitChat* p = exitchat_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::chat::ExitChat*>(
+      &::chat::_ExitChat_default_instance_);
+}
+inline const ::chat::ExitChat& ClientMessage::exitchat() const {
+  // @@protoc_insertion_point(field_get:chat.ClientMessage.exitchat)
+  return _internal_exitchat();
+}
+inline ::chat::ExitChat* ClientMessage::release_exitchat() {
+  // @@protoc_insertion_point(field_release:chat.ClientMessage.exitchat)
+  _has_bits_[0] &= ~0x00000040u;
+  ::chat::ExitChat* temp = exitchat_;
+  exitchat_ = nullptr;
+  return temp;
+}
+inline ::chat::ExitChat* ClientMessage::_internal_mutable_exitchat() {
+  _has_bits_[0] |= 0x00000040u;
+  if (exitchat_ == nullptr) {
+    auto* p = CreateMaybeMessage<::chat::ExitChat>(GetArenaNoVirtual());
+    exitchat_ = p;
+  }
+  return exitchat_;
+}
+inline ::chat::ExitChat* ClientMessage::mutable_exitchat() {
+  // @@protoc_insertion_point(field_mutable:chat.ClientMessage.exitchat)
+  return _internal_mutable_exitchat();
+}
+inline void ClientMessage::set_allocated_exitchat(::chat::ExitChat* exitchat) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete exitchat_;
+  }
+  if (exitchat) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      exitchat = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, exitchat, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000040u;
+  } else {
+    _has_bits_[0] &= ~0x00000040u;
+  }
+  exitchat_ = exitchat;
+  // @@protoc_insertion_point(field_set_allocated:chat.ClientMessage.exitchat)
 }
 
 // -------------------------------------------------------------------
@@ -5438,6 +5691,8 @@ inline void ServerMessage::set_allocated_directmessageresponse(::chat::DirectMes
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

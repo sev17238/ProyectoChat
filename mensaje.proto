@@ -112,6 +112,10 @@ message ErrorResponse {
   required string errorMessage = 1;
 }
 
+// Salir del chat
+message ExitChat {
+  required int32 userId = 1;
+}
 
 // CLIENT MESSAGE OPTIONS
 // "option" helps the Server identify the type of message it is receiving and what to use to parse it
@@ -121,6 +125,7 @@ message ErrorResponse {
 // option 4: broadcast
 // option 5: directMessage
 // option 6: acknowledge
+// option 7: exitchat
 message ClientMessage {
   required int32 option = 1;
 
@@ -137,6 +142,9 @@ message ClientMessage {
   optional DirectMessageRequest directMessage = 7;
 
   optional MyInfoAcknowledge acknowledge = 8;
+
+  optional ExitChat exitchat = 9;
+
 }
 
 // SERVER MESSAGE OPTIONS

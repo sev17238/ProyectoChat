@@ -146,6 +146,8 @@ void changeStatus(int id,string status,int fd,char *buffer){
     strcpy(cstr, binary.c_str());
     send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
     cout << "\nstatusprueba4\n" << endl;
+    cout << status << endl;
+
     //delay()
     //Se recibe la respuesta del servidor
     read( fd , buffer, PORT);
@@ -159,7 +161,26 @@ void changeStatus(int id,string status,int fd,char *buffer){
 
 }
 
+void exitChat(){
+    ExitChat *exit(new ExitChat);
+    exit->set_userid(id); 
+    
+    ClientMessage * message(new ClientMessage);
+    message->set_option(7);
+    //message->set_userid('2');
+    message->set_allocated_exitchat(exit);
+    
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
 
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+
+    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+
+
+}
 
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados

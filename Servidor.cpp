@@ -82,18 +82,18 @@ static void err(const char* s) {
 }
 
 void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente){
-     /// REQUEST PARA NUEVOS USUARIOS -----------------------------------------------
+    /// REQUEST PARA NUEVOS USUARIOS -----------------------------------------------
     //Se recibe el MyInfoSynchronize del cliente
     read( connectfd , buf, PORT);
-    cout << "\n3wayprueba4\n" << endl;
+
     //string ret1(buf, PORT); //se convierte el char a string
-    cout << "\n3wayprueba5\n" << endl;
+
     ClientMessage * message(new ClientMessage);
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
     
     cout << "Client IP: " << message->synchronize().ip() << endl;
-    //cout << "ClientMessage id: " << message->userid() << endl;
+    cout << "ClientMessage id: " << message->userid() << endl;
 
     int currentid;
     int success = 0;
@@ -102,7 +102,12 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
     for (i = 0; i < BACKLOG; i++)
     {
         Cliente c = clientes_connectados[i];
-        if(c.id == NULL || (message->userid() != c.id && message->synchronize().username() != c.username)){
+        cout << "Client name socket: " << message->synchronize().username() << endl;
+        cout << "Client name obj: " << c.username << endl;
+        cout << "True or false: " << (message->synchronize().username() != c.username) << endl;
+        cout << "True or false length: " << (c.username.length() == 0) << endl;
+        
+        if(message->synchronize().username() != c.username && c.username.length() == 0 ){
             c.socket = socketcliente;
             c.fdconn = connectfd;
             c.id = i;
@@ -111,11 +116,11 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
             c.username = message->synchronize().username();
             c.ip = message->synchronize().ip();
             clientes_connectados[i] = c;
-            i=10;
 
             cout << "El cliente con ip: " << message->synchronize().ip() << endl;
             cout << "y nombre: " << message->synchronize().username() << " Ha sido agregado al chat."<< endl;
             success = 1;
+            break;
         }else{
             cout << "EL registro de un usuario fallo. Debido a: "<< endl;
             cout << "1. Id o nombre ya existente o 2. Numero de clientes conectados ha sobrepasado 10."<< endl;
@@ -131,7 +136,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         ServerMessage * server_res(new ServerMessage);
         server_res->set_option('4');
         server_res->set_allocated_myinforesponse(response);
-        cout << "\n3wayprueba6\n" << endl;
+
         // Se serializa la respuesta a string
         string binary;
         server_res->SerializeToString(&binary);
@@ -139,7 +144,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         char cstr[binary.size() + 1];
         strcpy(cstr, binary.c_str());
         send(connectfd , cstr , strlen(cstr) , 0 );                               //Se manda el inforesponse devuelta al usuario o cliente
-        cout << "\n3wayprueba7\n" << endl;
+
         //delay(5000);
         //_________________________________________________________
         //Se recive el acknowledge del cliente para comenzar con la comunicacion
@@ -150,8 +155,8 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         //message2->ParseFromString(ret2);
         message2->ParseFromString(buf);
 
-        //cout << "Acknowledge userid: " << message2->acknowledge().userid() << endl; //por alguna razon no jala el id correcto
-        cout << "Acknowledge userid: " << message2->userid() << endl;
+        cout << "Acknowledge userid: " << message2->acknowledge().userid() << endl; //por alguna razon no jala el id correcto
+        cout << "Message userid: " << message2->userid() << endl;
 
     }else{
         ErrorResponse * errr(new ErrorResponse);
@@ -183,6 +188,7 @@ void changeClientStatus(int connectfd,char *buf){
     ClientMessage * message(new ClientMessage);
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
+    
     cout << "Change status request from Client id: " << message->userid() << endl;
     cout << "\nstatusprueba6\n" << endl;
     int i;
@@ -224,6 +230,27 @@ void clientInfo(){
 
 void helpSection(){
 
+}
+
+void exitClient(int connectfd,char *buf){
+    read( connectfd , buf, PORT);
+    //string ret1(buf, PORT); //se convierte el char a string
+    ClientMessage * message(new ClientMessage);
+    //message->ParseFromString(ret1);
+    message->ParseFromString(buf);
+    
+    cout << "\nstatusprueba6\n" << endl;
+    int i;
+    for (i = 0; i < BACKLOG; i++){
+        Cliente c = clientes_connectados[i];
+        if(c.id == message->userid()){
+            Cliente clienteVacio;
+            clientes_connectados[i] = clienteVacio;
+            
+        }
+    }
+
+    cout << "El Client con id: " << message->userid() << " ha salido de la sesion." << endl;
 }
 
 
@@ -309,13 +336,9 @@ int main(int argc, char** argv) {
             //}
         }
         
-       
-        //test que que no me acuerdo para que era xD.
-        /*cout << " mensaje de \n" << inet_ntoa(cliente.sin_addr)<< endl;
-        numbytes =recv(connectfd,buf,MAXDATASIZE,0);
-        buf[numbytes] = '\0';
-        string a = buf;
-        cout << " mensaje de \n" << inet_ntoa(cliente.sin_addr)<< endl;
+        
+        
+        //exitClient(connectfd,buf); //Ya funciona
 
 
         changeClientStatus(connectfd,buf); //prueba que no sirve ahorita :( basura asquerosa*/
