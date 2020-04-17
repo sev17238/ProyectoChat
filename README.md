@@ -9,6 +9,7 @@ Proyecto de Chat
 </h1>
 
 <p align="center">Chat basico con implementacion de modelo cliente-servidor</p>
+<p align="center">Elaborado por Diego Sevilla, Alexander Trujillo y Carlos Chew</p>
 
 
 <hr />
@@ -47,7 +48,3 @@ En este proyecto se utilizan:
 
 ### Sockets Tutorial
  - http://www.linuxhowtos.org/C_C++/socket.htm
-
-
-## License
-No license.
