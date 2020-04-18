@@ -88,9 +88,9 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 
         char cstr[binary.size() + 1];
         strcpy(cstr, binary.c_str());
-        cout << "\n3waynprueba2\n" << endl;
+
         send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
-        cout << "\n3wayprueba3\n" << endl;
+
         //delay(4000);
         //________________________________________________
         //Se recibe la respuesta del servidor
@@ -109,7 +109,7 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 
         ClientMessage * message2(new ClientMessage);
         message2->set_option('7');
-        message->set_userid(id);                //id que el servidor asigno al cliente
+        message2->set_userid(id);                //id que el servidor asigno al cliente
         message2->set_allocated_acknowledge(ack);
 
         string binary2;
@@ -132,24 +132,28 @@ void sendDirectMessage(char* receiver,char* message,int fd,char *buffer){
 void changeStatus(int id,string status,int fd,char *buffer){
     // Se hace el request para mabiar el status.
     cout << "\nstatusprueba1\n" << endl;
+    cout << "Este el estatus elejido: " << status << endl;
     ChangeStatusRequest * changereq(new ChangeStatusRequest);
     changereq->set_status(status);
-    cout << "\nstatusprueba2\n" << endl;
+    changereq->set_userid(id);
+
     // Se crea instancia de Mensaje, se setea los valores deseados
     ClientMessage * message(new ClientMessage);
-    message->set_option('3');
+    message->set_option(3);
     message->set_userid(id);
     message->set_allocated_changestatus(changereq);
     cout << "\nstatusprueba3\n" << endl;
+    cout << "id: " << id<< endl;
     // Se serializa el message a string
     string binary;
     message->SerializeToString(&binary);
 
+    cout << "\nSE acaba de mandar el status deseado al servidor: " << status<< endl;
+
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
-    send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
-    cout << "\nstatusprueba4\n" << endl;
-    cout << status << endl;
+    send(fd,cstr,strlen(cstr),0);           //Se manda el mensaje con el request
+
 
     //delay()
     //Se recibe la respuesta del servidor
@@ -172,7 +176,7 @@ void exitChat(){
     message->set_option(7);
     //message->set_userid('2');
     message->set_allocated_exitchat(exit);
-    
+    cout << "id: " << id << endl;
     // Se serializa el message a string
     string binary;
     message->SerializeToString(&binary);
@@ -245,7 +249,7 @@ int main(){
             cin >> choice;
 
             int i;
-	    int INFONE;
+	        int INFONE;
 
             if(sscanf(choice.c_str(), "%d", &i) == 1){ //Revision de entrada
                 i = std::stoi(choice);
@@ -291,19 +295,19 @@ int main(){
                         break;
                     }
                     case 4:
-		    {
-			string User;
-                        cout << "¿Sobre que usuario quieres saber informaciòn 				\n";
-			cin >> User;
-			if (User == username){
-				cout << "\nInformaciòn del usuario: \n";
-				cout << "Este usuario eres tù, hola " + User + 					"\n";
-			}else{
-				cout << "\nInformaciòn del usuario: \n";
-		                cout << "id del usuario: " << INFONE;
-			}
+		            {
+                        string User;
+                                    cout << "¿Sobre que usuario quieres saber informaciòn \n";
+                        cin >> User;
+                        if (User == username){
+                            cout << "\nInformaciòn del usuario: \n";
+                            cout << "Este usuario eres tù, hola " + User + 	"\n";
+                        }else{
+                            cout << "\nInformaciòn del usuario: \n";
+                                    cout << "id del usuario: " << INFONE;
+                        }
                         break;
-		    }
+		            }
                     case 5:
                         cout << "Actualmente su estado es: ACTIVO \n";
 						cout << "¿A que estado desea pasar?.\n";
@@ -315,6 +319,7 @@ int main(){
                         cout << "Escribi aquì: \n";
                         break;
                     case 7:
+                        exitChat();
                         cout << "Gracias por usar el chat! Adios!!\n\n";    
                         return 0;        
                         break;
