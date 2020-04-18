@@ -30,7 +30,6 @@
 #include "mensaje.pb.h"
 #include "a.h"
 
-
 //#include <dos.h> //para delay()
 using namespace std;
 using namespace chat;
@@ -40,9 +39,6 @@ using std::endl;
 using std::string;
 
 int INFONE;
-string INFOTWO;
-int INFOTHREE;
-
 
 class Cliente
 {
@@ -105,7 +101,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
     int currentid;
     int success = 0;
     int i = 0;
-	
+
     for (i = 0; i < BACKLOG; i++)
     {
         Cliente c = clientes_connectados[i];
@@ -121,8 +117,6 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
 	    INFONE = i;
             currentid = i;
             c.status = "Activo";
-	    INFOTWO = c.status;
-	    INFOTHREE = connectfd;
             c.username = message->synchronize().username();
             c.ip = message->synchronize().ip();
             clientes_connectados[i] = c;
@@ -170,7 +164,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
 
     }else{
         ErrorResponse * errr(new ErrorResponse);
-        errr->set_errormessage("Error Drastico!!");
+        errr->set_errormessage("Error culero!!");
     }
    
 
@@ -209,7 +203,6 @@ void changeClientStatus(int connectfd,char *buf){
             
         }
     }
-    
 
     //ChangeStatusResponse * status_res(new ChangeStatusResponse);
     ChangeStatusResponse * status_res(new ChangeStatusResponse);
@@ -222,6 +215,7 @@ void changeClientStatus(int connectfd,char *buf){
     // Se serializa la respuesta a string
     string binary;
     server_res->SerializeToString(&binary);
+
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
@@ -335,6 +329,7 @@ int main(int argc, char** argv) {
         ////--------------------------------------------------------------------
         
         //PROBAR IMPRIMIR LOS CLIENTES EN LA LISTA. 
+        //EL CHQUEO DE SI ES NULL NUNCA SE CUMPLE, A C++ NO LE GUSTA ESTA MIERDA.
         //ENTONCES AL AGREGAR UN NUEVO CLIENTE REEMPLAZA EL QUE YA EXISTE.
         int e = 0;
         for (e = 0; e < BACKLOG; e++)
