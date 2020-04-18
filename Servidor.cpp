@@ -51,7 +51,7 @@ class Cliente
     int fd; //file descriptor del socket
     int fdconn; //file descriptor generado por la connexion
     string username; //nombre de usuario
-    int id; //identificacion
+    int id = -1; //identificacion
     string ip; //direccion ip
     string status; //estado
 
@@ -144,7 +144,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         response->set_userid(currentid);
         cout << "Userid: " << currentid << endl;
         ServerMessage * server_res(new ServerMessage);
-        server_res->set_option('4');
+        server_res->set_option(4);
         server_res->set_allocated_myinforesponse(response);
 
         // Se serializa la respuesta a string
@@ -166,7 +166,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         message2->ParseFromString(buf);
 
         cout << "Acknowledge userid: " << message2->acknowledge().userid() << endl; //por alguna razon no jala el id correcto
-        cout << "Message userid: " << message2->userid() << endl;
+        //cout << "Message userid: " << message2->userid() << endl;
 
     }else{
         ErrorResponse * errr(new ErrorResponse);
@@ -191,19 +191,21 @@ void sendClientDirectMessage(){
 }
 
 void changeClientStatus(int connectfd,char *buf){
-    cout << "\nstatusprueba5\n" << endl;
+
     read( connectfd , buf, PORT);
     //string ret1(buf, PORT); //se convierte el char a string
-    cout << "\nstatusprueba5\n" << endl;
+
     ClientMessage * message(new ClientMessage);
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
     
-    cout << "Change status request from Client id: " << message->userid() << endl;
+    cout << "Change status request from Client id: " << message->changestatus().userid() << endl;
+    cout << "status al que quiere cambiar: " << message->changestatus().status() << endl;
     cout << "\nstatusprueba6\n" << endl;
     int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
+        cout << "\nc.id: "<< c.id << " userid(): " << message->changestatus().userid() << endl;
         if(c.id == message->userid()){
             c.status = message->changestatus().status();
             
@@ -214,14 +216,16 @@ void changeClientStatus(int connectfd,char *buf){
     //ChangeStatusResponse * status_res(new ChangeStatusResponse);
     ChangeStatusResponse * status_res(new ChangeStatusResponse);
     status_res->set_status(message->changestatus().status());
+    status_res->set_userid(message->changestatus().userid());
 
     ServerMessage * server_res(new ServerMessage);
-    server_res->set_option('6');
+    server_res->set_option(6);
     server_res->set_allocated_changestatusresponse(status_res);
 
     // Se serializa la respuesta a string
     string binary;
     server_res->SerializeToString(&binary);
+
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
@@ -249,18 +253,18 @@ void exitClient(int connectfd,char *buf){
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
     
-    cout << "\nstatusprueba6\n" << endl;
+    cout << "El Client con id: " << message->exitchat().userid() << " desea salir." << endl;
     int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
-        if(c.id == message->userid()){
+        if(c.id == message->exitchat().userid()){
             Cliente clienteVacio;
             clientes_connectados[i] = clienteVacio;
             
         }
     }
 
-    cout << "El Client con id: " << message->userid() << " ha salido de la sesion." << endl;
+    cout << "El Client con id: " << message->exitchat().userid() << " ha salido de la sesion." << endl;
 }
 
 
@@ -341,16 +345,17 @@ int main(int argc, char** argv) {
         {
             Cliente c = clientes_connectados[e];
             //if(c != NULL){
-            cout << "cliente: " << c.username << "\n" <<endl;
+            cout << "\n"<< e << ". Cliente: " << c.username <<endl;
+            cout << "estado: " << c.status << " id: " << c.id << "\n" <<endl;
             //}
         }
         
         
         
-        //exitClient(connectfd,buf); //Ya funciona
+        exitClient(connectfd,buf); //Ya funciona
 
 
-        changeClientStatus(connectfd,buf); //prueba que no sirve ahorita :( basura asquerosa*/
+        //changeClientStatus(connectfd,buf); //prueba que no sirve ahorita :( basura asquerosa*/
 
 
     }

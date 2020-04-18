@@ -74,7 +74,6 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
         miInfo->set_username(username); 
         miInfo->set_ip(IPbuf);
         //cout << "\nip: " << IPbuf << endl;
-        cout << "\n3wayprueba1\n" << endl;
 
         // Se crea instancia de Mensaje, se setea los valores deseados
         ClientMessage * message(new ClientMessage);
@@ -88,9 +87,9 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 
         char cstr[binary.size() + 1];
         strcpy(cstr, binary.c_str());
-        cout << "\n3waynprueba2\n" << endl;
+
         send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
-        cout << "\n3wayprueba3\n" << endl;
+
         //delay(4000);
         //________________________________________________
         //Se recibe la respuesta del servidor
@@ -108,8 +107,8 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
         cout << "ack userid: " << ack->userid() << endl;
 
         ClientMessage * message2(new ClientMessage);
-        message2->set_option('7');
-        message->set_userid(id);                //id que el servidor asigno al cliente
+        message2->set_option(7);
+        message2->set_userid(id);                //id que el servidor asigno al cliente
         message2->set_allocated_acknowledge(ack);
 
         string binary2;
@@ -121,26 +120,52 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 }
 
 
-void BroadCasting(char* message,int fd,char *buffer){
+void BroadCasting(string message,int fd,char *buffer){
+    /*BroadcastRequest * broad (new BroadcastRequest);
+    broad->set_message(message);
 
+    ClientMessage * c_message(new ClientMessage);
+    c_message->set_option(4);
+    c_message->set_userid(id);
+    c_message->set_allocated_broadcast(broad);
+    cout << "\nstatusprueba3\n" << endl;
+    cout << "id: " << id<< endl;
+
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+
+    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+
+*/
 }
 
-void sendDirectMessage(char* receiver,char* message,int fd,char *buffer){
+void sendDirectMessage(string receiver,string message,int fd,char *buffer){
     
 }
 
-void changeStatus(int id,string status,int fd,char *buffer){
+void changeStatus(string status,int fd,char *buffer){
     // Se hace el request para mabiar el status.
     cout << "\nstatusprueba1\n" << endl;
+    cout << "Este el estatus elejido: " << status << endl;
     ChangeStatusRequest * changereq(new ChangeStatusRequest);
     changereq->set_status(status);
-    cout << "\nstatusprueba2\n" << endl;
+    changereq->set_userid(id);
+
     // Se crea instancia de Mensaje, se setea los valores deseados
     ClientMessage * message(new ClientMessage);
-    message->set_option('3');
+    message->set_option(3);
     message->set_userid(id);
     message->set_allocated_changestatus(changereq);
     cout << "\nstatusprueba3\n" << endl;
+    cout << "id: " << id<< endl;
+
+    //cout << "\nSE acaba de mandar el status deseado al servidor: " << changereq->status()<< endl;
+    cout << "\nSE acaba de mandar el status deseado al servidor: " << message->changestatus().status()<< endl;
+
     // Se serializa el message a string
     string binary;
     message->SerializeToString(&binary);
@@ -148,8 +173,6 @@ void changeStatus(int id,string status,int fd,char *buffer){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
-    cout << "\nstatusprueba4\n" << endl;
-    cout << status << endl;
 
     //delay()
     //Se recibe la respuesta del servidor
@@ -170,9 +193,9 @@ void exitChat(){
     
     ClientMessage * message(new ClientMessage);
     message->set_option(7);
-    //message->set_userid('2');
+    message->set_userid(id);
     message->set_allocated_exitchat(exit);
-    
+    cout << "id: " << id << endl;
     // Se serializa el message a string
     string binary;
     message->SerializeToString(&binary);
@@ -252,20 +275,24 @@ int main(){
                 i = std::stoi(choice);
                 switch(i){
                     case 1:
-                        char *newbroadcast_message;
+                    {
+                        string newbroadcast_message;
                         cout << "Escriba el mensaje que desea enviar al chat: ";
                         cin >> newbroadcast_message;
                         BroadCasting(newbroadcast_message,fd,buffer);
                         break;
+                    }
                     case 2:
-                        char *receiver;
+                    {
+                        string receiver;
                         cout << "Escriba el nombre del usurio a quien desea enviarle el mensaje: ";
                         cin >> receiver;
-                        char *direct_message;
+                        string direct_message;
                         cout << "Escriba el mensaje que desea enviarle: ";
                         cin >> direct_message;                        
                         BroadCasting(direct_message,fd,buffer);
                         break;
+                    }
                     case 3:
                     {   
                         string statuschoice;
@@ -278,13 +305,13 @@ int main(){
                         string newstatus;
                         if(statuschoice == "1"){
                             newstatus = "ACTIVO";
-                            changeStatus(id,newstatus,fd,buffer);
+                            changeStatus(newstatus,fd,buffer);
                         }else if(statuschoice == "2"){
                             newstatus = "OCUPADO";
-                            changeStatus(id,newstatus,fd,buffer);
+                            changeStatus(newstatus,fd,buffer);
                         }else if(statuschoice == "3"){
                             newstatus = "INACTIVO";
-                            changeStatus(id,newstatus,fd,buffer);
+                            changeStatus(newstatus,fd,buffer);
                         }else{
                             cout << "Ingrese una opcion de estado valida.\n";
                         }
