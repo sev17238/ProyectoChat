@@ -30,6 +30,7 @@
 #include "mensaje.pb.h"
 #include "a.h"
 
+
 //#include <dos.h> //para delay()
 using namespace std;
 using namespace chat;
@@ -39,6 +40,9 @@ using std::endl;
 using std::string;
 
 int INFONE;
+string INFOTWO;
+int INFOTHREE;
+
 
 class Cliente
 {
@@ -47,7 +51,7 @@ class Cliente
     int fd; //file descriptor del socket
     int fdconn; //file descriptor generado por la connexion
     string username; //nombre de usuario
-    int id = -1; //identificacion
+    int id; //identificacion
     string ip; //direccion ip
     string status; //estado
 
@@ -101,7 +105,7 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
     int currentid;
     int success = 0;
     int i = 0;
-
+	
     for (i = 0; i < BACKLOG; i++)
     {
         Cliente c = clientes_connectados[i];
@@ -114,9 +118,11 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
             c.socket = socketcliente;
             c.fdconn = connectfd;
             c.id = i;
-	        INFONE = i;
+	    INFONE = i;
             currentid = i;
             c.status = "Activo";
+	    INFOTWO = c.status;
+	    INFOTHREE = connectfd;
             c.username = message->synchronize().username();
             c.ip = message->synchronize().ip();
             clientes_connectados[i] = c;
@@ -160,11 +166,11 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         message2->ParseFromString(buf);
 
         cout << "Acknowledge userid: " << message2->acknowledge().userid() << endl; //por alguna razon no jala el id correcto
-        //cout << "Message userid: " << message2->userid() << endl;
+        cout << "Message userid: " << message2->userid() << endl;
 
     }else{
         ErrorResponse * errr(new ErrorResponse);
-        errr->set_errormessage("Error culero!!");
+        errr->set_errormessage("Error Drastico!!");
     }
    
 
@@ -185,29 +191,29 @@ void sendClientDirectMessage(){
 }
 
 void changeClientStatus(int connectfd,char *buf){
-    
-    read(connectfd, buf, PORT);
+    cout << "\nstatusprueba5\n" << endl;
+    read( connectfd , buf, PORT);
     //string ret1(buf, PORT); //se convierte el char a string
+    cout << "\nstatusprueba5\n" << endl;
     ClientMessage * message(new ClientMessage);
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
-
-    cout << "Change status request from Client id: " << message->changestatus().userid() << endl;
+    
+    cout << "Change status request from Client id: " << message->userid() << endl;
     cout << "\nstatusprueba6\n" << endl;
     int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
-        cout << "\nc.id: "<< c.id << " userid(): " << message->changestatus().userid() << endl;
-        if(c.id == message->changestatus().userid()){
+        if(c.id == message->userid()){
             c.status = message->changestatus().status();
             
         }
     }
+    
 
     //ChangeStatusResponse * status_res(new ChangeStatusResponse);
     ChangeStatusResponse * status_res(new ChangeStatusResponse);
     status_res->set_status(message->changestatus().status());
-    status_res->set_userid(message->changestatus().userid());
 
     ServerMessage * server_res(new ServerMessage);
     server_res->set_option('6');
@@ -216,7 +222,6 @@ void changeClientStatus(int connectfd,char *buf){
     // Se serializa la respuesta a string
     string binary;
     server_res->SerializeToString(&binary);
-
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
@@ -243,7 +248,8 @@ void exitClient(int connectfd,char *buf){
     ClientMessage * message(new ClientMessage);
     //message->ParseFromString(ret1);
     message->ParseFromString(buf);
-    cout << "El Client con id: " << message->userid() << " desea salir." << endl;
+    
+    cout << "\nstatusprueba6\n" << endl;
     int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
@@ -328,27 +334,23 @@ int main(int argc, char** argv) {
         
         ////--------------------------------------------------------------------
         
-        ////--------------------------------------------------------------------
-        
         //PROBAR IMPRIMIR LOS CLIENTES EN LA LISTA. 
-        //EL CHQUEO DE SI ES NULL NUNCA SE CUMPLE, A C++ NO LE GUSTA ESTA MIERDA.
         //ENTONCES AL AGREGAR UN NUEVO CLIENTE REEMPLAZA EL QUE YA EXISTE.
         int e = 0;
         for (e = 0; e < BACKLOG; e++)
         {
             Cliente c = clientes_connectados[e];
             //if(c != NULL){
-            cout << "\n"<< e << ". Cliente: " << c.username <<endl;
-            cout << "estado: " << c.status << " id: " << c.id << "\n" <<endl;
+            cout << "cliente: " << c.username << "\n" <<endl;
             //}
         }
         
         
         
-        exitClient(connectfd,buf); //Ya funciona
+        //exitClient(connectfd,buf); //Ya funciona
 
 
-        //changeClientStatus(connectfd,buf); //prueba que no sirve ahorita 
+        changeClientStatus(connectfd,buf); //prueba que no sirve ahorita :( basura asquerosa*/
 
 
     }
