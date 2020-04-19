@@ -473,8 +473,8 @@ int main(int argc, char** argv) {
         //changeClientStatus(connectfd,buf); //prueba que no sirve ahorita
         
         //clientsBroadCasting(connectfd,buf); //en pruebas luego de que funcione el mensaje directo
-        devolver_INFO(NombreUser);
-        exitClient(connectfd,buf); //Ya funciona
+        //devolver_INFO(NombreUser);
+
 
 
         //exitClient(connectfd,buf); //Ya funciona

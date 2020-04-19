@@ -400,7 +400,7 @@ int main(){
                 cout << "Ingrese un numero o se chinga!! \n\n";
             } 
 
-
+/*
             bzero(buffer,sizeof(buffer));
             //Se recibe la respuesta del servidor
             read( fd , buffer, PORT);
@@ -409,7 +409,7 @@ int main(){
             ServerMessage * s_message(new ServerMessage);
             //s_message->ParseFromString(ret);
             s_message->ParseFromString(buffer);
-
+*/
             //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS MENSAJES DEL CHAT ETC.
             /*if(s_message->option() == 1){
                 cout << "Mensaje broadcast \n" << endl;
@@ -424,10 +424,10 @@ int main(){
                 cout << "direct message response \n" << endl;
                 cout << s_message->directmessageresponse().messagestatus() << endl; 
             }*/
-
+/*
             cout << "direct message: " << s_message->message().message() << endl; 
             cout << "messagestatus: " << s_message->directmessageresponse().messagestatus() << endl; 
-            
+            */
         }  
     }
     close(fd);
