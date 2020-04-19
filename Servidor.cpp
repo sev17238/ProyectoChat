@@ -29,9 +29,8 @@
 //protobuf
 #include "mensaje.pb.h"
 #include "a.h"
-
-
 //#include <dos.h> //para delay()
+
 using namespace std;
 using namespace chat;
 using std::cout;
@@ -39,10 +38,9 @@ using std::cin;
 using std::endl;
 using std::string;
 
-int INFONE;
-string INFOTWO;
-int INFOTHREE;
-
+string NombreUser;
+string UserStatus;
+int lola;
 
 class Cliente
 {
@@ -73,13 +71,30 @@ struct sockaddr_in cliente;
 int clients_count = 0;
 socklen_t sin_size;
 struct sigaction sa;
-
 char hostbuf[256];
 struct hostent *he;
+
+
 
 //esta funcion estaba en un ejemplo, talvez la quitamos sino sirve.
 void sigchld_handler(int s) {
     while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
+void devolver_INFO(string name){
+	if (name == NombreUser){
+	cout << "Nombre: " + NombreUser;
+	cout << "Status: " + UserStatus;
+	cout << "ID: " + lola;
+	}else{
+	cout << "informaciòn no disponible";
+	}
+}
+
+string mensajeDevolver;
+int mensajeNumero;
+void devolver_todos(string something, int number){
+	cout << "\n" << number << something;
 }
 
 //Funcion para errores y salida inmediata
@@ -118,11 +133,8 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
             c.socket = socketcliente;
             c.fdconn = connectfd;
             c.id = i;
-	    INFONE = i;
             currentid = i;
             c.status = "Activo";
-	    INFOTWO = c.status;
-	    INFOTHREE = connectfd;
             c.username = message->synchronize().username();
             c.ip = message->synchronize().ip();
             clientes_connectados[i] = c;
@@ -172,12 +184,6 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
         ErrorResponse * errr(new ErrorResponse);
         errr->set_errormessage("Error Drastico!!");
     }
-   
-
-
-    
-    
-    
     
     
 }
@@ -346,12 +352,17 @@ int main(int argc, char** argv) {
             Cliente c = clientes_connectados[e];
             //if(c != NULL){
             cout << "\n"<< e << ". Cliente: " << c.username <<endl;
+	    mensajeDevolver = ". Cliente: " + c.username;
+	    mensajeNumero = e;
             cout << "estado: " << c.status << " id: " << c.id << "\n" <<endl;
+	    NombreUser = "" + c.username;
+	    UserStatus = c.status;
+	    lola = c.id;
+	    
             //}
         }
         
-        
-        
+        devolver_INFO(NombreUser);
         exitClient(connectfd,buf); //Ya funciona
 
 

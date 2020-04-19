@@ -1,4 +1,6 @@
 /**a.h**/
+#ifndef a_H
+#define a_H
 using namespace std;
 using namespace chat;
 //utiles
@@ -7,6 +9,8 @@ using std::cin;
 using std::endl;
 using std::string;
 
-extern int INFONE;
-extern string INFOTWO;
-extern int INFOTHREE;
+void devolver_INFO(string);
+void devolver_todos(string,int);
+
+
+#endif

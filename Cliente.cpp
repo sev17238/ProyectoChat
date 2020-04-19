@@ -58,6 +58,7 @@ string IPbuf;
 int id;
 
 
+
 //Funcion para errores y salida inmediata
 static void err(const char* s){
     perror(s);
@@ -65,6 +66,8 @@ static void err(const char* s){
 }
 
 string *INFOusername;
+
+int NumberClient;
 
 void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 
@@ -253,9 +256,6 @@ int main(){
 
         //-------------------------------------------------------------------------------------------------------------------------
 
-
-
-
         string choice;
         while(choice != "7"){
             cout << "\n1. Chatear con todos los usuarios" << endl;
@@ -268,8 +268,9 @@ int main(){
             cin >> choice;
 
             int i;
-	    int INFONE;
-	    int INFOTHREE;
+	    string NombreUser;
+	    string UserIp;
+	    int lola;
 
             if(sscanf(choice.c_str(), "%d", &i) == 1){ //Revision de entrada
                 i = std::stoi(choice);
@@ -320,28 +321,25 @@ int main(){
                     }
                     case 4:
 		    {
-			string User;
+			string search;
                         cout << "¿Sobre que usuario quieres saber informaciòn? 				\n";
-			cin >> User;
-			if (User == username){
+			cin >> search;
+			if (search == username){
 				cout << "\nInformaciòn del usuario: \n";
-				cout << "Este usuario eres tù, hola " + User + 					"\n";
+				cout << "Este usuario eres tù, hola " + search + 					"\n";
+				void devolver_INFO(string search);
 			}else{
-				string INFOTWO;
 				cout << "\nInformaciòn del usuario: \n";
-		                cout << "id del usuario: " << INFONE;
-				cout << "\nstatus del usuario: " + INFOTWO;
-				cout << "\ndescription del usuario: " << 					INFOTHREE;
+		                void devolver_INFO(string search);
 			}
                         break;
 		    }
                     case 5:
-                        cout << "Actualmente su estado es: ACTIVO \n";
-						cout << "¿A que estado desea pasar?.\n";
-                        cout << "1. ACTIVO" << endl;
-                        cout << "2. OCUPADO" << endl;
-                        cout << "3. INACTIVO" << endl;
+			{
+                        cout << "Los usuario conectados son:  \n";
+			
                         break;
+			}
                     case 6:
 			{
 			string nada; 
