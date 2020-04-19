@@ -128,7 +128,7 @@ void BroadCasting(string message,int fd,char *buffer){
     c_message->set_option(4);
     c_message->set_userid(id);
     c_message->set_allocated_broadcast(broad);
-    cout << "\nstatusprueba3\n" << endl;
+    //cout << "\nstatusprueba3\n" << endl;
     cout << "id: " << id<< endl;
 
     // Se serializa el message a string
@@ -138,13 +138,34 @@ void BroadCasting(string message,int fd,char *buffer){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
 
-    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el mensaje */
 
-*/
+
 }
 
 void sendDirectMessage(string receiver,string message,int fd,char *buffer){
-    
+    DirectMessageRequest * direct (new DirectMessageRequest);
+    direct->set_message(message);
+    direct->set_userid(id);
+    direct->set_username(receiver);
+
+    ClientMessage * c_message(new ClientMessage);
+    c_message->set_option(5);
+    c_message->set_userid(id);
+    c_message->set_allocated_directmessage(direct);
+    //cout << "\nstatusprueba3\n" << endl;
+    cout << "id: " << id<< endl;
+
+    // Se serializa el message a string
+    string binary;
+    c_message->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+
+    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el mensaje
+
+
 }
 
 void changeStatus(string status,int fd,char *buffer){
@@ -153,7 +174,7 @@ void changeStatus(string status,int fd,char *buffer){
     cout << "Este el estatus elejido: " << status << endl;
     ChangeStatusRequest * changereq(new ChangeStatusRequest);
     changereq->set_status(status);
-    changereq->set_userid(id);
+    //changereq->set_userid(id);
 
     // Se crea instancia de Mensaje, se setea los valores deseados
     ClientMessage * message(new ClientMessage);
@@ -163,7 +184,7 @@ void changeStatus(string status,int fd,char *buffer){
     cout << "\nstatusprueba3\n" << endl;
     cout << "id: " << id<< endl;
 
-    //cout << "\nSE acaba de mandar el status deseado al servidor: " << changereq->status()<< endl;
+    cout << "\nSE acaba de mandar el status deseado al servidor: " << changereq->status()<< endl;
     cout << "\nSE acaba de mandar el status deseado al servidor: " << message->changestatus().status()<< endl;
 
     // Se serializa el message a string
@@ -186,6 +207,8 @@ void changeStatus(string status,int fd,char *buffer){
     cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
 
 }
+
+
 
 void exitChat(){
     ExitChat *exit(new ExitChat);
@@ -290,7 +313,7 @@ int main(){
                         string direct_message;
                         cout << "Escriba el mensaje que desea enviarle: ";
                         cin >> direct_message;                        
-                        BroadCasting(direct_message,fd,buffer);
+                        sendDirectMessage(receiver,direct_message,fd,buffer);
                         break;
                     }
                     case 3:
@@ -312,6 +335,7 @@ int main(){
                         }else if(statuschoice == "3"){
                             newstatus = "INACTIVO";
                             changeStatus(newstatus,fd,buffer);
+                            //changeTexas(fd,buffer);
                         }else{
                             cout << "Ingrese una opcion de estado valida.\n";
                         }
@@ -368,19 +392,46 @@ int main(){
 			}
                         break;
                     case 7:
-                        cout << "Gracias por usar el chat! Adios!!\n\n";    
+                        exitChat();
+                        cout << "Gracias por usar el chat! Adios!!\n\n";  
+                          
                         return 0;        
                         break;
                 }
             }else {
                 cout << "Ingrese un numero o se chinga!! \n\n";
-            }           
+            } 
+
+
+            bzero(buffer,sizeof(buffer));
+            //Se recibe la respuesta del servidor
+            read( fd , buffer, PORT);
+            //string ret(buffer, PORT);
+
+            ServerMessage * s_message(new ServerMessage);
+            //s_message->ParseFromString(ret);
+            s_message->ParseFromString(buffer);
+
+            //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS MENSAJES DEL CHAT ETC.
+            /*if(s_message->option() == 1){
+                cout << "Mensaje broadcast \n" << endl;
+                cout << s_message->broadcast().message() << endl; 
+            }else if(s_message->option() == 2){
+                cout << "Mensaje directo \n" << endl;
+                cout << s_message->message().message() << endl; 
+            }else if(s_message->option() == 8){
+                cout << "BroadcastResponse \n" << endl;
+                cout << s_message->broadcastresponse().messagestatus() << endl; 
+            }else if(s_message->option() == 9){
+                cout << "direct message response \n" << endl;
+                cout << s_message->directmessageresponse().messagestatus() << endl; 
+            }*/
+
+            cout << "direct message: " << s_message->message().message() << endl; 
+            cout << "messagestatus: " << s_message->directmessageresponse().messagestatus() << endl; 
+            
         }  
-
-    }/*else{   
-        cout << "servidor NOT FOUND 404. \nTry again later. \n\n";
-
-    }*/
+    }
     close(fd);
     google::protobuf::ShutdownProtobufLibrary();
     return 0;

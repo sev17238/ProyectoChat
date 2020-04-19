@@ -54,8 +54,8 @@ message ConnectedUserResponse {
 
 // Sent from CLIENT
 message ChangeStatusRequest {
-  required int32 userId = 1;
-  required string status = 2;
+  //optional int32 userId = 1;
+  required string status = 1;
 }
 
 // Received from SERVER

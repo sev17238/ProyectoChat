@@ -1209,10 +1209,9 @@ class ChangeStatusRequest :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kStatusFieldNumber = 2,
-    kUserIdFieldNumber = 1,
+    kStatusFieldNumber = 1,
   };
-  // required string status = 2;
+  // required string status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
@@ -1232,31 +1231,14 @@ class ChangeStatusRequest :
   std::string* _internal_mutable_status();
   public:
 
-  // required int32 userId = 1;
-  bool has_userid() const;
-  private:
-  bool _internal_has_userid() const;
-  public:
-  void clear_userid();
-  ::PROTOBUF_NAMESPACE_ID::int32 userid() const;
-  void set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_userid() const;
-  void _internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:chat.ChangeStatusRequest)
  private:
   class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr status_;
-  ::PROTOBUF_NAMESPACE_ID::int32 userid_;
   friend struct ::TableStruct_mensaje_2eproto;
 };
 // -------------------------------------------------------------------
@@ -3828,35 +3810,7 @@ ConnectedUserResponse::connectedusers() const {
 
 // ChangeStatusRequest
 
-// required int32 userId = 1;
-inline bool ChangeStatusRequest::_internal_has_userid() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool ChangeStatusRequest::has_userid() const {
-  return _internal_has_userid();
-}
-inline void ChangeStatusRequest::clear_userid() {
-  userid_ = 0;
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ChangeStatusRequest::_internal_userid() const {
-  return userid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ChangeStatusRequest::userid() const {
-  // @@protoc_insertion_point(field_get:chat.ChangeStatusRequest.userId)
-  return _internal_userid();
-}
-inline void ChangeStatusRequest::_internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000002u;
-  userid_ = value;
-}
-inline void ChangeStatusRequest::set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_userid(value);
-  // @@protoc_insertion_point(field_set:chat.ChangeStatusRequest.userId)
-}
-
-// required string status = 2;
+// required string status = 1;
 inline bool ChangeStatusRequest::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;

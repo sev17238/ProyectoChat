@@ -434,9 +434,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_mensaje_2eproto::offsets[] PRO
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::chat::ChangeStatusRequest, userid_),
   PROTOBUF_FIELD_OFFSET(::chat::ChangeStatusRequest, status_),
-  1,
   0,
   PROTOBUF_FIELD_OFFSET(::chat::ChangeStatusResponse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::chat::ChangeStatusResponse, _internal_metadata_),
@@ -565,18 +563,18 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 23, 30, sizeof(::chat::connectedUserRequest)},
   { 32, 41, sizeof(::chat::ConnectedUser)},
   { 45, 51, sizeof(::chat::ConnectedUserResponse)},
-  { 52, 59, sizeof(::chat::ChangeStatusRequest)},
-  { 61, 68, sizeof(::chat::ChangeStatusResponse)},
-  { 70, 76, sizeof(::chat::BroadcastRequest)},
-  { 77, 83, sizeof(::chat::BroadcastResponse)},
-  { 84, 91, sizeof(::chat::BroadcastMessage)},
-  { 93, 101, sizeof(::chat::DirectMessageRequest)},
-  { 104, 110, sizeof(::chat::DirectMessageResponse)},
-  { 111, 118, sizeof(::chat::DirectMessage)},
-  { 120, 126, sizeof(::chat::ErrorResponse)},
-  { 127, 133, sizeof(::chat::ExitChat)},
-  { 134, 148, sizeof(::chat::ClientMessage)},
-  { 157, 171, sizeof(::chat::ServerMessage)},
+  { 52, 58, sizeof(::chat::ChangeStatusRequest)},
+  { 59, 66, sizeof(::chat::ChangeStatusResponse)},
+  { 68, 74, sizeof(::chat::BroadcastRequest)},
+  { 75, 81, sizeof(::chat::BroadcastResponse)},
+  { 82, 89, sizeof(::chat::BroadcastMessage)},
+  { 91, 99, sizeof(::chat::DirectMessageRequest)},
+  { 102, 108, sizeof(::chat::DirectMessageResponse)},
+  { 109, 116, sizeof(::chat::DirectMessage)},
+  { 118, 124, sizeof(::chat::ErrorResponse)},
+  { 125, 131, sizeof(::chat::ExitChat)},
+  { 132, 146, sizeof(::chat::ClientMessage)},
+  { 155, 169, sizeof(::chat::ServerMessage)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -609,39 +607,39 @@ const char descriptor_table_protodef_mensaje_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\t\"M\n\rConnectedUser\022\020\n\010username\030\001 \002(\t\022\016\n\006"
   "status\030\002 \001(\t\022\016\n\006userId\030\003 \001(\005\022\n\n\002ip\030\004 \001(\t"
   "\"D\n\025ConnectedUserResponse\022+\n\016connectedUs"
-  "ers\030\001 \003(\0132\023.chat.ConnectedUser\"5\n\023Change"
-  "StatusRequest\022\016\n\006userId\030\001 \002(\005\022\016\n\006status\030"
-  "\002 \002(\t\"6\n\024ChangeStatusResponse\022\016\n\006userId\030"
-  "\001 \002(\005\022\016\n\006status\030\002 \002(\t\"#\n\020BroadcastReques"
-  "t\022\017\n\007message\030\001 \002(\t\"*\n\021BroadcastResponse\022"
-  "\025\n\rmessageStatus\030\001 \002(\t\"3\n\020BroadcastMessa"
-  "ge\022\017\n\007message\030\001 \002(\t\022\016\n\006userId\030\002 \002(\005\"I\n\024D"
-  "irectMessageRequest\022\017\n\007message\030\001 \002(\t\022\016\n\006"
-  "userId\030\002 \001(\005\022\020\n\010username\030\003 \001(\t\".\n\025Direct"
-  "MessageResponse\022\025\n\rmessageStatus\030\001 \002(\t\"0"
-  "\n\rDirectMessage\022\017\n\007message\030\001 \002(\t\022\016\n\006user"
-  "Id\030\002 \002(\005\"%\n\rErrorResponse\022\024\n\014errorMessag"
-  "e\030\001 \002(\t\"\032\n\010ExitChat\022\016\n\006userId\030\001 \002(\005\"\360\002\n\r"
-  "ClientMessage\022\016\n\006option\030\001 \002(\005\022\016\n\006userId\030"
-  "\002 \001(\005\022,\n\013synchronize\030\003 \001(\0132\027.chat.MyInfo"
-  "Synchronize\0222\n\016connectedUsers\030\004 \001(\0132\032.ch"
-  "at.connectedUserRequest\022/\n\014changeStatus\030"
-  "\005 \001(\0132\031.chat.ChangeStatusRequest\022)\n\tbroa"
-  "dcast\030\006 \001(\0132\026.chat.BroadcastRequest\0221\n\rd"
-  "irectMessage\030\007 \001(\0132\032.chat.DirectMessageR"
-  "equest\022,\n\013acknowledge\030\010 \001(\0132\027.chat.MyInf"
-  "oAcknowledge\022 \n\010exitchat\030\t \001(\0132\016.chat.Ex"
-  "itChat\"\250\003\n\rServerMessage\022\016\n\006option\030\001 \002(\005"
-  "\022)\n\tbroadcast\030\002 \001(\0132\026.chat.BroadcastMess"
-  "age\022$\n\007message\030\003 \001(\0132\023.chat.DirectMessag"
-  "e\022\"\n\005error\030\004 \001(\0132\023.chat.ErrorResponse\022,\n"
-  "\016myInfoResponse\030\005 \001(\0132\024.chat.MyInfoRespo"
-  "nse\022:\n\025connectedUserResponse\030\006 \001(\0132\033.cha"
-  "t.ConnectedUserResponse\0228\n\024changeStatusR"
-  "esponse\030\007 \001(\0132\032.chat.ChangeStatusRespons"
-  "e\0222\n\021broadcastResponse\030\010 \001(\0132\027.chat.Broa"
-  "dcastResponse\022:\n\025directMessageResponse\030\t"
-  " \001(\0132\033.chat.DirectMessageResponse"
+  "ers\030\001 \003(\0132\023.chat.ConnectedUser\"%\n\023Change"
+  "StatusRequest\022\016\n\006status\030\001 \002(\t\"6\n\024ChangeS"
+  "tatusResponse\022\016\n\006userId\030\001 \002(\005\022\016\n\006status\030"
+  "\002 \002(\t\"#\n\020BroadcastRequest\022\017\n\007message\030\001 \002"
+  "(\t\"*\n\021BroadcastResponse\022\025\n\rmessageStatus"
+  "\030\001 \002(\t\"3\n\020BroadcastMessage\022\017\n\007message\030\001 "
+  "\002(\t\022\016\n\006userId\030\002 \002(\005\"I\n\024DirectMessageRequ"
+  "est\022\017\n\007message\030\001 \002(\t\022\016\n\006userId\030\002 \001(\005\022\020\n\010"
+  "username\030\003 \001(\t\".\n\025DirectMessageResponse\022"
+  "\025\n\rmessageStatus\030\001 \002(\t\"0\n\rDirectMessage\022"
+  "\017\n\007message\030\001 \002(\t\022\016\n\006userId\030\002 \002(\005\"%\n\rErro"
+  "rResponse\022\024\n\014errorMessage\030\001 \002(\t\"\032\n\010ExitC"
+  "hat\022\016\n\006userId\030\001 \002(\005\"\360\002\n\rClientMessage\022\016\n"
+  "\006option\030\001 \002(\005\022\016\n\006userId\030\002 \001(\005\022,\n\013synchro"
+  "nize\030\003 \001(\0132\027.chat.MyInfoSynchronize\0222\n\016c"
+  "onnectedUsers\030\004 \001(\0132\032.chat.connectedUser"
+  "Request\022/\n\014changeStatus\030\005 \001(\0132\031.chat.Cha"
+  "ngeStatusRequest\022)\n\tbroadcast\030\006 \001(\0132\026.ch"
+  "at.BroadcastRequest\0221\n\rdirectMessage\030\007 \001"
+  "(\0132\032.chat.DirectMessageRequest\022,\n\013acknow"
+  "ledge\030\010 \001(\0132\027.chat.MyInfoAcknowledge\022 \n\010"
+  "exitchat\030\t \001(\0132\016.chat.ExitChat\"\250\003\n\rServe"
+  "rMessage\022\016\n\006option\030\001 \002(\005\022)\n\tbroadcast\030\002 "
+  "\001(\0132\026.chat.BroadcastMessage\022$\n\007message\030\003"
+  " \001(\0132\023.chat.DirectMessage\022\"\n\005error\030\004 \001(\013"
+  "2\023.chat.ErrorResponse\022,\n\016myInfoResponse\030"
+  "\005 \001(\0132\024.chat.MyInfoResponse\022:\n\025connected"
+  "UserResponse\030\006 \001(\0132\033.chat.ConnectedUserR"
+  "esponse\0228\n\024changeStatusResponse\030\007 \001(\0132\032."
+  "chat.ChangeStatusResponse\0222\n\021broadcastRe"
+  "sponse\030\010 \001(\0132\027.chat.BroadcastResponse\022:\n"
+  "\025directMessageResponse\030\t \001(\0132\033.chat.Dire"
+  "ctMessageResponse"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_mensaje_2eproto_deps[1] = {
 };
@@ -668,7 +666,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_men
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_mensaje_2eproto_once;
 static bool descriptor_table_mensaje_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_mensaje_2eproto = {
-  &descriptor_table_mensaje_2eproto_initialized, descriptor_table_protodef_mensaje_2eproto, "mensaje.proto", 1633,
+  &descriptor_table_mensaje_2eproto_initialized, descriptor_table_protodef_mensaje_2eproto, "mensaje.proto", 1617,
   &descriptor_table_mensaje_2eproto_once, descriptor_table_mensaje_2eproto_sccs, descriptor_table_mensaje_2eproto_deps, 18, 0,
   schemas, file_default_instances, TableStruct_mensaje_2eproto::offsets,
   file_level_metadata_mensaje_2eproto, 18, file_level_enum_descriptors_mensaje_2eproto, file_level_service_descriptors_mensaje_2eproto,
@@ -2139,9 +2137,6 @@ void ChangeStatusRequest::InitAsDefaultInstance() {
 class ChangeStatusRequest::_Internal {
  public:
   using HasBits = decltype(std::declval<ChangeStatusRequest>()._has_bits_);
-  static void set_has_userid(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
-  }
   static void set_has_status(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
@@ -2161,14 +2156,12 @@ ChangeStatusRequest::ChangeStatusRequest(const ChangeStatusRequest& from)
   if (from._internal_has_status()) {
     status_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.status_);
   }
-  userid_ = from.userid_;
   // @@protoc_insertion_point(copy_constructor:chat.ChangeStatusRequest)
 }
 
 void ChangeStatusRequest::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ChangeStatusRequest_mensaje_2eproto.base);
   status_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  userid_ = 0;
 }
 
 ChangeStatusRequest::~ChangeStatusRequest() {
@@ -2199,7 +2192,6 @@ void ChangeStatusRequest::Clear() {
   if (cached_has_bits & 0x00000001u) {
     status_.ClearNonDefaultToEmptyNoArena();
   }
-  userid_ = 0;
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -2212,17 +2204,9 @@ const char* ChangeStatusRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // required int32 userId = 1;
+      // required string status = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          _Internal::set_has_userid(&has_bits);
-          userid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // required string status = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           auto str = _internal_mutable_status();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
@@ -2259,20 +2243,14 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required int32 userId = 1;
-  if (cached_has_bits & 0x00000002u) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_userid(), target);
-  }
-
-  // required string status = 2;
+  // required string status = 1;
   if (cached_has_bits & 0x00000001u) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_status().data(), static_cast<int>(this->_internal_status().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
       "chat.ChangeStatusRequest.status");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_status(), target);
+        1, this->_internal_status(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2283,43 +2261,15 @@ failure:
   return target;
 }
 
-size_t ChangeStatusRequest::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:chat.ChangeStatusRequest)
-  size_t total_size = 0;
-
-  if (_internal_has_status()) {
-    // required string status = 2;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_status());
-  }
-
-  if (_internal_has_userid()) {
-    // required int32 userId = 1;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_userid());
-  }
-
-  return total_size;
-}
 size_t ChangeStatusRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:chat.ChangeStatusRequest)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required string status = 2;
+  // required string status = 1;
+  if (_internal_has_status()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_status());
-
-    // required int32 userId = 1;
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_userid());
-
-  } else {
-    total_size += RequiredFieldsByteSizeFallback();
   }
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -2356,16 +2306,9 @@ void ChangeStatusRequest::MergeFrom(const ChangeStatusRequest& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
-    if (cached_has_bits & 0x00000001u) {
-      _has_bits_[0] |= 0x00000001u;
-      status_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.status_);
-    }
-    if (cached_has_bits & 0x00000002u) {
-      userid_ = from.userid_;
-    }
-    _has_bits_[0] |= cached_has_bits;
+  if (from._internal_has_status()) {
+    _has_bits_[0] |= 0x00000001u;
+    status_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.status_);
   }
 }
 
@@ -2384,7 +2327,7 @@ void ChangeStatusRequest::CopyFrom(const ChangeStatusRequest& from) {
 }
 
 bool ChangeStatusRequest::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
   return true;
 }
 
@@ -2394,7 +2337,6 @@ void ChangeStatusRequest::InternalSwap(ChangeStatusRequest* other) {
   swap(_has_bits_[0], other->_has_bits_[0]);
   status_.Swap(&other->status_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
-  swap(userid_, other->userid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ChangeStatusRequest::GetMetadata() const {
