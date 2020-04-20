@@ -56,7 +56,7 @@ struct sockaddr_in servidor;
 string username;
 string IPbuf;
 int id;
-
+string statusG = "ACTIVO";
 
 
 //Funcion para errores y salida inmediata
@@ -189,7 +189,7 @@ void changeStatus(string status,int fd,char *buffer){
 
     cout << "\nSE acaba de mandar el status deseado al servidor: " << changereq->status()<< endl;
     cout << "\nSE acaba de mandar el status deseado al servidor: " << message->changestatus().status()<< endl;
-
+    statusG = message->changestatus().status();
     // Se serializa el message a string
     string binary;
     message->SerializeToString(&binary);
@@ -211,7 +211,6 @@ void changeStatus(string status,int fd,char *buffer){
     cout << "\nstatusprueba6\n" << endl;*/
 
     //cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
-
 }
 
 
@@ -237,6 +236,53 @@ void exitChat(){
 
 }
 
+void UserInfo(string otherclientname,int fd,char *buffer){
+    connectedUserRequest * cureq(new connectedUserRequest);
+    cureq->set_userid(id);
+    cureq->set_username(otherclientname);
+    //changereq->set_userid(id);
+
+    // Se crea instancia de Mensaje, se setea los valores deseados
+    ClientMessage * message(new ClientMessage);
+    message->set_option(2);
+    message->set_userid(id);
+    message->set_allocated_connectedusers(cureq);
+
+    cout << "id: " << id<< endl;
+    cout << "\nSolicito la informacion de: " << message->connectedusers().username()<< endl;
+
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+    send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
+    
+    cout << "\nstatusprueba4\n" << endl;
+
+    //read( fd , buffer, PORT);
+    recv( fd , buffer, PORT,0);
+    //string ret(buffer, PORT);
+    cout << "\nstatusprueba5\n" << endl;
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
+
+    if(s_message->option() == 5){
+        if (s_message->connecteduserresponse().connectedusers_size() != 0){
+            cout << "Usuario consultado" << endl;
+            cout << "Nombre: " << s_message->connecteduserresponse().connectedusers(0).username() << endl;
+            cout << "Id: " << s_message->connecteduserresponse().connectedusers(0).userid() << endl;
+            cout << "Ip: " << s_message->connecteduserresponse().connectedusers(0).ip() << endl;
+            cout << "Estado: " << s_message->connecteduserresponse().connectedusers(0).status() << endl;
+        }
+    }else if(s_message->option() == 3){
+        cout << "No existe el usuario. " << s_message->error().errormessage() << endl;
+    }
+    
+    
+}
 
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
@@ -284,7 +330,9 @@ int main(){
 
         string choice;
         while(choice != "7"){
-            cout << "\n1. Chatear con todos los usuarios" << endl;
+            cout << "\nBienvenid@ " << username << "! Escoge una opcion porfavor: " << endl;
+            cout << "Estatus: " << statusG << endl;
+            cout << "1. Chatear con todos los usuarios" << endl;
             cout << "2. Enviar mensaje privado." << endl;
             cout << "3. Cambiar de Status" << endl;
             cout << "4. Desplegar informacion de un usuario en particular" << endl;			
@@ -347,26 +395,19 @@ int main(){
                         break;
                     }
                     case 4:
-		    {
-			string search;
-                        cout << "¿Sobre que usuario quieres saber informaciòn? 				\n";
-			cin >> search;
-			if (search == username){
-				cout << "\nInformaciòn del usuario: \n";
-				cout << "Este usuario eres tù, hola " + search + 					"\n";
-				void devolver_INFO(string search);
-			}else{
-				cout << "\nInformaciòn del usuario: \n";
-		                void devolver_INFO(string search);
-			}
+                    {
+                        string username;
+                        cout << "Escriba el nombre del usurio de quien desea informacion: ";
+                        cin >> username;
+                        UserInfo(username,fd,buffer);
                         break;
-		    }
+                    }		            
                     case 5:
-			{
+			        {
                         cout << "Los usuario conectados son:  \n";
 			
                         break;
-			}
+			        }
                     case 6:
 			{
 			string nada; 
