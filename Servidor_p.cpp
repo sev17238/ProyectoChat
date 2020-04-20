@@ -229,7 +229,6 @@ void clientsBroadCasting(int listenfd, int connectfd,char *buf){
 }
 
 void sendClientDirectMessage(int connectfd,char *buf){
-    cout << "pruebadirectmessage1" << endl;
     //read( connectfd, buf, PORT);
 
     ClientMessage * message(new ClientMessage);
@@ -271,8 +270,9 @@ void sendClientDirectMessage(int connectfd,char *buf){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     //send(connectfd , cstr , strlen(cstr) , 0 );
+     send(connectfd , cstr , strlen(cstr) , 0 );  
     cout << "pruebadirectmessage3" << endl;
-    i = 0;
+    /*i = 0;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
         cout << "\nc.id: "<< c.id << " userid(): " << id_receiver << endl;
@@ -282,7 +282,7 @@ void sendClientDirectMessage(int connectfd,char *buf){
             send(connectfd , cstr , strlen(cstr) , 0 );  
 
         }
-    }
+    }*/
 }
 
 void changeClientStatus(int connectfd,char *buf){
@@ -294,7 +294,7 @@ void changeClientStatus(int connectfd,char *buf){
     cout << "optin: " << message->option() << endl;
     cout << "Change status request from Client id: " << message->userid() << endl;
     cout << "status al que quiere cambiar: " << message->changestatus().status() << endl;
-    cout << "\nstatusprueba6\n" << endl;
+
     int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
@@ -306,7 +306,6 @@ void changeClientStatus(int connectfd,char *buf){
         }
     }
     
-    cout << "\nstatusprueba7\n" << endl;
     //ChangeStatusResponse * status_res(new ChangeStatusResponse);
     ChangeStatusResponse * status_res(new ChangeStatusResponse);
     status_res->set_status(message->changestatus().status());
@@ -316,7 +315,7 @@ void changeClientStatus(int connectfd,char *buf){
     server_res->set_option(6);
     server_res->set_allocated_changestatusresponse(status_res);
 
-    cout << "\nstatusprueba8\n" << endl;
+    cout << "\nstatusprueba\n" << endl;
     // Se serializa la respuesta a string
     /*string binary;
     server_res->SerializeToString(&binary);
@@ -329,54 +328,34 @@ void changeClientStatus(int connectfd,char *buf){
 
 }
 
-void clientList(){
 
-}
-
-
-
-void clientInfo(int connectfd,char *buf){
+//Metodo para obtener toda la info
+void clientList(int connectfd,char *buf){
     ClientMessage * message(new ClientMessage);
 
     message->ParseFromString(buf);
-    
     cout << "optin: " << message->option() << endl;
     cout << "id de cliente que consulta info: " << message->userid() << endl;
-    cout << "nombre del usuario con la informacion deseada: " << message->connectedusers().username()<< endl;
-    cout << "\nstatusprueba6\n" << endl;
+    
+    ConnectedUserResponse * cures(new ConnectedUserResponse);
+
     int i;
-    Cliente infouser;
-    int founded = 0;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
         //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
-        if(c.username == message->connectedusers().username()){
-            infouser = c;
-            founded = 1;
+        if(c.id != -1){
+            ConnectedUser * cu = cures->add_connectedusers();
+            cu->set_username(c.username);
+            cu->set_userid(c.id);
+            cu->set_status(c.status);
+            cu->set_ip(c.ip);
         }
     }
 
     ServerMessage * sm(new ServerMessage);
-    if(founded == 1){
-        ConnectedUserResponse * cures(new ConnectedUserResponse);
+    sm->set_option(5);
+    sm->set_allocated_connecteduserresponse(cures);
 
-        ConnectedUser * cu = cures->add_connectedusers();
-        cu->set_username(infouser.username);
-        cu->set_userid(infouser.id);
-        cu->set_status(infouser.status);
-        cu->set_ip(infouser.ip);
-
-        sm->set_option(5);
-        sm->set_allocated_connecteduserresponse(cures);
-
-    }else{
-        ErrorResponse *errorr(new ErrorResponse);
-        errorr->set_errormessage("Usuario no existe.");
-
-        sm->set_option(3);
-        sm->set_allocated_error(errorr);
-    }
-    
     string binary;
     sm->SerializeToString(&binary);
 
@@ -384,7 +363,96 @@ void clientInfo(int connectfd,char *buf){
     strcpy(cstr, binary.c_str());
     send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
 
-    cout << "\nstatusprueba9\n" << endl;
+    cout << "\npruebalista\n" << endl;
+
+}
+
+
+void clientInfo(int connectfd,char *buf){
+    ClientMessage * message(new ClientMessage);
+
+    message->ParseFromString(buf);
+
+    if(message->connectedusers().userid() < 0){
+        cout << "optin: " << message->option() << endl;
+        cout << "id de cliente que consulta info: " << message->userid() << endl;
+        
+        ConnectedUserResponse * cures(new ConnectedUserResponse);
+
+        int i;
+        for (i = 0; i < BACKLOG; i++){
+            Cliente c = clientes_connectados[i];
+            //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
+            if(c.id != -1){
+                ConnectedUser * cu = cures->add_connectedusers();
+                cu->set_username(c.username);
+                cu->set_userid(c.id);
+                cu->set_status(c.status);
+                cu->set_ip(c.ip);
+            }
+        }
+
+        ServerMessage * sm(new ServerMessage);
+        sm->set_option(5);
+        sm->set_allocated_connecteduserresponse(cures);
+
+        string binary;
+        sm->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+        send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
+
+        cout << "\nlistadeusuariosprueba\n" << endl;
+    }else{
+        cout << "optin: " << message->option() << endl;
+        cout << "id de cliente que consulta info: " << message->userid() << endl;
+        cout << "nombre del usuario con la informacion deseada: " << message->connectedusers().username()<< endl;
+
+        int i;
+        Cliente infouser;
+        int founded = 0;
+        for (i = 0; i < BACKLOG; i++){
+            Cliente c = clientes_connectados[i];
+            //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
+            if(c.username == message->connectedusers().username()){
+                infouser = c;
+                founded = 1;
+            }
+        }
+
+        ServerMessage * sm(new ServerMessage);
+        if(founded == 1){
+            ConnectedUserResponse * cures(new ConnectedUserResponse);
+
+            ConnectedUser * cu = cures->add_connectedusers();
+            cu->set_username(infouser.username);
+            cu->set_userid(infouser.id);
+            cu->set_status(infouser.status);
+            cu->set_ip(infouser.ip);
+
+            sm->set_option(5);
+            sm->set_allocated_connecteduserresponse(cures);
+
+        }else{
+            ErrorResponse *errorr(new ErrorResponse);
+            errorr->set_errormessage("Usuario no existe.");
+
+            sm->set_option(3);
+            sm->set_allocated_error(errorr);
+        }
+        
+        string binary;
+        sm->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+        send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
+
+        cout << "\ninfodeusuarioprueba\n" << endl;
+    }
+    
+    
 }
 
 
@@ -435,7 +503,7 @@ void *conexionConClientes(void *args)
         message->ParseFromString(buf);
         
         //cout << "Client IP: " << message->synchronize().ip() << endl;
-        cout << "ClientMessage id: " << message->userid() << endl;
+        //cout << "ClientMessage id: " << message->userid() << endl;
 		// Se puede accesar a los valores de la siguiente manera:
 		//cout << "Opcion general enviada.... : " << m->option() << endl;
 		//cout << "Username: " << m->synchronize().username() << endl;
@@ -489,11 +557,12 @@ void *conexionConClientes(void *args)
 				clientes_connectados[message2->userid()] = c;
 
                 
-				cout << "Usted ha sido agregao al server con los siguientes datos: " << endl;
+				cout << "Usuario ha sido agregao al server con los siguientes datos: \n";
 				cout << "ID: " << clientes_connectados[message2->userid()].id << endl;
 				cout << "Nombre: " << clientes_connectados[message2->userid()].username << endl;
 				cout << "IP: " << clientes_connectados[message2->userid()].ip << endl;
 				cout << "Status: " << clientes_connectados[message2->userid()].status << endl;
+                cout << "" << endl;
 			}
 			else
 			{
@@ -503,11 +572,12 @@ void *conexionConClientes(void *args)
 			}
 			bzero(buf, MAXDATASIZE);
             int m;
+            cout << "\nClientes conectados:"<< endl;
             for (m = 0; m < BACKLOG; m++)
             {                
                 Cliente c = clientes_connectados[m];
                 if(c.id != -1){
-                    cout << "\nid: " << c.id << "\nnombre: "<< c.username<<"\nStatus:" <<c.status<< endl;
+                    cout << "id: " << c.id << "\nnombre: "<< c.username<<"\nStatus:" <<c.status<< endl;
                 }                
 
             }

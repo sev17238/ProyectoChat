@@ -173,7 +173,7 @@ void sendDirectMessage(string receiver,string message,int fd,char *buffer){
 
 void changeStatus(string status,int fd,char *buffer){
     // Se hace el request para mabiar el status.
-    cout << "\nstatusprueba1\n" << endl;
+
     cout << "Este el estatus elejido: " << status << endl;
     ChangeStatusRequest * changereq(new ChangeStatusRequest);
     changereq->set_status(status);
@@ -184,7 +184,7 @@ void changeStatus(string status,int fd,char *buffer){
     message->set_option(3);
     message->set_userid(id);
     message->set_allocated_changestatus(changereq);
-    cout << "\nstatusprueba3\n" << endl;
+
     cout << "id: " << id<< endl;
 
     cout << "\nSE acaba de mandar el status deseado al servidor: " << changereq->status()<< endl;
@@ -197,7 +197,7 @@ void changeStatus(string status,int fd,char *buffer){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
-    cout << "\nstatusprueba4\n" << endl;
+    cout << "\nstatusprueba\n" << endl;
 
     //delay()
     //Se recibe la respuesta del servidor
@@ -236,6 +236,51 @@ void exitChat(){
 
 }
 
+void usersList(int fd,char *buffer){
+    connectedUserRequest * cureq(new connectedUserRequest);
+    cureq->set_userid(-1);
+    //changereq->set_userid(id);
+
+    // Se crea instancia de Mensaje, se setea los valores deseados
+    ClientMessage * message(new ClientMessage);
+    message->set_option(2);
+    message->set_userid(id);
+    message->set_allocated_connectedusers(cureq);
+
+    //cout << "id: " << id<< endl;
+
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+    send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
+
+
+    recv( fd , buffer, PORT,0);
+    //string ret(buffer, PORT);
+    //cout << "\nstatusprueba5\n" << endl;
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
+
+    if(s_message->option() == 5){
+        if (s_message->connecteduserresponse().connectedusers_size() != 0){
+            int i;
+            for (i = 0; i < s_message->connecteduserresponse().connectedusers().size(); i++)
+            {
+                cout << "---------------------------------" << endl;
+                cout << "Nombre: " << s_message->connecteduserresponse().connectedusers(i).username() << endl;
+                cout << "Id: " << s_message->connecteduserresponse().connectedusers(i).userid() << endl;
+                //cout << "Ip: " << s_message->connecteduserresponse().connectedusers(i).ip() << endl;
+                cout << "Estado: " << s_message->connecteduserresponse().connectedusers(i).status() << endl;
+            }            
+        }
+    }
+
+}
+
 void UserInfo(string otherclientname,int fd,char *buffer){
     connectedUserRequest * cureq(new connectedUserRequest);
     cureq->set_userid(id);
@@ -271,7 +316,7 @@ void UserInfo(string otherclientname,int fd,char *buffer){
 
     if(s_message->option() == 5){
         if (s_message->connecteduserresponse().connectedusers_size() != 0){
-            cout << "Usuario consultado" << endl;
+            cout << "----------Usuario consultado----------" << endl;
             cout << "Nombre: " << s_message->connecteduserresponse().connectedusers(0).username() << endl;
             cout << "Id: " << s_message->connecteduserresponse().connectedusers(0).userid() << endl;
             cout << "Ip: " << s_message->connecteduserresponse().connectedusers(0).ip() << endl;
@@ -372,7 +417,7 @@ int main(){
                     {   
                         string statuschoice;
 
-                        cout << "Cambio de status.\n";
+                        cout << "CAMBIO DE ESTATUS.\n";
                         cout << "1. ACTIVO" << endl;
                         cout << "2. OCUPADO" << endl;
                         cout << "3. INACTIVO" << endl;
@@ -404,8 +449,8 @@ int main(){
                     }		            
                     case 5:
 			        {
-                        cout << "Los usuario conectados son:  \n";
-			
+                        cout << "\nLISTA DE USUARIOS DEL CHAT" << endl;
+                        usersList(fd,buffer);			
                         break;
 			        }
                     case 6:
