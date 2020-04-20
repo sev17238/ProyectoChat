@@ -196,10 +196,6 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
     }
 }
 
-void *conneccionPthreads(void *args){
-
-
-}
 
 void clientsBroadCasting(int listenfd, int connectfd,char *buf){
     /*read( connectfd , buf, PORT);
@@ -337,8 +333,58 @@ void clientList(){
 
 }
 
-void clientInfo(){
 
+
+void clientInfo(int connectfd,char *buf){
+    ClientMessage * message(new ClientMessage);
+
+    message->ParseFromString(buf);
+    
+    cout << "optin: " << message->option() << endl;
+    cout << "id de cliente que consulta info: " << message->userid() << endl;
+    cout << "nombre del usuario con la informacion deseada: " << message->connectedusers().username()<< endl;
+    cout << "\nstatusprueba6\n" << endl;
+    int i;
+    Cliente infouser;
+    int founded = 0;
+    for (i = 0; i < BACKLOG; i++){
+        Cliente c = clientes_connectados[i];
+        //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
+        if(c.username == message->connectedusers().username()){
+            infouser = c;
+            founded = 1;
+        }
+    }
+
+    ServerMessage * sm(new ServerMessage);
+    if(founded == 1){
+        ConnectedUserResponse * cures(new ConnectedUserResponse);
+
+        ConnectedUser * cu = cures->add_connectedusers();
+        cu->set_username(infouser.username);
+        cu->set_userid(infouser.id);
+        cu->set_status(infouser.status);
+        cu->set_ip(infouser.ip);
+
+        sm->set_option(5);
+        sm->set_allocated_connecteduserresponse(cures);
+
+    }else{
+        ErrorResponse *errorr(new ErrorResponse);
+        errorr->set_errormessage("Usuario no existe.");
+
+        sm->set_option(3);
+        sm->set_allocated_error(errorr);
+    }
+    
+    string binary;
+    sm->SerializeToString(&binary);
+
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
+    send(connectfd , cstr , strlen(cstr) , 0 );       //se manda el response al cliente
+
+    cout << "\nstatusprueba9\n" << endl;
 }
 
 
@@ -458,9 +504,11 @@ void *conexionConClientes(void *args)
 			bzero(buf, MAXDATASIZE);
             int m;
             for (m = 0; m < BACKLOG; m++)
-            {
+            {                
                 Cliente c = clientes_connectados[m];
-                cout << "\n"<< m << "\nid: " << c.id << "\nnombre: "<< c.username<<"\nStatus:" <<c.status<< endl;
+                if(c.id != -1){
+                    cout << "\nid: " << c.id << "\nnombre: "<< c.username<<"\nStatus:" <<c.status<< endl;
+                }                
 
             }
             
@@ -480,7 +528,7 @@ void *conexionConClientes(void *args)
 			cout << "Opcion: " << message_chat->option() << endl;
 			option_chat = message_chat->option();
 			if (option_chat == 2){
-				//clientInfo(socket_cliente, buf);
+				clientInfo(socket_cliente, buf);
 			}else if (option_chat == 3){				
                 changeClientStatus(socket_cliente, buf);
 			}else if (option_chat == 4){				
@@ -501,7 +549,7 @@ void *conexionConClientes(void *args)
 		//} while (*buf != '#');
         } while (option_chat != 7);
 
-		printf("Se ha finalizado la conexión con: %s\n", inet_ntoa(cli_addr.sin_addr));
+		//printf("Se ha terminado conexión con el usuario con id: %d\n", message->userid());
 		close(socket_cliente);
 		out_of_chat_room = false;
 
