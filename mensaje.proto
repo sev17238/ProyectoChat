@@ -15,7 +15,15 @@ message MyInfoSynchronize {
 // MY INFO RESP. - SYN/ACK
 // Received from SERVER
 message MyInfoResponse {
-  required int32 userId = 1;
+  required string userId = 1;
+}
+
+message MyKey {
+  required string key = 1;
+}
+
+message MyKey2 {
+  required string seacrh = 1;
 }
 
 // MY INFO ACK. - ACKNOWLEDGE
@@ -145,6 +153,10 @@ message ClientMessage {
   optional MyInfoAcknowledge acknowledge = 8;
 
   optional ExitChat exitchat = 9;
+
+  optional MyKey myKey = 10;
+
+  optional MyKey2 mysearch = 10;
 
 }
 

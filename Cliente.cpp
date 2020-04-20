@@ -56,7 +56,9 @@ struct sockaddr_in servidor;
 string username;
 string IPbuf;
 int id;
-int key;
+string key = "nop";
+string key2;
+string search;
 
 
 
@@ -123,6 +125,104 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
         send(fd , cstr2 , strlen(cstr2) , 0 );     //Se manda el acknoledge al servidor.
 }
 
+void SendKey(string IPbuf,int fd,char *buffer){
+        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
+	cout << "\n¿Quieres continuar(si/no)?" << endl;
+        cin >> key;
+	if(key == "si"){
+	cout << "\nRevise la terminal del servidor para ver el resultado..." << endl;
+        miInfo->set_username(key); 
+        miInfo->set_ip(IPbuf);
+        //cout << "\nip: " << IPbuf << endl;
+
+        // Se crea instancia de Mensaje, se setea los valores deseados
+        ClientMessage * message(new ClientMessage);
+        message->set_option(1);
+        //message->set_userid('2');
+        message->set_allocated_synchronize(miInfo);
+        
+        // Se serializa el message a string
+        string binary;
+        message->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+
+        send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+
+        //delay(4000);
+        //________________________________________________
+        //Se recibe la respuesta del servidor
+        read( fd , buffer, PORT);
+	    //string ret(buffer, PORT); //se convierte el char a string
+
+        ServerMessage * server_res(new ServerMessage);
+        //server_res->ParseFromString(ret);
+        server_res->ParseFromString(buffer);
+        cout << "response userid: " << server_res->myinforesponse().userid() << endl;
+        id = server_res->myinforesponse().userid(); //id que el servidor asigno al cliente
+
+        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+        ack->set_userid(server_res->myinforesponse().userid());
+        cout << "ack userid: " << ack->userid() << endl;
+
+        ClientMessage * message2(new ClientMessage);
+        message2->set_option(7);
+        message2->set_userid(id);                //id que el servidor asigno al cliente
+        message2->set_allocated_acknowledge(ack);
+
+        string binary2;
+        message2->SerializeToString(&binary2);
+
+        char cstr2[binary2.size() + 1];
+        strcpy(cstr2, binary2.c_str());
+        send(fd , cstr2 , strlen(cstr2) , 0 );    
+	 //Se manda el acknoledge al servidor.
+	} else {
+		cout << "No se continuara el proceso porque respondio algo que no es 'si'." << endl;
+	}
+}
+
+void SendKey2(string name,int fd,char *buffer){
+        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
+        cout << "\nRevise la terminal del servidor para ver el resultado..."      << endl;
+        miInfo->set_username(name); 
+        miInfo->set_ip(IPbuf);
+
+        ClientMessage * message(new ClientMessage);
+        message->set_option(1);
+        message->set_allocated_synchronize(miInfo);
+        
+        string binary;
+        message->SerializeToString(&binary);
+
+        char cstr[binary.size() + 1];
+        strcpy(cstr, binary.c_str());
+
+        send(fd , cstr , strlen(cstr) , 0 );      
+        read( fd , buffer, PORT);
+
+        ServerMessage * server_res(new ServerMessage);
+        server_res->ParseFromString(buffer);
+        cout << "response userid: " << server_res->myinforesponse().userid() << endl;
+        id = server_res->myinforesponse().userid(); 
+
+        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+        ack->set_userid(server_res->myinforesponse().userid());
+        cout << "ack userid: " << ack->userid() << endl;
+
+        ClientMessage * message2(new ClientMessage);
+        message2->set_option(7);
+        message2->set_userid(id);                
+        message2->set_allocated_acknowledge(ack);
+
+        string binary2;
+        message2->SerializeToString(&binary2);
+
+        char cstr2[binary2.size() + 1];
+        strcpy(cstr2, binary2.c_str());
+        send(fd , cstr2 , strlen(cstr2) , 0 );    
+}
 
 void BroadCasting(string message,int fd,char *buffer){
     /*BroadcastRequest * broad (new BroadcastRequest);
@@ -198,17 +298,20 @@ void changeStatus(string status,int fd,char *buffer){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
+    cout << "\nstatusprueba4\n" << endl;
 
     //delay()
     //Se recibe la respuesta del servidor
-    read( fd , buffer, PORT);
+    //read( fd , buffer, PORT);
+    /*recv( fd , buffer, PORT,0);
     //string ret(buffer, PORT);
-
+    cout << "\nstatusprueba5\n" << endl;
     ServerMessage * s_message(new ServerMessage);
     //s_message->ParseFromString(ret);
     s_message->ParseFromString(buffer);
+    cout << "\nstatusprueba6\n" << endl;*/
 
-    cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
+    //cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
 
 }
 
@@ -239,7 +342,6 @@ void exitChat(){
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    key = 0; 
 
     //Se chequea que el nombre de host local este correcto.
     if((he = gethostbyname(HOSTNAME)) == NULL){
@@ -347,23 +449,20 @@ int main(){
                     }
                     case 4:
 		    {
-			string search;
                         cout << "¿Sobre que usuario quieres saber informaciòn? 				\n";
-			cin >> search;
-			if (search == username){
+			cin >> ::search;
+			if (::search == username){
 				cout << "\nInformaciòn del usuario: \n";
-				cout << "Este usuario eres tù, hola " + search + 					"\n";
-				void devolver_INFO(string search);
+				cout << "Este usuario eres tù, hola      "+ ::search                     + "\n";
 			}else{
 				cout << "\nInformaciòn del usuario: \n";
-		                void devolver_INFO(string search);
+		                SendKey2(::search,fd,buffer);
 			}
                         break;
 		    }
                     case 5:
 			{
-                        cout << "Los usuario conectados son:  \n";
-			key = 1;
+			SendKey(IPbuf,fd,buffer);
                         break;
 			}
                     case 6:
@@ -411,9 +510,9 @@ int main(){
             ServerMessage * s_message(new ServerMessage);
             //s_message->ParseFromString(ret);
             s_message->ParseFromString(buffer);
-*/
+
             //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS MENSAJES DEL CHAT ETC.
-            /*if(s_message->option() == 1){
+            if(s_message->option() == 1){
                 cout << "Mensaje broadcast \n" << endl;
                 cout << s_message->broadcast().message() << endl; 
             }else if(s_message->option() == 2){
@@ -425,12 +524,12 @@ int main(){
             }else if(s_message->option() == 9){
                 cout << "direct message response \n" << endl;
                 cout << s_message->directmessageresponse().messagestatus() << endl; 
-            }*/
-/*
+            }
+
             cout << "direct message: " << s_message->message().message() << endl; 
             cout << "messagestatus: " << s_message->directmessageresponse().messagestatus() << endl; 
             */
-        }  
+        }
     }
     close(fd);
     google::protobuf::ShutdownProtobufLibrary();
