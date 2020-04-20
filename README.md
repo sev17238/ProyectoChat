@@ -41,6 +41,11 @@ En este proyecto se utilizan:
  - https://vorbrodt.blog/2019/03/10/protocol-buffers-or-how-to-serialize-data/
  - https://developers.google.com/protocol-buffers/docs/cpptutorial
  - https://developers.google.com/protocol-buffers/docs/downloads?hl=es-419
+- 
+### Multithreading in C
+ - https://www.geeksforgeeks.org/multithreading-c-2/
+ - https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/
+ - http://profesores.elo.utfsm.cl/~agv/elo330/2s06/lectures/POSIX_threads/POSIX_Threads_Synchronization.html
 
 ### Client Server Model
  - https://github.com/lytsing/protobuf-demo
@@ -48,3 +53,4 @@ En este proyecto se utilizan:
 
 ### Sockets Tutorial
  - http://www.linuxhowtos.org/C_C++/socket.htm
+ 
