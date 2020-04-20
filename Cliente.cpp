@@ -56,6 +56,7 @@ struct sockaddr_in servidor;
 string username;
 string IPbuf;
 int id;
+int key;
 
 
 
@@ -197,20 +198,17 @@ void changeStatus(string status,int fd,char *buffer){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     send(fd , cstr , strlen(cstr) , 0);           //Se manda el mensaje con el request
-    cout << "\nstatusprueba4\n" << endl;
 
     //delay()
     //Se recibe la respuesta del servidor
-    //read( fd , buffer, PORT);
-    /*recv( fd , buffer, PORT,0);
+    read( fd , buffer, PORT);
     //string ret(buffer, PORT);
-    cout << "\nstatusprueba5\n" << endl;
+
     ServerMessage * s_message(new ServerMessage);
     //s_message->ParseFromString(ret);
     s_message->ParseFromString(buffer);
-    cout << "\nstatusprueba6\n" << endl;*/
 
-    //cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
+    cout << "Su estatus se actualizo a: " << s_message->changestatusresponse().status() << endl;
 
 }
 
@@ -241,6 +239,7 @@ void exitChat(){
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    key = 0; 
 
     //Se chequea que el nombre de host local este correcto.
     if((he = gethostbyname(HOSTNAME)) == NULL){
@@ -364,7 +363,7 @@ int main(){
                     case 5:
 			{
                         cout << "Los usuario conectados son:  \n";
-			
+			key = 1;
                         break;
 			}
                     case 6:
@@ -412,9 +411,9 @@ int main(){
             ServerMessage * s_message(new ServerMessage);
             //s_message->ParseFromString(ret);
             s_message->ParseFromString(buffer);
-
+*/
             //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS MENSAJES DEL CHAT ETC.
-            if(s_message->option() == 1){
+            /*if(s_message->option() == 1){
                 cout << "Mensaje broadcast \n" << endl;
                 cout << s_message->broadcast().message() << endl; 
             }else if(s_message->option() == 2){
@@ -426,12 +425,12 @@ int main(){
             }else if(s_message->option() == 9){
                 cout << "direct message response \n" << endl;
                 cout << s_message->directmessageresponse().messagestatus() << endl; 
-            }
-
+            }*/
+/*
             cout << "direct message: " << s_message->message().message() << endl; 
             cout << "messagestatus: " << s_message->directmessageresponse().messagestatus() << endl; 
             */
-        }
+        }  
     }
     close(fd);
     google::protobuf::ShutdownProtobufLibrary();
