@@ -39,7 +39,9 @@ using std::string;
 
 //Definicion de puerto y nombre de host
 #define HOSTNAME "localhost"
-#define PORT 8080
+
+//#define HOSTNAME "18.222.175.74"
+//#define PORT 8888
 #define MAXDATASIZE 4096
 
 int fd;
@@ -63,9 +65,11 @@ struct connection_data
 	struct sockaddr_in server;
 	struct hostent *he;
     string IPbuf;
+    int port;
+    string username;
 };
 
-string username;
+//string username;
 string IPbuf;
 int id;
 string statusG = "ACTIVO";
@@ -82,11 +86,11 @@ string *INFOusername;
 
 int NumberClient;
 
-void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
+void ThreeWayHandShake(string username, string IPbuf,int fd,char *buffer,int PORT){
 
     MyInfoSynchronize *miInfo(new MyInfoSynchronize);
-    cout << "\nIngrese su nombre de cliente: " << endl;
-    cin >> username;
+    //cout << "\nIngrese su nombre de cliente: " << endl;
+    //cin >> username;
     miInfo->set_username(username); 
     miInfo->set_ip(IPbuf);
     //cout << "\nip: " << IPbuf << endl;
@@ -136,7 +140,7 @@ void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 }
 
 
-void BroadCasting(string message,int fd,char *buffer){
+void BroadCasting(string message,int fd,char *buffer,int PORT){
     BroadcastRequest * broad (new BroadcastRequest);
     broad->set_message(message);
 
@@ -171,7 +175,7 @@ void BroadCasting(string message,int fd,char *buffer){
 
 
 //chafa
-void Mensajes(int fd,char *buffer)
+void Mensajes(int fd,char *buffer,int PORT)
 {
    
     recv( fd , buffer, PORT,0);
@@ -191,7 +195,7 @@ void Mensajes(int fd,char *buffer)
 }
 
 
-void sendDirectMessage(string receiver,string message,int fd,char *buffer){
+void sendDirectMessage(string receiver,string message,int fd,char *buffer,int PORT){
     DirectMessageRequest * direct (new DirectMessageRequest);
     direct->set_message(message);
     direct->set_userid(id);
@@ -223,7 +227,7 @@ void sendDirectMessage(string receiver,string message,int fd,char *buffer){
     cout << "estado de mensaje enviado: " << s_message->directmessageresponse().messagestatus()<< endl;
 }
 
-void changeStatus(string status,int fd,char *buffer){
+void changeStatus(string status,int fd,char *buffer,int PORT){
     // Se hace el request para mabiar el status.
 
     cout << "Este el estatus elejido: " << status << endl;
@@ -286,7 +290,7 @@ void exitChat(){
     send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
 }
 
-void usersList(int fd,char *buffer){
+void usersList(int fd,char *buffer,int PORT){
     connectedUserRequest * cureq(new connectedUserRequest);
     cureq->set_userid(-1);
     //changereq->set_userid(id);
@@ -330,7 +334,7 @@ void usersList(int fd,char *buffer){
     }
 }
 
-void UserInfo(string otherclientname,int fd,char *buffer){
+void UserInfo(string otherclientname,int fd,char *buffer,int PORT){
     connectedUserRequest * cureq(new connectedUserRequest);
     cureq->set_userid(id);
     cureq->set_username(otherclientname);
@@ -393,7 +397,8 @@ void *Mensajes_p(void *args)
         //while(mensajellego != 1){
 
         //while(choice != "7"){
-        recv( fd , bufferMensajes, PORT,0);
+        //recv( fd , bufferMensajes, PORT,0);
+        recv( fd , bufferMensajes, data->port ,0);
         cout << "\nwhilemensaje\n" << endl;
         if(bufferMensajes[0] != '\0'){
             ServerMessage * s_message(new ServerMessage);
@@ -428,9 +433,10 @@ void *InteraccionGUI(void *args){
 
     int fd = data->fd;
     string IPbuf = data->IPbuf;
+    int PORT = data->port;
 
     while(choice != "7"){
-        cout << "\nBienvenid@ " << username << "! Escoge una opcion porfavor: " << endl;
+        cout << "\nBienvenid@ " << data->username << "! Escoge una opcion porfavor: " << endl;
         cout << "Estatus: " << statusG << endl;
         cout << "1. Chatear con todos los usuarios" << endl;
         cout << "2. Enviar mensaje privado." << endl;
@@ -451,7 +457,7 @@ void *InteraccionGUI(void *args){
                 string newbroadcast_message;
                 cout << "Escriba el mensaje que desea enviar al chat: ";
                 cin >> newbroadcast_message;
-                BroadCasting(newbroadcast_message,fd,bufferInter);
+                BroadCasting(newbroadcast_message,fd,bufferInter,PORT );
                 
             }
             else if(i == 2)
@@ -462,7 +468,7 @@ void *InteraccionGUI(void *args){
                 string direct_message;
                 cout << "Escriba el mensaje que desea enviarle: ";
                 cin >> direct_message;                        
-                sendDirectMessage(receiver,direct_message,fd,bufferInter);
+                sendDirectMessage(receiver,direct_message,fd,bufferInter,PORT);
                 
             }
             else if(i == 3)
@@ -477,13 +483,13 @@ void *InteraccionGUI(void *args){
                 string newstatus;
                 if(statuschoice == "1"){
                     newstatus = "ACTIVO";
-                    changeStatus(newstatus,fd,bufferInter);
+                    changeStatus(newstatus,fd,bufferInter,PORT);
                 }else if(statuschoice == "2"){
                     newstatus = "OCUPADO";
-                    changeStatus(newstatus,fd,bufferInter);
+                    changeStatus(newstatus,fd,bufferInter,PORT);
                 }else if(statuschoice == "3"){
                     newstatus = "INACTIVO";
-                    changeStatus(newstatus,fd,bufferInter);
+                    changeStatus(newstatus,fd,bufferInter,PORT);
                     //changeTexas(fd,buffer);
                 }else{
                     cout << "Ingrese una opcion de estado valida.\n";
@@ -496,12 +502,12 @@ void *InteraccionGUI(void *args){
                 string username;
                 cout << "Escriba el nombre del usurio de quien desea informacion: ";
                 cin >> username;
-                UserInfo(username,fd,bufferInter);                
+                UserInfo(username,fd,bufferInter,PORT);                
             }		            
             else if(i == 5)
             {
                 cout << "\nLISTA DE USUARIOS DEL CHAT" << endl;
-                usersList(fd,bufferInter);	                
+                usersList(fd,bufferInter,PORT);	                
             }
             else if(i == 6)
             {
@@ -541,9 +547,11 @@ void *InteraccionGUI(void *args){
 }
 
 
-int main(){
+int main(int argc, char *argv[]){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+    int p = std::stoi(argv[3]);
 
     //vector<pthread_t> threadVector;
 	pthread_t threadMI[2];
@@ -566,7 +574,7 @@ int main(){
     //El buffer es limpiado
     bzero(&servidor,sizeof(servidor));
     servidor.sin_family = AF_INET;
-    servidor.sin_port = htons(PORT);
+    servidor.sin_port = htons(p);
     servidor.sin_addr = *((struct in_addr *)he -> h_addr);
 
     int connection;
@@ -585,7 +593,8 @@ int main(){
         IPbuf = inet_ntoa(*((struct in_addr*)he->h_addr_list));
         // Se crea instacia tipo MyInfoSynchronize y se setean los valores deseados
         //////-------------------------------------------3 WAY HAND SHAKE------------------------------------------------//////
-        ThreeWayHandShake(IPbuf,fd,buffer);
+        
+        ThreeWayHandShake(argv[1],IPbuf,fd,buffer,p);
 
         //-------------------------------------------------------------------------------------------------------------------------
         while(choice != "7"){
@@ -594,6 +603,8 @@ int main(){
             new_connection.he = he;
             new_connection.IPbuf = IPbuf;
             new_connection.server = servidor;
+            new_connection.username = argv[1];
+            new_connection.port = p;
 
             pthread_create(&threadMI[1],NULL,InteraccionGUI,(void *)&new_connection);
             pthread_create(&threadMI[2],NULL,Mensajes_p,(void *)&new_connection);	
