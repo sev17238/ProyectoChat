@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <pthread.h>
 //#include <windows.h> //para delay()
 //red
 #include <netinet/in.h>
@@ -44,6 +45,8 @@ using std::string;
 int fd;
 int numbytes;
 char buffer[MAXDATASIZE];
+//char bufferInter[MAXDATASIZE];
+//char bufferMensajes[MAXDATASIZE];
 struct hostent *he;
 struct sockaddr_in servidor;
 /* {
@@ -53,11 +56,21 @@ struct sockaddr_in servidor;
     char    sin_zero[8]; Not used, must be zero 
 };*/
 
+struct connection_data
+{
+	int fd;
+	int numbytes;
+	struct sockaddr_in server;
+	struct hostent *he;
+    string IPbuf;
+};
+
 string username;
 string IPbuf;
 int id;
 string statusG = "ACTIVO";
-
+string choice; //para decisiones de cliente
+int mensajellego = 0;
 
 //Funcion para errores y salida inmediata
 static void err(const char* s){
@@ -71,60 +84,60 @@ int NumberClient;
 
 void ThreeWayHandShake(string IPbuf,int fd,char *buffer){
 
-        MyInfoSynchronize *miInfo(new MyInfoSynchronize);
-        cout << "\nIngrese su nombre de cliente: " << endl;
-        cin >> username;
-        miInfo->set_username(username); 
-        miInfo->set_ip(IPbuf);
-        //cout << "\nip: " << IPbuf << endl;
+    MyInfoSynchronize *miInfo(new MyInfoSynchronize);
+    cout << "\nIngrese su nombre de cliente: " << endl;
+    cin >> username;
+    miInfo->set_username(username); 
+    miInfo->set_ip(IPbuf);
+    //cout << "\nip: " << IPbuf << endl;
 
-        // Se crea instancia de Mensaje, se setea los valores deseados
-        ClientMessage * message(new ClientMessage);
-        message->set_option(1);
-        //message->set_userid('2');
-        message->set_allocated_synchronize(miInfo);
-        
-        // Se serializa el message a string
-        string binary;
-        message->SerializeToString(&binary);
+    // Se crea instancia de Mensaje, se setea los valores deseados
+    ClientMessage * message(new ClientMessage);
+    message->set_option(1);
+    //message->set_userid('2');
+    message->set_allocated_synchronize(miInfo);
+    
+    // Se serializa el message a string
+    string binary;
+    message->SerializeToString(&binary);
 
-        char cstr[binary.size() + 1];
-        strcpy(cstr, binary.c_str());
+    char cstr[binary.size() + 1];
+    strcpy(cstr, binary.c_str());
 
-        send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
+    send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
 
-        //delay(4000);
-        //________________________________________________
-        //Se recibe la respuesta del servidor
-        read( fd , buffer, PORT);
-	    //string ret(buffer, PORT); //se convierte el char a string
+    //delay(4000);
+    //________________________________________________
+    //Se recibe la respuesta del servidor
+    read( fd , buffer, PORT);
+    //string ret(buffer, PORT); //se convierte el char a string
 
-        ServerMessage * server_res(new ServerMessage);
-        //server_res->ParseFromString(ret);
-        server_res->ParseFromString(buffer);
-        cout << "response userid: " << server_res->myinforesponse().userid() << endl;
-        id = server_res->myinforesponse().userid(); //id que el servidor asigno al cliente
+    ServerMessage * server_res(new ServerMessage);
+    //server_res->ParseFromString(ret);
+    server_res->ParseFromString(buffer);
+    cout << "response userid: " << server_res->myinforesponse().userid() << endl;
+    id = server_res->myinforesponse().userid(); //id que el servidor asigno al cliente
 
-        MyInfoAcknowledge * ack(new MyInfoAcknowledge);
-        ack->set_userid(server_res->myinforesponse().userid());
-        cout << "ack userid: " << ack->userid() << endl;
+    MyInfoAcknowledge * ack(new MyInfoAcknowledge);
+    ack->set_userid(server_res->myinforesponse().userid());
+    cout << "ack userid: " << ack->userid() << endl;
 
-        ClientMessage * message2(new ClientMessage);
-        message2->set_option(7);
-        message2->set_userid(id);                //id que el servidor asigno al cliente
-        message2->set_allocated_acknowledge(ack);
+    ClientMessage * message2(new ClientMessage);
+    message2->set_option(7);
+    message2->set_userid(id);                //id que el servidor asigno al cliente
+    message2->set_allocated_acknowledge(ack);
 
-        string binary2;
-        message2->SerializeToString(&binary2);
+    string binary2;
+    message2->SerializeToString(&binary2);
 
-        char cstr2[binary2.size() + 1];
-        strcpy(cstr2, binary2.c_str());
-        send(fd , cstr2 , strlen(cstr2) , 0 );     //Se manda el acknoledge al servidor.
+    char cstr2[binary2.size() + 1];
+    strcpy(cstr2, binary2.c_str());
+    send(fd , cstr2 , strlen(cstr2) , 0 );     //Se manda el acknoledge al servidor.
 }
 
 
 void BroadCasting(string message,int fd,char *buffer){
-    /*BroadcastRequest * broad (new BroadcastRequest);
+    BroadcastRequest * broad (new BroadcastRequest);
     broad->set_message(message);
 
     ClientMessage * c_message(new ClientMessage);
@@ -136,15 +149,47 @@ void BroadCasting(string message,int fd,char *buffer){
 
     // Se serializa el message a string
     string binary;
-    message->SerializeToString(&binary);
+    c_message->SerializeToString(&binary);
 
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
 
     send(fd , cstr , strlen(cstr) , 0 );       //Se manda el mensaje */
 
+    /*recv( fd , buffer, PORT,0);
+    //string ret(buffer, PORT);
+    //cout << "\nstatusprueba5\n" << endl;
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
+
+    cout << "estado de mensaje enviado: " << s_message->broadcastresponse().messagestatus()<< endl;*/
+
+
 
 }
+
+
+//chafa
+void Mensajes(int fd,char *buffer)
+{
+   
+    recv( fd , buffer, PORT,0);
+    //string ret(buffer, PORT);
+    //cout << "\nstatusprueba5\n" << endl;
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
+
+    if(s_message->option()== 2){
+        cout << "cliente con id: " << s_message->broadcast().userid()<< endl;
+        cout << "mensaje broadcast: " << s_message->broadcast().message()<< endl;
+    }else if(s_message->option()== 3){
+        cout << "cliente con id: " << s_message->message().userid()<< endl;
+        cout << "mensaje broadcast: " << s_message->message().message()<< endl;
+    }
+}
+
 
 void sendDirectMessage(string receiver,string message,int fd,char *buffer){
     DirectMessageRequest * direct (new DirectMessageRequest);
@@ -168,7 +213,14 @@ void sendDirectMessage(string receiver,string message,int fd,char *buffer){
 
     send(fd , cstr , strlen(cstr) , 0 );       //Se manda el mensaje
 
+    recv( fd , buffer, PORT,0);
+    //string ret(buffer, PORT);
+    //cout << "\nstatusprueba5\n" << endl;
+    ServerMessage * s_message(new ServerMessage);
+    //s_message->ParseFromString(ret);
+    s_message->ParseFromString(buffer);
 
+    cout << "estado de mensaje enviado: " << s_message->directmessageresponse().messagestatus()<< endl;
 }
 
 void changeStatus(string status,int fd,char *buffer){
@@ -232,8 +284,6 @@ void exitChat(){
     strcpy(cstr, binary.c_str());
 
     send(fd , cstr , strlen(cstr) , 0 );       //Se manda el nuevo usuario con su respectivo id.
-
-
 }
 
 void usersList(int fd,char *buffer){
@@ -278,7 +328,6 @@ void usersList(int fd,char *buffer){
             }            
         }
     }
-
 }
 
 void UserInfo(string otherclientname,int fd,char *buffer){
@@ -324,14 +373,181 @@ void UserInfo(string otherclientname,int fd,char *buffer){
         }
     }else if(s_message->option() == 3){
         cout << "No existe el usuario. " << s_message->error().errormessage() << endl;
+    }   
+}
+
+
+void *Mensajes_p(void *args)
+{
+    char bufferMensajes[MAXDATASIZE] = {0};
+    bufferMensajes[MAXDATASIZE] = {0};
+
+    struct connection_data *data;
+	data = (struct connection_data *)args;
+
+    int fd = data->fd;
+
+    if(choice != "7"){
+
+    
+        //while(mensajellego != 1){
+
+        //while(choice != "7"){
+        recv( fd , bufferMensajes, PORT,0);
+        cout << "\nwhilemensaje\n" << endl;
+        if(bufferMensajes[0] != '\0'){
+            ServerMessage * s_message(new ServerMessage);
+            //s_message->ParseFromString(ret);
+            s_message->ParseFromString(bufferMensajes);
+
+            if(s_message->option()== 1){
+                cout << "cliente con id: " << s_message->broadcast().userid()<< endl;
+                cout << "mensaje broadcast: " << s_message->broadcast().message()<< endl;
+                mensajellego = 1;
+            }else if(s_message->option()== 2){
+                cout << "cliente con id: " << s_message->message().userid()<< endl;
+                cout << "mensaje directo: " << s_message->message().message()<< endl;
+                mensajellego = 1;
+            }
+        }
+    
+        //}
+        //mensajellego = 0;
     }
     
-    
+    //pthread_exit(NULL);
 }
+
+
+void *InteraccionGUI(void *args){
+
+    char bufferInter[MAXDATASIZE] = {0};
+
+    struct connection_data *data;
+	data = (struct connection_data *)args;
+
+    int fd = data->fd;
+    string IPbuf = data->IPbuf;
+
+    while(choice != "7"){
+        cout << "\nBienvenid@ " << username << "! Escoge una opcion porfavor: " << endl;
+        cout << "Estatus: " << statusG << endl;
+        cout << "1. Chatear con todos los usuarios" << endl;
+        cout << "2. Enviar mensaje privado." << endl;
+        cout << "3. Cambiar de Status" << endl;
+        cout << "4. Desplegar informacion de un usuario en particular" << endl;			
+        cout << "5. Listar usuarios conectados" << endl;
+        cout << "6. Ayuda" << endl;
+        cout << "7. Exit" << endl;
+        cin >> choice;
+
+        int i;
+
+        if(sscanf(choice.c_str(), "%d", &i) == 1){ //Revision de entrada
+            i = std::stoi(choice);
+            
+            if(i==1)
+            {
+                string newbroadcast_message;
+                cout << "Escriba el mensaje que desea enviar al chat: ";
+                cin >> newbroadcast_message;
+                BroadCasting(newbroadcast_message,fd,bufferInter);
+                
+            }
+            else if(i == 2)
+            {
+                string receiver;
+                cout << "Escriba el nombre del usurio a quien desea enviarle el mensaje: ";
+                cin >> receiver;
+                string direct_message;
+                cout << "Escriba el mensaje que desea enviarle: ";
+                cin >> direct_message;                        
+                sendDirectMessage(receiver,direct_message,fd,bufferInter);
+                
+            }
+            else if(i == 3)
+            {   
+                string statuschoice;
+
+                cout << "CAMBIO DE ESTATUS.\n";
+                cout << "1. ACTIVO" << endl;
+                cout << "2. OCUPADO" << endl;
+                cout << "3. INACTIVO" << endl;
+                cin >> statuschoice;
+                string newstatus;
+                if(statuschoice == "1"){
+                    newstatus = "ACTIVO";
+                    changeStatus(newstatus,fd,bufferInter);
+                }else if(statuschoice == "2"){
+                    newstatus = "OCUPADO";
+                    changeStatus(newstatus,fd,bufferInter);
+                }else if(statuschoice == "3"){
+                    newstatus = "INACTIVO";
+                    changeStatus(newstatus,fd,bufferInter);
+                    //changeTexas(fd,buffer);
+                }else{
+                    cout << "Ingrese una opcion de estado valida.\n";
+                }
+                
+                
+            }
+            else if(i == 4)
+            {
+                string username;
+                cout << "Escriba el nombre del usurio de quien desea informacion: ";
+                cin >> username;
+                UserInfo(username,fd,bufferInter);                
+            }		            
+            else if(i == 5)
+            {
+                cout << "\nLISTA DE USUARIOS DEL CHAT" << endl;
+                usersList(fd,bufferInter);	                
+            }
+            else if(i == 6)
+            {
+                string nada; 
+                            cout << "\tBienvenido a la secciòn de ayuda \n";
+                cout << "\n\tPuedes consultar como funciona todas las opciones del programa aquì, acontinuaciòn se iran desplegando el funcionamiento de cada una, escribe entendido cuando desees cambiar de instruciòn";
+
+                cout << "\n\n\t1. Chatear con todos los usuarios: En secciòn puedes enviar mensajes, pero mucho ojo porque todos los usuarios conectados prodran verlos, cuando elijas esta opciòn solo escribe lo que deseas expresar, luego presiona ENTER y tu mensaje prodra ser visto por todos los demas usuarios. \n" << endl;
+                cin >> nada;
+
+                cout << "\n\t2. Enviar mensaje privado: Si no deseas que tu mensaje sea visto por todos sino solo por alguien en especifico, usa esta opciòn. Cuando entres escribe primero el nombre del usuario, asegurate de que sea el correcto, presiona ENTER y procede a escribir el mensaje que deseas enviarle al usuario, una vez mas presiona ENTER y listo.\n" << endl;	
+                cin >> nada;
+
+                cout << "\n\t3. Cambiar de Status: Mientras estes en el chat puedes tener 3 posibles status, ACTIVO(Significa que estas conectado y disponible para chatear), INACTIVO(No te encuentras disponible para nada dentro del chat) y OCUPADO(No estas disponible en el momento, pero pronto podrias estarlo), cuando entres a esta opciòn solo escribe el nùmero de la opciòn que deseas presiona ENTER y cambiars a ese estado.\n" << endl;
+                cin >> nada;
+
+                cout << "\n\t4. Desplegar informacion de un usuario en particular: Todos los usuarios en chat al igual que tù, tienen una serie de informaciòn la cual puedes ver, por ejemplo su estatus, cuando entres en esta opciòn escribe el nombre del usuario del que quieres saber mas informaciòn, asegurate que el nombre este bien escirto, despuès esa informaciòn sera desplegada en pantalla.\n" << endl;
+                cin >> nada;
+
+                cout << "\n\t5. Listar usuarios conectados: Aquì podras ver cuantos y quienes estan conectados al chat, solo entra y la informaciòn saldra en pantalla.\n" << endl;
+                cin >> nada;
+
+                cout << "\n\t7. Exit: Cuando quieras salirte usa esa opcion y automaticamente saldras del chat.\n" << endl;
+                cin >> nada;	
+            }                    
+            else if(i == 7)
+            {
+                exitChat();
+                cout << "Gracias por usar el chat! Adios!!\n\n";  
+            }
+            
+        }else {
+            cout << "Ingrese un numero o se chinga!! \n\n";
+        } 
+    }
+    //pthread_exit(NULL);
+}
+
 
 int main(){
     //Cequeo de las versiones de la libreria con los headers compilados
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+    //vector<pthread_t> threadVector;
+	pthread_t threadMI[2];
+	void *retvals[2];
 
     //Se chequea que el nombre de host local este correcto.
     if((he = gethostbyname(HOSTNAME)) == NULL){
@@ -372,152 +588,27 @@ int main(){
         ThreeWayHandShake(IPbuf,fd,buffer);
 
         //-------------------------------------------------------------------------------------------------------------------------
-
-        string choice;
         while(choice != "7"){
-            cout << "\nBienvenid@ " << username << "! Escoge una opcion porfavor: " << endl;
-            cout << "Estatus: " << statusG << endl;
-            cout << "1. Chatear con todos los usuarios" << endl;
-            cout << "2. Enviar mensaje privado." << endl;
-            cout << "3. Cambiar de Status" << endl;
-            cout << "4. Desplegar informacion de un usuario en particular" << endl;			
-            cout << "5. Listar usuarios conectados" << endl;
-            cout << "6. Ayuda" << endl;
-            cout << "7. Exit" << endl;
-            cin >> choice;
+            struct connection_data new_connection;
+            new_connection.fd = fd;
+            new_connection.he = he;
+            new_connection.IPbuf = IPbuf;
+            new_connection.server = servidor;
 
-            int i;
-	    string NombreUser;
-	    string UserIp;
-	    int lola;
-
-            if(sscanf(choice.c_str(), "%d", &i) == 1){ //Revision de entrada
-                i = std::stoi(choice);
-                switch(i){
-                    case 1:
-                    {
-                        string newbroadcast_message;
-                        cout << "Escriba el mensaje que desea enviar al chat: ";
-                        cin >> newbroadcast_message;
-                        BroadCasting(newbroadcast_message,fd,buffer);
-                        break;
-                    }
-                    case 2:
-                    {
-                        string receiver;
-                        cout << "Escriba el nombre del usurio a quien desea enviarle el mensaje: ";
-                        cin >> receiver;
-                        string direct_message;
-                        cout << "Escriba el mensaje que desea enviarle: ";
-                        cin >> direct_message;                        
-                        sendDirectMessage(receiver,direct_message,fd,buffer);
-                        break;
-                    }
-                    case 3:
-                    {   
-                        string statuschoice;
-
-                        cout << "CAMBIO DE ESTATUS.\n";
-                        cout << "1. ACTIVO" << endl;
-                        cout << "2. OCUPADO" << endl;
-                        cout << "3. INACTIVO" << endl;
-                        cin >> statuschoice;
-                        string newstatus;
-                        if(statuschoice == "1"){
-                            newstatus = "ACTIVO";
-                            changeStatus(newstatus,fd,buffer);
-                        }else if(statuschoice == "2"){
-                            newstatus = "OCUPADO";
-                            changeStatus(newstatus,fd,buffer);
-                        }else if(statuschoice == "3"){
-                            newstatus = "INACTIVO";
-                            changeStatus(newstatus,fd,buffer);
-                            //changeTexas(fd,buffer);
-                        }else{
-                            cout << "Ingrese una opcion de estado valida.\n";
-                        }
-                        
-                        break;
-                    }
-                    case 4:
-                    {
-                        string username;
-                        cout << "Escriba el nombre del usurio de quien desea informacion: ";
-                        cin >> username;
-                        UserInfo(username,fd,buffer);
-                        break;
-                    }		            
-                    case 5:
-			        {
-                        cout << "\nLISTA DE USUARIOS DEL CHAT" << endl;
-                        usersList(fd,buffer);			
-                        break;
-			        }
-                    case 6:
-			{
-			string nada; 
-                        cout << "\tBienvenido a la secciòn de ayuda \n";
-			cout << "\n\tPuedes consultar como funciona todas las opciones del programa aquì, acontinuaciòn se iran desplegando el funcionamiento de cada una, escribe entendido cuando desees cambiar de instruciòn";
-
-			cout << "\n\n\t1. Chatear con todos los usuarios: En secciòn puedes enviar mensajes, pero mucho ojo porque todos los usuarios conectados prodran verlos, cuando elijas esta opciòn solo escribe lo que deseas expresar, luego presiona ENTER y tu mensaje prodra ser visto por todos los demas usuarios. \n" << endl;
-			cin >> nada;
-
-			cout << "\n\t2. Enviar mensaje privado: Si no deseas que tu mensaje sea visto por todos sino solo por alguien en especifico, usa esta opciòn. Cuando entres escribe primero el nombre del usuario, asegurate de que sea el correcto, presiona ENTER y procede a escribir el mensaje que deseas enviarle al usuario, una vez mas presiona ENTER y listo.\n" << endl;	
-			cin >> nada;
-
-			cout << "\n\t3. Cambiar de Status: Mientras estes en el chat puedes tener 3 posibles status, ACTIVO(Significa que estas conectado y disponible para chatear), INACTIVO(No te encuentras disponible para nada dentro del chat) y OCUPADO(No estas disponible en el momento, pero pronto podrias estarlo), cuando entres a esta opciòn solo escribe el nùmero de la opciòn que deseas presiona ENTER y cambiars a ese estado.\n" << endl;
-			cin >> nada;
-
-			cout << "\n\t4. Desplegar informacion de un usuario en particular: Todos los usuarios en chat al igual que tù, tienen una serie de informaciòn la cual puedes ver, por ejemplo su estatus, cuando entres en esta opciòn escribe el nombre del usuario del que quieres saber mas informaciòn, asegurate que el nombre este bien escirto, despuès esa informaciòn sera desplegada en pantalla.\n" << endl;
-			cin >> nada;
-
-			cout << "\n\t5. Listar usuarios conectados: Aquì podras ver cuantos y quienes estan conectados al chat, solo entra y la informaciòn saldra en pantalla.\n" << endl;
-			cin >> nada;
-
-			cout << "\n\t7. Exit: Cuando quieras salirte usa esa opcion y automaticamente saldras del chat.\n" << endl;
-			cin >> nada;	
-			}
-                        break;
-                    case 7:
-                        exitChat();
-                        cout << "Gracias por usar el chat! Adios!!\n\n";  
-                          
-                        return 0;        
-                        break;
-                }
-            }else {
-                cout << "Ingrese un numero o se chinga!! \n\n";
-            } 
-
-/*
-            bzero(buffer,sizeof(buffer));
-            //Se recibe la respuesta del servidor
-            read( fd , buffer, PORT);
-            //string ret(buffer, PORT);
-
-            ServerMessage * s_message(new ServerMessage);
-            //s_message->ParseFromString(ret);
-            s_message->ParseFromString(buffer);
-
-            //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS MENSAJES DEL CHAT ETC.
-            if(s_message->option() == 1){
-                cout << "Mensaje broadcast \n" << endl;
-                cout << s_message->broadcast().message() << endl; 
-            }else if(s_message->option() == 2){
-                cout << "Mensaje directo \n" << endl;
-                cout << s_message->message().message() << endl; 
-            }else if(s_message->option() == 8){
-                cout << "BroadcastResponse \n" << endl;
-                cout << s_message->broadcastresponse().messagestatus() << endl; 
-            }else if(s_message->option() == 9){
-                cout << "direct message response \n" << endl;
-                cout << s_message->directmessageresponse().messagestatus() << endl; 
-            }
-
-            cout << "direct message: " << s_message->message().message() << endl; 
-            cout << "messagestatus: " << s_message->directmessageresponse().messagestatus() << endl; 
-            */
+            pthread_create(&threadMI[1],NULL,InteraccionGUI,(void *)&new_connection);
+            pthread_create(&threadMI[2],NULL,Mensajes_p,(void *)&new_connection);	
+            pthread_join(threadMI[1], &retvals[1]);            
+            pthread_join(threadMI[2], &retvals[2]);
         }
+       
+        pthread_exit(NULL);
+        /*for (int i = 0; i < 2; ++i){
+            if (pthread_join(threadMI[i], &retvals[i]) < 0){
+                err("ERROR, IMposible terminar con el Thread chat");
+            }
+        }*/
+
+
     }
     close(fd);
     google::protobuf::ShutdownProtobufLibrary();

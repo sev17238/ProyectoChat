@@ -197,34 +197,48 @@ void ThreeWayHandShake(int connectfd,char *buf,struct sockaddr_in socketcliente)
 }
 
 
-void clientsBroadCasting(int listenfd, int connectfd,char *buf){
-    /*read( connectfd , buf, PORT);
+void clientsBroadCasting(int connectfd,char *buf){
+    /*read( connectfd , buf, PORT);*/
 
     ClientMessage * message(new ClientMessage);
 
     message->ParseFromString(buf);
     
     cout << "Client message: " << message->broadcast().message() << endl;
-    cout << "ClientMessage id: " << message->userid() << endl;
+    cout << "La id del cliente que desea enviar el mensaje: " << message->userid() << endl;
+
+    BroadcastMessage * bm(new BroadcastMessage);
+    bm->set_message(message->broadcast().message());
+    bm->set_userid(message->userid());
+
+    /*BroadcastResponse * dmr(new BroadcastResponse);
+    bmr->set_messagestatus("<Mensaje entregado>");*/
 
     ServerMessage * serverm(new ServerMessage);
-    serverm->set_allocated_broadcast(message);
+    serverm->set_option(1);
+    serverm->set_allocated_broadcast(bm);
+    //serverm->set_allocated_directmessageresponse(bmr);
 
     // Se serializa la respuesta a string
     string binary;
     serverm->SerializeToString(&binary);
-
+    cout << "pruebadirectmessage2" << endl;
     char cstr[binary.size() + 1];
-    strcpy(cstr, binary.c_str());  
+    strcpy(cstr, binary.c_str());
 
-    int i = 0;
+    int i;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
         //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
-        sin_size = sizeof(struct sockaddr_in);
-        connectfd = accept(listenfd, (struct sockaddr *)&c.socket, &sin_size);
-        send(connectfd, cstr , strlen(cstr) , 0 );    
-    }*/
+        //cout << "\nc.username: "<< c.username<< " username(): " << message->directmessage().username() << endl;
+        if(c.id != -1){    
+            send(c.fdconn , cstr , strlen(cstr) , 0 );  //se manda mensaje a receiver
+        }
+    }
+    //send(connectfd , cstr , strlen(cstr) , 0 ); //se manda estado del mensaje al que lo envio
+    cout << "pruebadirectmessage3" << endl;
+
+
 
 }
 
@@ -239,29 +253,29 @@ void sendClientDirectMessage(int connectfd,char *buf){
     cout << "La id del cliente que desea enviar el mensaje: " << message->userid() << endl;
 
     int i = 0;
-    int id_receiver;
+    Cliente receiver;
     for (i = 0; i < BACKLOG; i++){
         Cliente c = clientes_connectados[i];
-        cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
-        cout << "\nc.username: "<< c.username<< " username(): " << message->directmessage().username() << endl;
-        if(c.username == message->directmessage().username()){
-            id_receiver = c.id;    
+        //cout << "\nc.id: "<< c.id << " userid(): " << message->userid() << endl;
+        //cout << "\nc.username: "<< c.username<< " username(): " << message->directmessage().username() << endl;
+        if(c.username == message->directmessage().username()){    
+            receiver = c;
         }
     }
 
-    cout << "La id del cliente a quien se le enviara el mensaje: " << id_receiver << endl;
+    cout << "La id del cliente a quien se le enviara el mensaje: " << receiver.id << endl;
 
     DirectMessage * dm(new DirectMessage);
     dm->set_message(message->directmessage().message());
-    dm->set_userid(id_receiver);
+    dm->set_userid(receiver.id);
 
-    DirectMessageResponse * dmr(new DirectMessageResponse);
-    dmr->set_messagestatus("<Mensaje entregado>");
+    /*DirectMessageResponse * dmr(new DirectMessageResponse);
+    dmr->set_messagestatus("<Mensaje entregado>");*/
 
     ServerMessage * serverm(new ServerMessage);
-    serverm->set_option(8);
+    serverm->set_option(2);
     serverm->set_allocated_message(dm);
-    serverm->set_allocated_directmessageresponse(dmr);
+    //serverm->set_allocated_directmessageresponse(dmr);
 
     // Se serializa la respuesta a string
     string binary;
@@ -270,19 +284,10 @@ void sendClientDirectMessage(int connectfd,char *buf){
     char cstr[binary.size() + 1];
     strcpy(cstr, binary.c_str());
     //send(connectfd , cstr , strlen(cstr) , 0 );
-     send(connectfd , cstr , strlen(cstr) , 0 );  
+    send(receiver.fdconn , cstr , strlen(cstr) , 0 );  //se manda mensaje a receiver
+    //send(connectfd , cstr , strlen(cstr) , 0 ); //se manda estado del mensaje al que lo envio
     cout << "pruebadirectmessage3" << endl;
-    /*i = 0;
-    for (i = 0; i < BACKLOG; i++){
-        Cliente c = clientes_connectados[i];
-        cout << "\nc.id: "<< c.id << " userid(): " << id_receiver << endl;
-        if(c.id == id_receiver){
-            //sin_size = sizeof(struct sockaddr_in);
-            //connectfd = accept(listenfd, (struct sockaddr *)&c.socket, &sin_size);
-            send(connectfd , cstr , strlen(cstr) , 0 );  
 
-        }
-    }*/
 }
 
 void changeClientStatus(int connectfd,char *buf){
@@ -602,7 +607,7 @@ void *conexionConClientes(void *args)
 			}else if (option_chat == 3){				
                 changeClientStatus(socket_cliente, buf);
 			}else if (option_chat == 4){				
-                //clientsBroadCasting(socket_cliente, buf);
+                clientsBroadCasting(socket_cliente, buf);
 			}else if (option_chat == 5){				
                 sendClientDirectMessage(socket_cliente, buf);
 			}else if (option_chat == 7){				
@@ -641,7 +646,7 @@ int main(int argc, char** argv) {
 
     //int sockfd, portno;
 	//struct sockaddr_in serv_addr;
-	vector<pthread_t> threadVector;
+	//vector<pthread_t> threadVector;
 	pthread_t threadChat[BACKLOG];
 	void *retvals[BACKLOG];
 
@@ -712,71 +717,6 @@ int main(int argc, char** argv) {
 
         pthread_create(&threadChat[client_in_chat],NULL,conexionConClientes,(void *)&new_connection);
 		client_in_chat++;
-
-
-
-        //CODIGO QUE DEBERIA DE USARSE PARA RECIBIR LOS REQUESTS DE LOS CLIENTES
-        //Hay que volarse el read() de los metodos para hacerlo y probar, porque a mi
-        //no me funciono bien, algo con el ciclo y el connectfd no deja, sinceramente nose :(
-        /*
-        bzero(buf,sizeof(buf)); //se limpia buf
-        read( connectfd , buf, PORT);
-        //recv(connectfd,buf,sizeof(buf),0);
-        ClientMessage * messagee(new ClientMessage);    
-        messagee->ParseFromString(buf);
-        
-        cout << "option message: " << messagee->option() << "\n"<< endl;
-        /// REQUEST DE USUARIOS -----------------------------------------------
-
-        if(messagee->option() == 1){
-            ThreeWayHandShake(messagee,connectfd,buf,cliente); //funciona
-        }else if(messagee->option() == 2){
-
-        }else if(messagee->option() == 3){
-            changeClientStatus(messagee,connectfd,buf); //prueba que no sirve ahorita
-        }else if(messagee->option() == 4){
-            clientsBroadCasting(messagee,connectfd,buf);
-        }else if(messagee->option() == 5){
-            sendClientDirectMessage(messagee,connectfd,buf);
-        }else if(messagee->option() == 6){
-
-        }else if(messagee->option() == 7){
-            exitClient(messagee,connectfd,buf); //Ya funciona
-        }
-        */
-        
-        ////--------------------------------------------------------------------
-        
-        /// REQUEST DE USUARIOS -----------------------------------------------
-        //ThreeWayHandShake(connectfd,buf,cliente); //funciona
-        //cout << "hola" <<endl;
-        ///-----------------------------------------------------------
-
-
-        //PROBAR IMPRIMIR LOS CLIENTES EN LA LISTA. 
-        //ENTONCES AL AGREGAR UN NUEVO CLIENTE REEMPLAZA EL QUE YA EXISTE.
-        /*int e = 0;
-        for (e = 0; e < BACKLOG; e++)
-        {
-            Cliente c = clientes_connectados[e];
-            //if(c != NULL){
-            cout << "\n"<< e << ". Cliente: " << c.username <<endl;
-	    mensajeDevolver = ". Cliente: " + c.username;
-	    mensajeNumero = e;
-            cout << "estado: " << c.status << " id: " << c.id << "\n" <<endl;
-	    NombreUser = "" + c.username;
-	    UserStatus = c.status;
-	    lola = c.id;
-	    
-            //}
-        }*/
-
-
-        //changeClientStatus(connectfd,buf); //prueba que no sirve ahorita
-        
-        //clientsBroadCasting(connectfd,buf); //en pruebas luego de que funcione el mensaje directo
-        //devolver_INFO(NombreUser);
-
 
 
         //exitClient(connectfd,buf); //Ya funciona
