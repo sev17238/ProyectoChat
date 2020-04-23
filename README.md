@@ -1,4 +1,4 @@
-
+﻿
 
 <h1 align="center">
 <br>
@@ -9,7 +9,6 @@ Proyecto de Chat
 </h1>
 
 <p align="center">Chat basico con implementacion de modelo cliente-servidor</p>
-<p align="center">Elaborado por Diego Sevilla, Alexander Trujillo y Carlos Chew</p>
 
 
 <hr />
@@ -32,8 +31,8 @@ En este proyecto se utilizan:
 1. Clonar el repo usando `https://github.com/sev17238/ProyectoChat.git`
 2. Ir al directorio deseado: `cd ProyectoChat`.<br />
 3. Correr `protoc -I=. --cpp_out=. mensaje.proto` para compilar el .proto y generar: mensaje.pb.cc y mensaje.pb.h
-4. Y para compilar: `g++ Servidor.cpp mensaje.pb.cc -lprotobuf -o servertest`
-5. Correr `./servertest`
+4. Y para compilar: `g++ file.cpp mensaje.pb.cc -lpthreads -lprotobuf -o filetest`
+5. Correr `./filetest`
 
 ## Referencias
 
@@ -54,3 +53,5 @@ En este proyecto se utilizan:
 ### Sockets Tutorial
  - http://www.linuxhowtos.org/C_C++/socket.htm
  
+## Instructivo para correr el chat
+ - https://docs.google.com/document/d/1Q7Wml_oZrhG3A67V8cyEnkWPQP2rzPjwsfn9-CMHlQI/edit?usp=sharing
